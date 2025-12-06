@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="ltr"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_line"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_vertical" />
+
+    <!--    -->
+    <LinearLayout
+        android:id="@+id/llText"
+        android:layout_width="wrap_content"
+        android:layout_toEndOf="@id/iv_line"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/_18dp"
+        android:layout_marginStart="@dimen/_12dp"
+        android:layout_marginEnd="@dimen/_12dp"
+        android:background="@drawable/select_site_menu"
+        android:orientation="horizontal"
+        android:minWidth="@dimen/_290dp"
+        android:layout_marginTop="@dimen/_8dp">
+
+        <ImageView
+            android:id="@+id/ivExpand"
+            android:layout_width="@dimen/_40dp"
+            android:layout_height="@dimen/_50dp"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/_7dp" />
+        <!--        <ImageView-->
+        <!--            android:id="@+id/ivPlacehold"-->
+        <!--            android:layout_width="@dimen/_40dp"-->
+        <!--            android:layout_height="@dimen/_40dp"-->
+        <!--            android:layout_gravity="center_vertical"-->
+        <!--            android:paddingEnd="@dimen/_5dp"-->
+        <!--            android:src="@drawable/select_brp_checkbox"-->
+        <!--            android:visibility="gone" />-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_6dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="@drawable/select_site_menu_tv_name"
+                android:textSize="@dimen/_26sp" />
+
+            <TextView
+                android:id="@+id/tvWeak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="@drawable/select_site_menu_tv_week"
+                android:textSize="@dimen/_26sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rlvChild"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/llText"
+        android:layout_marginTop="@dimen/_8dp"
+        android:layout_marginStart="@dimen/_40dp"
+        android:nestedScrollingEnabled="false"
+        android:visibility="gone"/>
+</RelativeLayout>

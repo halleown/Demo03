@@ -48,7 +48,7 @@ class TreeAdapter(var mContext: Context) :
         val component = data[position]
         holder.name.text = component.name
         holder.line.visibility = if (component.isRootNode) View.VISIBLE else View.GONE
-        if (position == data.size - 1) {
+        if (position == data.size - 1) {// 节点的最后一个
             holder.line.setImageResource(R.drawable.line)
         } else {
             holder.line.setImageResource(R.drawable.line2)
