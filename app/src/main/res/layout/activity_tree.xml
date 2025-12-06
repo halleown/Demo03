@@ -1,16 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".mytree.TreeActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rlv_side_menu"
-        android:layout_width="match_parent"
-        android:background="#948D8D"
-        android:layout_height="match_parent"
-        android:orientation="vertical" />
+    <!--左侧侧拉树-->
+    <LinearLayout
+        android:id="@+id/llTreeSide"
+        android:layout_width="@dimen/_294dp"
+        android:layout_height="0dp"
+        android:background="@drawable/tree_side_bg"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/_10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RtlSymmetry">
 
-</LinearLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <!--动画-->
+            <com.example.demo03.mytree.CustomHorizontalScrollView
+                android:id="@+id/srvTree"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:descendantFocusability="blocksDescendants"
+                android:paddingHorizontal="@dimen/_4dp"
+                android:paddingBottom="@dimen/_4dp"
+                android:scrollbarAlwaysDrawHorizontalTrack="true"
+                android:scrollbarSize="@dimen/_4dp"
+                android:scrollbarStyle="insideOverlay"
+                android:scrollbarThumbHorizontal="@drawable/scroll_bar_thumb_4"
+                android:scrollbarTrackHorizontal="@drawable/scroll_bar_track_4"
+                android:scrollbars="horizontal">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rlv_side_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" />
+            </com.example.demo03.mytree.CustomHorizontalScrollView>
+
+            <ImageView
+                android:id="@+id/ivSpinners"
+                android:layout_width="@dimen/_80dp"
+                android:layout_height="@dimen/_30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+        <com.example.demo03.mytree.VerticalScrollBarView
+            android:id="@+id/customVerticalScrollBar"
+            android:layout_width="@dimen/_4dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginVertical="@dimen/_4dp"
+            android:layout_marginEnd="@dimen/_5dp"
+            app:radius_width="@dimen/_4dp"
+            app:scroll_width="@dimen/_4dp" />
+
+    </LinearLayout>
+    <!--    左侧侧拉树开关-->
+    <ImageView
+        android:id="@+id/ivTreeSideClose"
+        android:layout_width="@dimen/_24dp"
+        android:layout_height="@dimen/_100dp"
+        android:layout_marginStart="@dimen/_6dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/treesideclose_s"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

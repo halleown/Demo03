@@ -82,9 +82,11 @@ class TreeActivity : AppCompatActivity() {
         treeSideDatas.clear()
         treeSideDatas.addAll(buildTree)
 
+        val srvTree: CustomHorizontalScrollView = findViewById(R.id.srvTree)
+
         val rlv_side_menu: RecyclerView = findViewById(R.id.rlv_side_menu)
         rlv_side_menu?.layoutManager = LinearLayoutManager(this)
-        treeSideAdapter = TreeSideNodeAdapter(treeSideDatas, this, rlv_side_menu!!)
+        treeSideAdapter = TreeSideNodeAdapter(treeSideDatas, this, srvTree, rlv_side_menu!!)
         treeSideAdapter.notifyDataSetChanged()
 
         rlv_side_menu.adapter = treeSideAdapter

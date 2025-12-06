@@ -25,10 +25,11 @@
         android:minWidth="@dimen/_290dp"
         android:layout_marginTop="@dimen/_8dp">
 
+        <!--这里如果宽高过小，可能会挤到其他位置去，如Root-2 Child1的移到Root2 Child-1-0，（宽高都为：_50dp）-->
         <ImageView
             android:id="@+id/ivExpand"
-            android:layout_width="@dimen/_40dp"
-            android:layout_height="@dimen/_50dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:padding="@dimen/_7dp" />
         <!--        <ImageView-->

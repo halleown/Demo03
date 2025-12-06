@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="one">#e6e6e6</color>
+    <color name="colorPrimary">#ff6d00</color> <!--辅色 需要突出的高亮icon颜色-->
+
 </resources>
