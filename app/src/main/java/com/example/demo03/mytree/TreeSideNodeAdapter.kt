@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -19,11 +20,11 @@ import com.example.demo03.R
 class TreeSideNodeAdapter(
     var datas: MutableList<TreeSideItems>,
     var mContext: Context,
-    // var customHorizontalScrollView: CustomHorizontalScrollView,
+    var customHorizontalScrollView: CustomHorizontalScrollView,
     var rlv_side_menu: RecyclerView
 ) :
     RecyclerView.Adapter<TreeSideNodeAdapter.TestDemoHolder>() {
-    // var globalList: ViewTreeObserver.OnGlobalLayoutListener? = null
+    var globalList: ViewTreeObserver.OnGlobalLayoutListener? = null
 
     //    var treeSideNodeCheck = false // 当节点不存在子级节点时,是否带复选框 false表示不带复选框单选模式,true表示带多选框多选模式
     var listener: Listener? = null
@@ -60,11 +61,12 @@ class TreeSideNodeAdapter(
         }
 
         // 根节点不显示线
-
-        if (position == datas.size - 1) {// 最后一个节点
-            holder.ivLine.setImageResource(R.drawable.line)
-        } else {
-            holder.ivLine.setImageResource(R.drawable.line2)
+        if (!getLevel(itemData.Node)) {
+            if (position == datas.size - 1) {// 最后一个节点
+                holder.ivLine.setImageResource(R.drawable.line)
+            } else {
+                holder.ivLine.setImageResource(R.drawable.line2)
+            }
         }
 
 
@@ -80,9 +82,9 @@ class TreeSideNodeAdapter(
                 val offset = rlv_side_menu.getChildAt(0).top
 
                 // 保存当前滚动位置
-                // val scrollX = customHorizontalScrollView.scrollX
-                // globalList = ViewTreeObserver.OnGlobalLayoutListener { customHorizontalScrollView.scrollTo(scrollX, 0) }
-                // customHorizontalScrollView.viewTreeObserver.addOnGlobalLayoutListener(globalList)
+                val scrollX = customHorizontalScrollView.scrollX
+                globalList = ViewTreeObserver.OnGlobalLayoutListener { customHorizontalScrollView.scrollTo(scrollX, 0) }
+                customHorizontalScrollView.viewTreeObserver.addOnGlobalLayoutListener(globalList)
 
                 // 禁用滑动
                 holder.rlvChild.isNestedScrollingEnabled = false
@@ -99,10 +101,10 @@ class TreeSideNodeAdapter(
                 // 还原滚动位置
                 holder.itemView.postDelayed({
                     // 还原滚动位置
-                    // customHorizontalScrollView.scrollTo(scrollX, 0)
-                    // if (globalList != null) {
-                    //     customHorizontalScrollView.viewTreeObserver.removeOnGlobalLayoutListener(globalList)
-                    // }
+                    customHorizontalScrollView.scrollTo(scrollX, 0)
+                    if (globalList != null) {
+                        customHorizontalScrollView.viewTreeObserver.removeOnGlobalLayoutListener(globalList)
+                    }
                 }, 400)
                 // 恢复滚动状态
                 (rlv_side_menu.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, offset)
@@ -144,7 +146,7 @@ class TreeSideNodeAdapter(
             })
         } else {
             // 有子节点
-            val childAdapter = TreeSideNodeAdapter(itemData.childItems!!, mContext, rlv_side_menu)
+            val childAdapter = TreeSideNodeAdapter(itemData.childItems!!, mContext, customHorizontalScrollView, rlv_side_menu)
             childAdapter.listener = listener
             holder.rlvChild.layoutManager = LinearLayoutManager(mContext)
             holder.rlvChild.adapter = childAdapter

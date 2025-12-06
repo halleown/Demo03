@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="VerticalScrollBarView">
+        <attr name="scroll_width" format="dimension|reference" />
+        <attr name="radius_width" format="dimension|reference" />
+    </declare-styleable>
+</resources>
