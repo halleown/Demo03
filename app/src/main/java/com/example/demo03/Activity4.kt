@@ -26,12 +26,17 @@ class Activity4 : AppCompatActivity() {
         val composite2 = Composite("文件夹2")
         composite2.isRootNode=false
         val composite21 = Composite("文件夹2-2")
+        val composite222 = Composite("文件夹2-1")
 
         val leaf1 = Leaf("文件1-1")
         val leaf2 = Leaf("文件1-2")
         val leaf3 = Leaf("文件2-1")
+        val leaf6 = Leaf("文件2-1-1")
         val leaf4 = Leaf("文件2-2-1")
         val leaf5 = Leaf("文件2-2-2")
+
+        composite222.add(leaf6)
+
 
         composite21.add(leaf4)
         composite21.add(leaf5)
@@ -40,6 +45,7 @@ class Activity4 : AppCompatActivity() {
         composite1.add(leaf2)
 
         composite2.add(leaf3)
+        composite2.add(composite222)
         composite2.add(composite21)
 
         var datas: MutableList<Component> = mutableListOf()

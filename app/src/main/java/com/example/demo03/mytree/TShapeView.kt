@@ -2,11 +2,13 @@ package com.example.demo03.mytree
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import androidx.core.graphics.toColorInt
 import kotlin.math.min
 
 class TShapeView @JvmOverloads constructor(
@@ -18,7 +20,8 @@ class TShapeView @JvmOverloads constructor(
     private val TAG = "TShapeView"
 
     private val paint = Paint().apply {
-        color = 0xFF333333.toInt() // 深灰色
+//        color = "#9A9A9A".toColorInt()
+        color = Color.BLACK
         strokeWidth = 8f
         style = Paint.Style.STROKE
     }
@@ -55,9 +58,9 @@ class TShapeView @JvmOverloads constructor(
 
         // 绘制横线（从竖线中间向右延伸）- 使用宽度来填充
         val horizontalStartX = centerX - horizontalSize / 2 + 10
-        val horizontalStartY = centerY - 5
+        val horizontalStartY = centerY
         val horizontalEndX = centerX + horizontalSize / 2
-        val horizontalEndY = centerY - 5
+        val horizontalEndY = centerY
         canvas.drawLine(horizontalStartX, horizontalStartY, horizontalEndX, horizontalEndY, paint)
     }
 }

@@ -2,11 +2,13 @@ package com.example.demo03.mytree
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import kotlin.math.min
+import androidx.core.graphics.toColorInt
 
 class LShapeView @JvmOverloads constructor(
     context: Context,
@@ -15,7 +17,8 @@ class LShapeView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private val paint = Paint().apply {
-        color = 0xFF333333.toInt() // 深灰色
+//        color = "#9A9A9A".toColorInt()
+        color = Color.BLACK
         // 虚线宽度
         strokeWidth = 8f
         style = Paint.Style.STROKE
@@ -56,9 +59,9 @@ class LShapeView @JvmOverloads constructor(
 
         // 横线（在高度一半的位置，从竖线底部向右延伸）
         val horizontalStartX = centerX - horizontalSize / 2 + 10// +10是为了离竖线远一些
-        val horizontalStartY = bottomY - 5  // 横线在高度一半的位置，-5是上横线上移
+        val horizontalStartY = bottomY  // 横线在高度一半的位置
         val horizontalEndX = centerX + horizontalSize / 2
-        val horizontalEndY = bottomY - 5
+        val horizontalEndY = bottomY
 
         canvas.drawLine(horizontalStartX, horizontalStartY, horizontalEndX, horizontalEndY, paint)
     }
