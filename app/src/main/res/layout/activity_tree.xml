@@ -9,7 +9,7 @@
     <!--左侧侧拉树-->
     <LinearLayout
         android:id="@+id/llTreeSide"
-        android:layout_width="@dimen/_294dp"
+        android:layout_width="@dimen/_434dp"
         android:layout_height="0dp"
         android:background="@drawable/tree_side_bg"
         android:orientation="horizontal"
@@ -76,5 +76,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.example.demo03.mytree.TShapeView
+        android:id="@+id/view1"
+        android:layout_width="51dp"
+        android:layout_height="130dp"
+        android:background="#00BCD4"
+        app:layout_constraintStart_toEndOf="@id/llTreeSide"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.example.demo03.mytree.LShapeView
+        android:layout_width="51dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="10dp"
+        android:background="#4CAF50"
+        app:layout_constraintStart_toEndOf="@id/view1"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
