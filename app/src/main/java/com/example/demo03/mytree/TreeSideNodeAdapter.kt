@@ -63,10 +63,17 @@ class TreeSideNodeAdapter(
         // 根节点不显示线
         if (!getLevel(itemData.Node)) {
             if (position == datas.size - 1) {// 最后一个节点
-                holder.ivLine.setImageResource(R.drawable.line)
+//                holder.ivLine.setImageResource(R.drawable.line)
+                holder.view_l.visibility = View.VISIBLE
+                holder.view_t.visibility = View.GONE
             } else {
-                holder.ivLine.setImageResource(R.drawable.line2)
+//                holder.ivLine.setImageResource(R.drawable.line2)
+                holder.view_l.visibility = View.GONE
+                holder.view_t.visibility = View.VISIBLE
             }
+        } else {
+            holder.view_l.visibility = View.GONE
+            holder.view_t.visibility = View.GONE
         }
 
 
@@ -180,13 +187,15 @@ class TreeSideNodeAdapter(
 
     class TestDemoHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var ivExpand: ImageView
-        var ivLine: ImageView
+//        var ivLine: ImageView
 
         //        var ivPlacehold: ImageView
         var llText: LinearLayout
         var tvName: TextView
         var tvWeak: TextView
         var rlvChild: RecyclerView
+        var view_t: TShapeView
+        var view_l: LShapeView
 
         init {
             ivExpand = itemView.findViewById(R.id.ivExpand)
@@ -195,7 +204,9 @@ class TreeSideNodeAdapter(
             tvName = itemView.findViewById(R.id.tvName)
             tvWeak = itemView.findViewById(R.id.tvWeak)
             rlvChild = itemView.findViewById(R.id.rlvChild)
-            ivLine = itemView.findViewById(R.id.iv_line)
+//            ivLine = itemView.findViewById(R.id.iv_line)
+            view_t = itemView.findViewById(R.id.view_t)
+            view_l = itemView.findViewById(R.id.view_l)
 
         }
     }
