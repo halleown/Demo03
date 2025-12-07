@@ -12,6 +12,7 @@ import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -48,17 +49,21 @@ class TreeSideNodeAdapter(
             holder.tvWeak.text = itemData.Weak
             holder.tvWeak.visibility = View.VISIBLE
         }
+
+
+
         val layoutParams = holder.llText.layoutParams
         layoutParams.width = (getScreenWidth(mContext) * 0.4).toInt() - dpToPx(24)
         holder.llText.layoutParams = layoutParams
         // 是否带复选框
-        holder.ivExpand.visibility = if (itemData.ShowExpand) View.VISIBLE else View.INVISIBLE
-        // if (itemData.ShowExpand) {
+        holder.ivExpand.visibility = if (itemData.ShowExpand) View.VISIBLE else View.GONE
+//         if (itemData.ShowExpand) {
         if (itemData.Expand) {
             holder.ivExpand.setImageResource(R.drawable.down_arrow_black)
         } else {
             holder.ivExpand.setImageResource(R.drawable.right_arrow_black)
         }
+
 
         // 根节点不显示线
         if (!getLevel(itemData.Node)) {
@@ -75,7 +80,6 @@ class TreeSideNodeAdapter(
             holder.view_l.visibility = View.GONE
             holder.view_t.visibility = View.GONE
         }
-
 
         // 展开折叠
         holder.ivExpand.setOnClickListener(object : OnClickListener {
@@ -172,6 +176,7 @@ class TreeSideNodeAdapter(
                     // }
                     if (itemData.Enable) {
                         if (!itemData.Sel) {
+                            Toast.makeText(mContext, "${itemData.Node}===${itemData.Name}", Toast.LENGTH_SHORT).show()
                             itemData.Sel = true
                             holder.llText.isSelected = itemData.Sel
                             // 清空选中项

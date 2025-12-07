@@ -15,16 +15,16 @@
 
     <FrameLayout
         android:id="@+id/frame_view"
-        android:layout_width="@dimen/_50dp"
+        android:layout_width="@dimen/_70dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/llText"
         app:layout_constraintBottom_toBottomOf="@id/llText"
         android:layout_height="0dp">
 
         <com.example.demo03.mytree.TShapeView
             android:id="@+id/view_t"
             android:layout_width="match_parent"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_height="match_parent"
             />
 
@@ -59,6 +59,7 @@
             android:id="@+id/ivExpand"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:visibility="gone"
             android:layout_gravity="center_vertical"
             android:padding="@dimen/_7dp" />
         <!--        <ImageView-->
@@ -71,7 +72,7 @@
         <!--            android:visibility="gone" />-->
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:layout_marginStart="@dimen/_6dp"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -105,7 +106,7 @@
             app:layout_constraintTop_toBottomOf="@id/llText"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/_8dp"
-            android:layout_marginStart="@dimen/_100dp"
+            android:layout_marginStart="@dimen/_110dp"
             android:nestedScrollingEnabled="false"
             android:visibility="gone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
