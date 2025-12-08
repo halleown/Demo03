@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 import kotlin.math.min
 import androidx.core.graphics.toColorInt
+import com.example.demo03.R
 
 class LShapeView @JvmOverloads constructor(
     context: Context,
@@ -20,7 +21,7 @@ class LShapeView @JvmOverloads constructor(
 //        color = "#9A9A9A".toColorInt()
         color = Color.BLACK
         // 虚线宽度
-        strokeWidth = 8f
+        strokeWidth = context.resources.getDimension(R.dimen._3dp)
         style = Paint.Style.STROKE
     }
 
@@ -58,7 +59,7 @@ class LShapeView @JvmOverloads constructor(
         canvas.drawLine(verticalStartX, verticalStartY.toFloat(), verticalEndX, verticalEndY, paint)
 
         // 横线（在高度一半的位置，从竖线底部向右延伸）
-        val horizontalStartX = centerX - horizontalSize / 2 + 10// +10是为了离竖线远一些
+        val horizontalStartX = centerX - horizontalSize / 2 + context.resources.getDimension(R.dimen._3dp)// +10是为了离竖线远一些
         val horizontalStartY = bottomY  // 横线在高度一半的位置
         val horizontalEndX = centerX + horizontalSize / 2
         val horizontalEndY = bottomY

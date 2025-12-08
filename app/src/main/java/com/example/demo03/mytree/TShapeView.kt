@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import androidx.core.graphics.toColorInt
+import com.example.demo03.R
 import kotlin.math.min
 
 class TShapeView @JvmOverloads constructor(
@@ -22,7 +23,7 @@ class TShapeView @JvmOverloads constructor(
     private val paint = Paint().apply {
 //        color = "#9A9A9A".toColorInt()
         color = Color.BLACK
-        strokeWidth = 8f
+        strokeWidth = context.resources.getDimension(R.dimen._3dp)
         style = Paint.Style.STROKE
     }
 
@@ -57,7 +58,7 @@ class TShapeView @JvmOverloads constructor(
         canvas.drawLine(verticalStartX, verticalStartY, verticalEndX, verticalEndY, paint)
 
         // 绘制横线（从竖线中间向右延伸）- 使用宽度来填充
-        val horizontalStartX = centerX - horizontalSize / 2 + 10
+        val horizontalStartX = centerX - horizontalSize / 2 + context.resources.getDimension(R.dimen._3dp)
         val horizontalStartY = centerY
         val horizontalEndX = centerX + horizontalSize / 2
         val horizontalEndY = centerY

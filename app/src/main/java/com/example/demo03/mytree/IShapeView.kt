@@ -8,6 +8,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import com.example.demo03.R
 import kotlin.math.min
 
 class IShapeView @JvmOverloads constructor(
@@ -21,7 +22,7 @@ class IShapeView @JvmOverloads constructor(
     private val paint = Paint().apply {
 //        color = "#9A9A9A".toColorInt()
         color = Color.BLACK
-        strokeWidth = 8f
+        strokeWidth = context.resources.getDimension(R.dimen._3dp)
         style = Paint.Style.STROKE
     }
 
@@ -39,7 +40,7 @@ class IShapeView @JvmOverloads constructor(
         // 横线使用宽度的80%
         val horizontalSize = width * 0.8f
 
-        Log.d(TAG, "onDraw: ${width}-----${height}")
+        // Log.d(TAG, "onDraw: ${width}-----${height}")
 
         // 根据实际绘制尺寸动态设置虚线参数
         // 使用较小的尺寸来计算虚线，保持一致性
