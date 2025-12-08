@@ -87,11 +87,20 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <com.example.demo03.mytree.LShapeView
+        android:id="@+id/view2"
         android:layout_width="51dp"
         android:layout_height="130dp"
         android:layout_marginStart="10dp"
         android:background="#4CAF50"
         app:layout_constraintStart_toEndOf="@id/view1"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.example.demo03.mytree.IShapeView
+        android:layout_width="51dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="10dp"
+        android:background="#4CAF50"
+        app:layout_constraintStart_toEndOf="@id/view2"
         app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,7 +9,8 @@ data class TreeSideItems(
     var Sel: Boolean = false,// 是否选中 true选中 false未选中
     var All: Boolean = false,// 是否为全部选中节点, 规定只有当前节点层级首个节点为true才生效,生效后勾选该节点,所有当前级兄弟节点全部选中或取消选中
     var childItems: MutableList<TreeSideItems>? = null,//子节点
-    var ShowExpand:Boolean=false//当前节点是否显示展开折叠图标  默认不显示
+    var ShowExpand:Boolean=false,//当前节点是否显示展开折叠图标  默认不显示
+    var showHorizonLine: Boolean= false,// 当前节点是否显示竖线
 )
 
 
