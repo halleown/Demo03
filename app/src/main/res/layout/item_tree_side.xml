@@ -98,6 +98,18 @@
         </LinearLayout>
     </LinearLayout>
 
+
+    <com.example.demo03.mytree.IShapeView
+        android:id="@+id/view_i"
+        android:layout_width="@dimen/_70dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/rlvChild"
+        app:layout_constraintBottom_toBottomOf="@id/rlvChild"
+        android:visibility="visible"
+        android:layout_marginTop="@dimen/_8dp"
+        android:layout_height="0dp"
+        />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rlvChild"
             android:layout_width="match_parent"
@@ -108,5 +120,5 @@
             android:layout_marginTop="@dimen/_8dp"
             android:layout_marginStart="@dimen/_110dp"
             android:nestedScrollingEnabled="false"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,13 +22,17 @@ class TreeSideNodeAdapter(
     var datas: MutableList<TreeSideItems>,
     var mContext: Context,
     var customHorizontalScrollView: CustomHorizontalScrollView,
-    var rlv_side_menu: RecyclerView
+    var rlv_side_menu: RecyclerView,
+    var isShow: Boolean = false
 ) :
     RecyclerView.Adapter<TreeSideNodeAdapter.TestDemoHolder>() {
     var globalList: ViewTreeObserver.OnGlobalLayoutListener? = null
 
     //    var treeSideNodeCheck = false // 当节点不存在子级节点时,是否带复选框 false表示不带复选框单选模式,true表示带多选框多选模式
     var listener: Listener? = null
+
+    var isShowing: Boolean = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestDemoHolder {
         val view: View =
             LayoutInflater.from(mContext).inflate(R.layout.item_tree_side, null)
@@ -64,6 +68,12 @@ class TreeSideNodeAdapter(
             holder.ivExpand.setImageResource(R.drawable.right_arrow_black)
         }
 
+        if (isShow) {
+            holder.view_i.visibility = View.VISIBLE
+        } else {
+            holder.view_i.visibility = View.GONE
+        }
+
 
         // 根节点不显示线
         if (!getLevel(itemData.Node)) {
@@ -71,14 +81,43 @@ class TreeSideNodeAdapter(
 //                holder.ivLine.setImageResource(R.drawable.line)
                 holder.view_l.visibility = View.VISIBLE
                 holder.view_t.visibility = View.GONE
-            } else {
+                holder.view_i.visibility = View.GONE
+            } else {// 中间节点
 //                holder.ivLine.setImageResource(R.drawable.line2)
                 holder.view_l.visibility = View.GONE
                 holder.view_t.visibility = View.VISIBLE
+                holder.view_i.visibility = View.VISIBLE
+
+                // 判断是否有同级节点
+                if (position < datas.size - 1) {
+                    isShowing = true
+                } else {
+                    isShowing = false
+                }
+
+
             }
+
+            // // 当前节点有子节点，且有同级的下一个节点
+            // if (itemData.childItems != null && itemData.childItems!!.isNotEmpty()) {
+            //     // 是否存在同级的下一个节点如何判定，根据索引和size
+            //     if (position < datas.size - 1) {
+            //         itemData.childItems!!.forEach {
+            //             it.showHorizonLine = true
+            //         }
+            //     }
+            // }
+            //
+            // if (itemData.showHorizonLine) {
+            //     holder.view_i.visibility = View.VISIBLE
+            // } else {
+            //     holder.view_i.visibility = View.GONE
+            // }
+
         } else {
             holder.view_l.visibility = View.GONE
             holder.view_t.visibility = View.GONE
+            holder.view_i.visibility = View.GONE
         }
 
         // 展开折叠
@@ -157,7 +196,7 @@ class TreeSideNodeAdapter(
             })
         } else {
             // 有子节点
-            val childAdapter = TreeSideNodeAdapter(itemData.childItems!!, mContext, customHorizontalScrollView, rlv_side_menu)
+            val childAdapter = TreeSideNodeAdapter(itemData.childItems!!, mContext, customHorizontalScrollView, rlv_side_menu, isShowing)
             childAdapter.listener = listener
             holder.rlvChild.layoutManager = LinearLayoutManager(mContext)
             holder.rlvChild.adapter = childAdapter
@@ -201,6 +240,7 @@ class TreeSideNodeAdapter(
         var rlvChild: RecyclerView
         var view_t: TShapeView
         var view_l: LShapeView
+        var view_i: IShapeView
 
         init {
             ivExpand = itemView.findViewById(R.id.ivExpand)
@@ -212,6 +252,7 @@ class TreeSideNodeAdapter(
 //            ivLine = itemView.findViewById(R.id.iv_line)
             view_t = itemView.findViewById(R.id.view_t)
             view_l = itemView.findViewById(R.id.view_l)
+            view_i = itemView.findViewById(R.id.view_i)
 
         }
     }
