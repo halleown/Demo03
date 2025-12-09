@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
@@ -23,7 +24,9 @@ class TreeSideNodeAdapter(
     var mContext: Context,
     var customHorizontalScrollView: CustomHorizontalScrollView,
     var rlv_side_menu: RecyclerView,
-    var isShow: Boolean = false
+    var isShow: Boolean = false,
+    private var selectedNodeId: Long = 1L,              // 当前选中的节点id
+    private val onSelectedNodeChange: (Long) -> Unit = {}    // 选中变更回调，传给子适配器
 ) :
     RecyclerView.Adapter<TreeSideNodeAdapter.TestDemoHolder>() {
     var globalList: ViewTreeObserver.OnGlobalLayoutListener? = null
@@ -43,6 +46,8 @@ class TreeSideNodeAdapter(
         return datas.size
     }
 
+    fun setSelectedNodeId(nodeId: Long) { selectedNodeId = nodeId }
+
     override fun onBindViewHolder(holder: TestDemoHolder, position: Int) {
         val itemData = datas[position]
 
@@ -60,7 +65,8 @@ class TreeSideNodeAdapter(
         layoutParams.width = (getScreenWidth(mContext) * 0.4).toInt() - dpToPx(24)
         holder.llText.layoutParams = layoutParams
         // 是否带复选框
-        holder.ivExpand.visibility = if (itemData.ShowExpand) View.VISIBLE else View.GONE
+        // holder.ivExpand.visibility = if (itemData.ShowExpand) View.VISIBLE else View.GONE
+        holder.ivExpand.visibility = if (itemData.childItems?.isNotEmpty() == true) View.VISIBLE else View.INVISIBLE
 //         if (itemData.ShowExpand) {
         if (itemData.Expand) {
             holder.ivExpand.setImageResource(R.drawable.down_arrow_black)
@@ -162,16 +168,23 @@ class TreeSideNodeAdapter(
                 listener?.clickSendStd(itemData, -12, position)
             }
         })
+
+        Log.d("xialj", "onBindViewHolder: ${selectedNodeId}------${itemData.Name}")
+        // 根据当前选中的item 和 是否可选中item 高亮
+        val isSelected = itemData.Node == selectedNodeId && itemData.Enable
+        holder.llText.isSelected = isSelected
+        holder.tvName.isSelected = isSelected
+        holder.tvWeak.isSelected = isSelected
+
+        // if (itemData.Enable) {
+        //     holder.llText.isSelected = itemData.Sel
+        //     holder.tvName.isSelected = itemData.Sel
+        //     holder.tvWeak.isSelected = itemData.Sel
+        // } else {
+        //     holder.llText.isSelected = false
+        //     holder.tvName.isSelected = false
+        //     holder.tvWeak.isSelected = false
         // }
-        if (itemData.Enable) {
-            holder.llText.isSelected = itemData.Sel
-            holder.tvName.isSelected = itemData.Sel
-            holder.tvWeak.isSelected = itemData.Sel
-        } else {
-            holder.llText.isSelected = false
-            holder.tvName.isSelected = false
-            holder.tvWeak.isSelected = false
-        }
 
 
         if (itemData.childItems.isNullOrEmpty()) {// 没有子节点
@@ -179,15 +192,19 @@ class TreeSideNodeAdapter(
             if (!itemData.Enable) {
 //                holder.tvName.setTextColor(mContext.resources.getColor(R.color.deep_gray))
             }
+            // 点击叶子节点
             holder.llText.setOnClickListener(object : OnClickListener {
                 override fun onClick(p0: View?) {
                     // if (BaseShDisplay.isFastClick) {
                     //     return
                     // }
                     if (itemData.Enable) {
-                        if (!itemData.Sel) {
-                            itemData.Sel = true
-                            holder.llText.isSelected = itemData.Sel
+                        // if (!itemData.Sel && itemData.Node != selectedNodeId) {// 是否选中 且 选中的与上一次选中不一致
+                        if (itemData.Node != selectedNodeId) {// 是否选中 且 选中的与上一次选中不一致
+                            // 将当前选中的状态变为 已选中
+                            // itemData.Sel = true
+                            onSelectedNodeChange(itemData.Node)
+                            // holder.llText.isSelected = itemData.Sel
                             // 清空选中项
                             listener?.clearAllSelected2(itemData)
                         }
@@ -196,16 +213,16 @@ class TreeSideNodeAdapter(
             })
         } else {
             // 有子节点
-            val childAdapter = TreeSideNodeAdapter(itemData.childItems!!, mContext, customHorizontalScrollView, rlv_side_menu, isShowing)
+            val childAdapter = TreeSideNodeAdapter(itemData.childItems!!, mContext, customHorizontalScrollView, rlv_side_menu, isShowing, selectedNodeId, onSelectedNodeChange)
             childAdapter.listener = listener
             holder.rlvChild.layoutManager = LinearLayoutManager(mContext)
             holder.rlvChild.adapter = childAdapter
 //            holder.ivExpand.visibility = View.VISIBLE
-            if (itemData.Enable) {
-                holder.tvName.isSelected = itemData.Sel
-            } else {
-                holder.tvName.isSelected = false
-            }
+//             if (itemData.Enable) {
+//                 holder.tvName.isSelected = itemData.Sel
+//             } else {
+//                 holder.tvName.isSelected = false
+//             }
 
 
             holder.llText.setOnClickListener(object : OnClickListener {
@@ -214,10 +231,11 @@ class TreeSideNodeAdapter(
                     //     return
                     // }
                     if (itemData.Enable) {
-                        if (!itemData.Sel) {
-                            Toast.makeText(mContext, "${itemData.Node}===${itemData.Name}", Toast.LENGTH_SHORT).show()
-                            itemData.Sel = true
-                            holder.llText.isSelected = itemData.Sel
+                        // if (!itemData.Sel && itemData.Node != selectedNodeId) {
+                        if (itemData.Node != selectedNodeId) {
+                            // itemData.Sel = true
+                            // holder.llText.isSelected = itemData.Sel
+                            onSelectedNodeChange(itemData.Node)      // 通知外层更新选中 id
                             // 清空选中项
                             listener?.clearAllSelected(itemData, position)
                         }

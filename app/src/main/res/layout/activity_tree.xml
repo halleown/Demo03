@@ -80,27 +80,31 @@
 
     <com.example.demo03.mytree.TShapeView
         android:id="@+id/view1"
-        android:layout_width="51dp"
-        android:layout_height="130dp"
+        android:layout_width="@dimen/_24dp"
+        android:layout_height="@dimen/_92dp"
+        android:layout_marginTop="@dimen/_10dp"
         android:background="#00BCD4"
         app:layout_constraintStart_toEndOf="@id/llTreeSide"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.example.demo03.mytree.LShapeView
         android:id="@+id/view2"
-        android:layout_width="51dp"
-        android:layout_height="130dp"
+        android:layout_width="@dimen/_24dp"
+        android:layout_height="@dimen/_92dp"
+
         android:layout_marginStart="10dp"
+        android:layout_marginTop="@dimen/_10dp"
         android:background="#4CAF50"
         app:layout_constraintStart_toEndOf="@id/view1"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.example.demo03.mytree.IShapeView
-        android:layout_width="51dp"
-        android:layout_height="130dp"
+        android:layout_width="@dimen/_24dp"
+        android:layout_height="@dimen/_92dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="@dimen/_10dp"
         android:background="#4CAF50"
         app:layout_constraintStart_toEndOf="@id/view2"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
