@@ -18,11 +18,24 @@ class LShapeView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private val paint = Paint().apply {
-//        color = "#9A9A9A".toColorInt()
-        color = Color.BLACK
+       // color = "#9A9A9A".toColorInt()
+        color = Color.RED
         // 虚线宽度
         strokeWidth = context.resources.getDimension(R.dimen._3dp)
         style = Paint.Style.STROKE
+    }
+
+    private var dashLength: Float = 0f
+    private var gapLength: Float = 0f
+
+    init {
+        // 实线段长度
+        dashLength = 30f
+        // dashLength = resources.getDimension(R.dimen._10dp)
+        // 虚线段长度
+        gapLength = 10f
+        // gapLength = resources.getDimension(R.dimen._3dp)
+        paint.pathEffect = DashPathEffect(floatArrayOf(dashLength, gapLength), 0f)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -43,11 +56,10 @@ class LShapeView @JvmOverloads constructor(
         // 横线使用宽度的80%
         val horizontalSize = width * 0.8f
 
-        // 根据实际绘制尺寸动态设置虚线参数
-        val minSize = min(verticalSize, horizontalSize)
-        val dashLength = minSize / 4f// 虚线长度
-        val gapLength = dashLength / 2f// 虚线间隔
-        paint.pathEffect = DashPathEffect(floatArrayOf(dashLength, gapLength), 0f)
+        // val minSize = min(verticalSize, horizontalSize)
+        // val dashLength = minSize / 4f// 虚线长度
+        // val gapLength = dashLength / 2f// 虚线间隔
+        // paint.pathEffect = DashPathEffect(floatArrayOf(dashLength, gapLength), 0f)
 
         // 绘制L字：竖线在左，横线在底部
         // 竖线（左侧，从上向下延伸，只在上半部分）

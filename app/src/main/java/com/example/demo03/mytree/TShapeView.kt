@@ -21,10 +21,24 @@ class TShapeView @JvmOverloads constructor(
     private val TAG = "TShapeView"
 
     private val paint = Paint().apply {
-//        color = "#9A9A9A".toColorInt()
-        color = Color.BLACK
+       // color = "#9A9A9A".toColorInt()
+        color = Color.BLUE
         strokeWidth = context.resources.getDimension(R.dimen._3dp)
         style = Paint.Style.STROKE
+    }
+
+
+    private var dashLength: Float = 0f
+    private var gapLength: Float = 0f
+
+    init {
+        // 实线段长度
+        dashLength = 10f
+        dashLength = resources.getDimension(R.dimen._10dp)
+        // 虚线段长度
+        gapLength = 3f
+        // gapLength = resources.getDimension(R.dimen._3dp)
+        paint.pathEffect = DashPathEffect(floatArrayOf(dashLength, gapLength), 0f)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -35,7 +49,6 @@ class TShapeView @JvmOverloads constructor(
         val centerX = width / 2
         val centerY = height / 2
 
-        // 使用不同的比例来充分利用宽高
         // 竖线使用高度的100%
         val verticalSize = height * 1
         // 横线使用宽度的80%
@@ -43,12 +56,10 @@ class TShapeView @JvmOverloads constructor(
 
         Log.d(TAG, "onDraw: ${width}-----${height}")
 
-        // 根据实际绘制尺寸动态设置虚线参数
-        // 使用较小的尺寸来计算虚线，保持一致性
-        val minSize = min(verticalSize, horizontalSize)
-        val dashLength = minSize / 4f
-        val gapLength = dashLength / 2f
-        paint.pathEffect = DashPathEffect(floatArrayOf(dashLength, gapLength), 0f)
+        // val minSize = min(verticalSize, horizontalSize)
+        // val dashLength = minSize / 4f
+        // val gapLength = dashLength / 2f
+        // paint.pathEffect = DashPathEffect(floatArrayOf(dashLength, gapLength), 0f)
 
         // 绘制竖线（中间，上下延伸）- 使用高度来填充
         val verticalStartX = centerX - horizontalSize / 2  // 竖线起点X与横线起点对齐

@@ -12,6 +12,16 @@ class TreeActivity : AppCompatActivity() {
     var treeSideDatas: MutableList<TreeSideItems> = mutableListOf()
     private lateinit var treeSideAdapter: TreeSideNodeAdapter
 
+    /**
+     * 上一次选中的NodeId
+     */
+    var lastSelectedNodeId: Long = 1L
+
+    // // 实线段长度
+    // val fixedDashLength = this.resources.getDimension(R.dimen._10dp)
+    // // 虚线段长度
+    // val fixedGapLength = this.resources.getDimension(R.dimen._3dp)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // setTheme(android.R.style.Theme_Material_Light)
         super.onCreate(savedInstanceState)
@@ -176,7 +186,7 @@ class TreeActivity : AppCompatActivity() {
                 "  ]\n" +
                 "}\n"
         val bean = Gson().fromJson(myData, Bean::class.java)
-        val buildTree = buildTree2(bean.TreeSideItems)
+        val buildTree = buildTree(bean.TreeSideItems)
         treeSideDatas.clear()
         treeSideDatas.addAll(buildTree)
 
@@ -184,8 +194,23 @@ class TreeActivity : AppCompatActivity() {
 
         val rlv_side_menu: RecyclerView = findViewById(R.id.rlv_side_menu)
         rlv_side_menu?.layoutManager = LinearLayoutManager(this)
-        treeSideAdapter = TreeSideNodeAdapter(treeSideDatas, this, srvTree, rlv_side_menu!!)
-        treeSideAdapter.notifyDataSetChanged()
+        // treeSideAdapter = TreeSideNodeAdapter(treeSideDatas, this, srvTree, rlv_side_menu!!)
+        // treeSideAdapter.notifyDataSetChanged()
+
+        treeSideAdapter = TreeSideNodeAdapter(treeSideDatas, this, srvTree, rlv_side_menu, false, lastSelectedNodeId) { nodeId ->
+            // todo 还需将上一次的选中(lastSelectedNodeId)状态变成 未选中
+            //  获取所有的数据源，然后根据id修改
+            treeSideDatas.forEach {
+                if (it.Node == lastSelectedNodeId) {
+                    it.Sel = false
+                }
+            }
+
+            lastSelectedNodeId = nodeId
+            treeSideAdapter.setSelectedNodeId(nodeId)
+            treeSideAdapter.notifyDataSetChanged()
+        }
+
 
         rlv_side_menu.adapter = treeSideAdapter
 

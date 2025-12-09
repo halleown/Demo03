@@ -9,35 +9,35 @@ import android.util.Log
  */
 
 // 中间件不传showExpand参数时，调用此方法
-fun buildTree2(items: List<TreeSideItems>): MutableList<TreeSideItems> {
-    val rootItems = mutableListOf<TreeSideItems>()
-    val nodeMap = mutableMapOf<Long, TreeSideItems>()
-    for (item in items) {// 遍历中间件传过来的原始节点数据
-        val node = item.Node
-        val isRoot = getLevel(node)
-        if (isRoot) {// 根节点，直接添加到根节点列表
-            rootItems.add(item)
-        } else {// 子节点
-            // 计算父节点的 Node
-            val parentNode = getParentNode(node)
-            val parentItem = nodeMap[parentNode]
-
-            // 将当前节点添加到父节点的子节点列表中
-            if (parentItem != null) {
-                if (parentItem.childItems == null) {
-                    // 父节点有子节点是，显示展开图标
-                    parentItem.ShowExpand = true
-                    parentItem.childItems = mutableListOf()
-                }
-                parentItem.childItems!!.add(item)
-            }
-        }
-
-        // 将当前节点放入 nodeMap 中
-        nodeMap[node] = item
-    }
-    return rootItems
-}
+// fun buildTree2(items: List<TreeSideItems>): MutableList<TreeSideItems> {
+//     val rootItems = mutableListOf<TreeSideItems>()
+//     val nodeMap = mutableMapOf<Long, TreeSideItems>()
+//     for (item in items) {// 遍历中间件传过来的原始节点数据
+//         val node = item.Node
+//         val isRoot = getLevel(node)
+//         if (isRoot) {// 根节点，直接添加到根节点列表
+//             rootItems.add(item)
+//         } else {// 子节点
+//             // 计算父节点的 Node
+//             val parentNode = getParentNode(node)
+//             val parentItem = nodeMap[parentNode]
+//
+//             // 将当前节点添加到父节点的子节点列表中
+//             if (parentItem != null) {
+//                 if (parentItem.childItems == null) {
+//                     // 父节点有子节点是，显示展开图标
+//                     parentItem.ShowExpand = true
+//                     parentItem.childItems = mutableListOf()
+//                 }
+//                 parentItem.childItems!!.add(item)
+//             }
+//         }
+//
+//         // 将当前节点放入 nodeMap 中
+//         nodeMap[node] = item
+//     }
+//     return rootItems
+// }
 
 fun buildTree(items: List<TreeSideItems>): MutableList<TreeSideItems> {
     val rootItems = mutableListOf<TreeSideItems>()
