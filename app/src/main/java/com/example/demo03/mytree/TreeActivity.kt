@@ -1,6 +1,8 @@
 package com.example.demo03.mytree
 
 import android.os.Bundle
+import android.service.notification.Condition.newId
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -198,15 +200,41 @@ class TreeActivity : AppCompatActivity() {
 
         treeSideAdapter = TreeSideNodeAdapter(treeSideDatas, this, srvTree, rlv_side_menu, false, lastSelectedNodeId) { nodeId ->
             // 外层只更新选中 id，不用全量 notify
+//            lastSelectedNodeId = nodeId
+//            treeSideAdapter.updateSelection(nodeId)
+            if (nodeId == lastSelectedNodeId) return@TreeSideNodeAdapter
+
+            // 数据层：全树统一改 Sel
+            setSel(treeSideDatas, lastSelectedNodeId, false)
+            setSel(treeSideDatas, nodeId, true)
             lastSelectedNodeId = nodeId
+
+            Log.d("xialj", "onCreate: ${Gson().toJson(treeSideDatas)}")
+
+            // UI 局部刷新（适配器会递归 childAdapters）
             treeSideAdapter.updateSelection(nodeId)
+
         }
 
 
         rlv_side_menu.adapter = treeSideAdapter
 
     }
+
+    // 递归修改 Sel
+    private fun setSel(list: List<TreeSideItems>?, target: Long, value: Boolean): Boolean {
+        if (list == null) return false
+        for (item in list) {
+            if (item.Node == target) {
+                item.Sel = value
+                return true
+            }
+            if (setSel(item.childItems, target, value)) return true
+        }
+        return false
+    }
 }
+
 /*
 {
   "TreeSideItems": [
