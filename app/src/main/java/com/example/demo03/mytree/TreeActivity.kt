@@ -12,11 +12,6 @@ class TreeActivity : AppCompatActivity() {
     var treeSideDatas: MutableList<TreeSideItems> = mutableListOf()
     private lateinit var treeSideAdapter: TreeSideNodeAdapter
 
-    /**
-     * 上一次选中的NodeId
-     */
-    var lastSelectedNodeId: Long = 1L
-
     // // 实线段长度
     // val fixedDashLength = this.resources.getDimension(R.dimen._10dp)
     // // 虚线段长度
@@ -197,18 +192,14 @@ class TreeActivity : AppCompatActivity() {
         // treeSideAdapter = TreeSideNodeAdapter(treeSideDatas, this, srvTree, rlv_side_menu!!)
         // treeSideAdapter.notifyDataSetChanged()
 
-        treeSideAdapter = TreeSideNodeAdapter(treeSideDatas, this, srvTree, rlv_side_menu, false, lastSelectedNodeId) { nodeId ->
-            // todo 还需将上一次的选中(lastSelectedNodeId)状态变成 未选中
-            //  获取所有的数据源，然后根据id修改
-            treeSideDatas.forEach {
-                if (it.Node == lastSelectedNodeId) {
-                    it.Sel = false
-                }
-            }
 
+        // 记录当前选中
+        var lastSelectedNodeId: Long = 1L
+
+        treeSideAdapter = TreeSideNodeAdapter(treeSideDatas, this, srvTree, rlv_side_menu, false, lastSelectedNodeId) { nodeId ->
+            // 外层只更新选中 id，不用全量 notify
             lastSelectedNodeId = nodeId
-            treeSideAdapter.setSelectedNodeId(nodeId)
-            treeSideAdapter.notifyDataSetChanged()
+            treeSideAdapter.updateSelection(nodeId)
         }
 
 

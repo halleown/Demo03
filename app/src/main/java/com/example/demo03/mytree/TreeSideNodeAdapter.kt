@@ -13,11 +13,13 @@ import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.example.demo03.R
+
+private const val PAYLOAD_SELECTION = "payload_selection"
+
 
 class TreeSideNodeAdapter(
     var datas: MutableList<TreeSideItems>,
@@ -25,10 +27,15 @@ class TreeSideNodeAdapter(
     var customHorizontalScrollView: CustomHorizontalScrollView,
     var rlv_side_menu: RecyclerView,
     var isShow: Boolean = false,
-    private var selectedNodeId: Long = 1L,              // 当前选中的节点id
-    private val onSelectedNodeChange: (Long) -> Unit = {}    // 选中变更回调，传给子适配器
-) :
-    RecyclerView.Adapter<TreeSideNodeAdapter.TestDemoHolder>() {
+    private var selectedNodeId: Long = 1L,
+    private val onSelectedNodeChange: (Long) -> Unit = {}
+) : RecyclerView.Adapter<TreeSideNodeAdapter.TestDemoHolder>() {
+
+    // 子适配器引用，递归同步选中
+    private val childAdapters = mutableMapOf<Int, TreeSideNodeAdapter>()
+
+    private val TAG = "xialj"
+
     var globalList: ViewTreeObserver.OnGlobalLayoutListener? = null
 
     //    var treeSideNodeCheck = false // 当节点不存在子级节点时,是否带复选框 false表示不带复选框单选模式,true表示带多选框多选模式
@@ -37,16 +44,39 @@ class TreeSideNodeAdapter(
     var isShowing: Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestDemoHolder {
-        val view: View =
-            LayoutInflater.from(mContext).inflate(R.layout.item_tree_side, null)
+        val view: View = LayoutInflater.from(mContext).inflate(R.layout.item_tree_side, parent, false)
         return TestDemoHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return datas.size
+    override fun getItemCount(): Int = datas.size
+
+    /** 只刷新旧/新两个节点，并向子适配器同步 */
+    fun updateSelection(newId: Long) {
+        if (newId == selectedNodeId) return
+        val oldId = selectedNodeId
+        selectedNodeId = newId
+
+        val oldPos = datas.indexOfFirst { it.Node == oldId }
+        val newPos = datas.indexOfFirst { it.Node == newId }
+        if (oldPos >= 0) notifyItemChanged(oldPos, PAYLOAD_SELECTION)
+        if (newPos >= 0) notifyItemChanged(newPos, PAYLOAD_SELECTION)
+
+        // 递归同步
+        childAdapters.values.forEach { it.updateSelection(newId) }
     }
 
-    fun setSelectedNodeId(nodeId: Long) { selectedNodeId = nodeId }
+    override fun onBindViewHolder(holder: TestDemoHolder, position: Int, payloads: MutableList<Any>) {
+        if (payloads.contains(PAYLOAD_SELECTION)) {
+            val itemData = datas[position]
+            val isSelected = itemData.Node == selectedNodeId && itemData.Enable
+            holder.llText.isSelected = isSelected
+            holder.tvName.isSelected = isSelected
+            holder.tvWeak.isSelected = isSelected
+            Log.d(TAG, "onBindViewHolder: 上一个节点：${itemData.Node}--------${selectedNodeId}")
+            return
+        }
+        super.onBindViewHolder(holder, position, payloads)
+    }
 
     override fun onBindViewHolder(holder: TestDemoHolder, position: Int) {
         val itemData = datas[position]
@@ -67,178 +97,94 @@ class TreeSideNodeAdapter(
         // 是否带复选框
         // holder.ivExpand.visibility = if (itemData.ShowExpand) View.VISIBLE else View.GONE
         holder.ivExpand.visibility = if (itemData.childItems?.isNotEmpty() == true) View.VISIBLE else View.INVISIBLE
-//         if (itemData.ShowExpand) {
-        if (itemData.Expand) {
-            holder.ivExpand.setImageResource(R.drawable.down_arrow_black)
-        } else {
-            holder.ivExpand.setImageResource(R.drawable.right_arrow_black)
-        }
+        holder.ivExpand.setImageResource(if (itemData.Expand) R.drawable.down_arrow_black else R.drawable.right_arrow_black)
 
-        if (isShow) {
-            holder.view_i.visibility = View.VISIBLE
-        } else {
-            holder.view_i.visibility = View.GONE
-        }
+        if (isShow) holder.view_i.visibility = View.VISIBLE else holder.view_i.visibility = View.GONE
 
 
         // 根节点不显示线
         if (!getLevel(itemData.Node)) {
             if (position == datas.size - 1) {// 最后一个节点
-//                holder.ivLine.setImageResource(R.drawable.line)
                 holder.view_l.visibility = View.VISIBLE
                 holder.view_t.visibility = View.GONE
                 holder.view_i.visibility = View.GONE
             } else {// 中间节点
-//                holder.ivLine.setImageResource(R.drawable.line2)
                 holder.view_l.visibility = View.GONE
                 holder.view_t.visibility = View.VISIBLE
                 holder.view_i.visibility = View.VISIBLE
-
-                // 判断是否有同级节点
-                if (position < datas.size - 1) {
-                    isShowing = true
-                } else {
-                    isShowing = false
-                }
-
-
+                isShowing = position < datas.size - 1
             }
-
-            // // 当前节点有子节点，且有同级的下一个节点
-            // if (itemData.childItems != null && itemData.childItems!!.isNotEmpty()) {
-            //     // 是否存在同级的下一个节点如何判定，根据索引和size
-            //     if (position < datas.size - 1) {
-            //         itemData.childItems!!.forEach {
-            //             it.showHorizonLine = true
-            //         }
-            //     }
-            // }
-            //
-            // if (itemData.showHorizonLine) {
-            //     holder.view_i.visibility = View.VISIBLE
-            // } else {
-            //     holder.view_i.visibility = View.GONE
-            // }
-
         } else {
             holder.view_l.visibility = View.GONE
             holder.view_t.visibility = View.GONE
             holder.view_i.visibility = View.GONE
         }
 
-        // 展开折叠
-        holder.ivExpand.setOnClickListener(object : OnClickListener {
-            override fun onClick(v: View?) {
-                // if (BaseShDisplay.isFastClick) {
-                //     return
-                // }
-
-                // 保存滚动状态
-                val position = (rlv_side_menu.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-                val offset = rlv_side_menu.getChildAt(0).top
-
-                // 保存当前滚动位置
-                val scrollX = customHorizontalScrollView.scrollX
-                globalList = ViewTreeObserver.OnGlobalLayoutListener { customHorizontalScrollView.scrollTo(scrollX, 0) }
-                customHorizontalScrollView.viewTreeObserver.addOnGlobalLayoutListener(globalList)
-
-                // 禁用滑动
-                holder.rlvChild.isNestedScrollingEnabled = false
-                itemData.Expand = !itemData.Expand
-                if (itemData.Expand) {
-                    holder.ivExpand.setImageResource(R.drawable.down_arrow_black)
-                } else {
-                    holder.ivExpand.setImageResource(R.drawable.right_arrow_black)
-                }
-                holder.rlvChild.visibility = if (itemData.Expand) View.VISIBLE else View.GONE
-
-                // 禁用默认动画
-                (holder.rlvChild.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
-                // 还原滚动位置
-                holder.itemView.postDelayed({
-                    // 还原滚动位置
-                    customHorizontalScrollView.scrollTo(scrollX, 0)
-                    if (globalList != null) {
-                        customHorizontalScrollView.viewTreeObserver.removeOnGlobalLayoutListener(globalList)
-                    }
-                }, 400)
-                // 恢复滚动状态
-                (rlv_side_menu.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, offset)
-                // 禁用嵌套滚动
-                listener?.clickSendStd(itemData, -12, position)
-            }
-        })
-
-        Log.d("xialj", "onBindViewHolder: ${selectedNodeId}------${itemData.Name}")
-        // 根据当前选中的item 和 是否可选中item 高亮
+        // 选中态
         val isSelected = itemData.Node == selectedNodeId && itemData.Enable
         holder.llText.isSelected = isSelected
         holder.tvName.isSelected = isSelected
         holder.tvWeak.isSelected = isSelected
 
-        // if (itemData.Enable) {
-        //     holder.llText.isSelected = itemData.Sel
-        //     holder.tvName.isSelected = itemData.Sel
-        //     holder.tvWeak.isSelected = itemData.Sel
-        // } else {
-        //     holder.llText.isSelected = false
-        //     holder.tvName.isSelected = false
-        //     holder.tvWeak.isSelected = false
-        // }
+        // 展开折叠
+        holder.ivExpand.setOnClickListener(object : OnClickListener {
+            override fun onClick(v: View?) {
+                val first = (rlv_side_menu.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                val offset = rlv_side_menu.getChildAt(0)?.top ?: 0
+                val scrollX = customHorizontalScrollView.scrollX
+                globalList = ViewTreeObserver.OnGlobalLayoutListener { customHorizontalScrollView.scrollTo(scrollX, 0) }
+                customHorizontalScrollView.viewTreeObserver.addOnGlobalLayoutListener(globalList)
 
+                holder.rlvChild.isNestedScrollingEnabled = false
+                itemData.Expand = !itemData.Expand
+                holder.ivExpand.setImageResource(if (itemData.Expand) R.drawable.down_arrow_black else R.drawable.right_arrow_black)
+                holder.rlvChild.visibility = if (itemData.Expand) View.VISIBLE else View.GONE
+                (holder.rlvChild.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
 
-        if (itemData.childItems.isNullOrEmpty()) {// 没有子节点
-            holder.rlvChild.visibility = View.GONE
-            if (!itemData.Enable) {
-//                holder.tvName.setTextColor(mContext.resources.getColor(R.color.deep_gray))
+                holder.itemView.postDelayed({
+                    customHorizontalScrollView.scrollTo(scrollX, 0)
+                    if (globalList != null) customHorizontalScrollView.viewTreeObserver.removeOnGlobalLayoutListener(globalList)
+                }, 400)
+                (rlv_side_menu.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(first, offset)
+                listener?.clickSendStd(itemData, -12, position)
             }
-            // 点击叶子节点
+        })
+
+        Log.d("xialj", "onBindViewHolder: $selectedNodeId------${itemData.Name}")
+
+        if (itemData.childItems.isNullOrEmpty()) {
+            holder.rlvChild.visibility = View.GONE
+            childAdapters.remove(position)
             holder.llText.setOnClickListener(object : OnClickListener {
                 override fun onClick(p0: View?) {
-                    // if (BaseShDisplay.isFastClick) {
-                    //     return
-                    // }
-                    if (itemData.Enable) {
-                        // if (!itemData.Sel && itemData.Node != selectedNodeId) {// 是否选中 且 选中的与上一次选中不一致
-                        if (itemData.Node != selectedNodeId) {// 是否选中 且 选中的与上一次选中不一致
-                            // 将当前选中的状态变为 已选中
-                            // itemData.Sel = true
-                            onSelectedNodeChange(itemData.Node)
-                            // holder.llText.isSelected = itemData.Sel
-                            // 清空选中项
-                            listener?.clearAllSelected2(itemData)
-                        }
+                    if (itemData.Enable && itemData.Node != selectedNodeId) {
+                        onSelectedNodeChange(itemData.Node)
+                        updateSelection(itemData.Node)
+                        listener?.clearAllSelected2(itemData)
                     }
                 }
             })
         } else {
-            // 有子节点
-            val childAdapter = TreeSideNodeAdapter(itemData.childItems!!, mContext, customHorizontalScrollView, rlv_side_menu, isShowing, selectedNodeId, onSelectedNodeChange)
+            val childAdapter = TreeSideNodeAdapter(
+                itemData.childItems!!,
+                mContext,
+                customHorizontalScrollView,
+                rlv_side_menu,
+                isShowing,
+                selectedNodeId,
+                onSelectedNodeChange
+            )
             childAdapter.listener = listener
             holder.rlvChild.layoutManager = LinearLayoutManager(mContext)
             holder.rlvChild.adapter = childAdapter
-//            holder.ivExpand.visibility = View.VISIBLE
-//             if (itemData.Enable) {
-//                 holder.tvName.isSelected = itemData.Sel
-//             } else {
-//                 holder.tvName.isSelected = false
-//             }
-
+            childAdapters[position] = childAdapter
 
             holder.llText.setOnClickListener(object : OnClickListener {
                 override fun onClick(p0: View?) {
-                    // if (BaseShDisplay.isFastClick) {
-                    //     return
-                    // }
-                    if (itemData.Enable) {
-                        // if (!itemData.Sel && itemData.Node != selectedNodeId) {
-                        if (itemData.Node != selectedNodeId) {
-                            // itemData.Sel = true
-                            // holder.llText.isSelected = itemData.Sel
-                            onSelectedNodeChange(itemData.Node)      // 通知外层更新选中 id
-                            // 清空选中项
-                            listener?.clearAllSelected(itemData, position)
-                        }
+                    if (itemData.Enable && itemData.Node != selectedNodeId) {
+                        onSelectedNodeChange(itemData.Node)
+                        updateSelection(itemData.Node)
+                        listener?.clearAllSelected(itemData, position)
                     }
                 }
             })
@@ -248,31 +194,14 @@ class TreeSideNodeAdapter(
 
 
     class TestDemoHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var ivExpand: ImageView
-//        var ivLine: ImageView
-
-        //        var ivPlacehold: ImageView
-        var llText: LinearLayout
-        var tvName: TextView
-        var tvWeak: TextView
-        var rlvChild: RecyclerView
-        var view_t: TShapeView
-        var view_l: LShapeView
-        var view_i: IShapeView
-
-        init {
-            ivExpand = itemView.findViewById(R.id.ivExpand)
-//            ivPlacehold = itemView.findViewById(R.id.ivPlacehold)
-            llText = itemView.findViewById(R.id.llText)
-            tvName = itemView.findViewById(R.id.tvName)
-            tvWeak = itemView.findViewById(R.id.tvWeak)
-            rlvChild = itemView.findViewById(R.id.rlvChild)
-//            ivLine = itemView.findViewById(R.id.iv_line)
-            view_t = itemView.findViewById(R.id.view_t)
-            view_l = itemView.findViewById(R.id.view_l)
-            view_i = itemView.findViewById(R.id.view_i)
-
-        }
+        var ivExpand: ImageView = itemView.findViewById(R.id.ivExpand)
+        var llText: LinearLayout = itemView.findViewById(R.id.llText)
+        var tvName: TextView = itemView.findViewById(R.id.tvName)
+        var tvWeak: TextView = itemView.findViewById(R.id.tvWeak)
+        var rlvChild: RecyclerView = itemView.findViewById(R.id.rlvChild)
+        var view_t: TShapeView = itemView.findViewById(R.id.view_t)
+        var view_l: LShapeView = itemView.findViewById(R.id.view_l)
+        var view_i: IShapeView = itemView.findViewById(R.id.view_i)
     }
 
     abstract class Listener {
