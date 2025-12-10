@@ -157,11 +157,19 @@ class TreeSideNodeAdapter(
             childAdapters.remove(position)
             holder.llText.setOnClickListener(object : OnClickListener {
                 override fun onClick(p0: View?) {
-                    if (itemData.Enable && itemData.Node != selectedNodeId) {
-                        onSelectedNodeChange(itemData.Node)
-                        updateSelection(itemData.Node)
-                        listener?.clearAllSelected2(itemData)
-                    }
+//                    if (itemData.Enable && itemData.Node != selectedNodeId) {
+//                        onSelectedNodeChange(itemData.Node)
+//                        updateSelection(itemData.Node)
+//                        listener?.clearAllSelected2(itemData)
+//                    }
+                    val isSelected = itemData.Node == selectedNodeId && itemData.Enable
+                    // 已选中或者未启用，直接返回
+                    if (isSelected || !itemData.Enable) return
+
+                    Log.d(TAG, "onClick: 无子节点：点击了“${itemData.Name}")
+                    onSelectedNodeChange(itemData.Node)
+                    updateSelection(itemData.Node)
+                    listener?.clearAllSelected2(itemData)
                 }
             })
         } else {
@@ -181,11 +189,19 @@ class TreeSideNodeAdapter(
 
             holder.llText.setOnClickListener(object : OnClickListener {
                 override fun onClick(p0: View?) {
-                    if (itemData.Enable && itemData.Node != selectedNodeId) {
-                        onSelectedNodeChange(itemData.Node)
-                        updateSelection(itemData.Node)
-                        listener?.clearAllSelected(itemData, position)
-                    }
+//                    if (itemData.Enable && itemData.Node != selectedNodeId) {
+//                        onSelectedNodeChange(itemData.Node)
+//                        updateSelection(itemData.Node)
+//                        listener?.clearAllSelected(itemData, position)
+//                    }
+                    val isSelected = itemData.Node == selectedNodeId && itemData.Enable
+                    // 已选中或者未启用，直接返回
+                    if (isSelected || !itemData.Enable) return
+
+                    Log.d(TAG, "onClick: 有子节点：点击了“${itemData.Name}")
+                    onSelectedNodeChange(itemData.Node)
+                    updateSelection(itemData.Node)
+                    listener?.clearAllSelected2(itemData)
                 }
             })
             holder.rlvChild.visibility = if (itemData.Expand) View.VISIBLE else View.GONE
