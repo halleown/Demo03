@@ -166,8 +166,14 @@ class TreeSideNodeAdapter(
                     // 已选中或者未启用，直接返回
                     if (isSelected || !itemData.Enable) return
 
+//                    // 同步数据 Sel
+//                    datas.find { it.Node == selectedNodeId }?.Sel = false
+//                    itemData.Sel = true
+
                     Log.d(TAG, "onClick: 无子节点：点击了“${itemData.Name}")
+                    // 通知外层
                     onSelectedNodeChange(itemData.Node)
+                    // 局部刷新新旧item
                     updateSelection(itemData.Node)
                     listener?.clearAllSelected2(itemData)
                 }
@@ -197,6 +203,10 @@ class TreeSideNodeAdapter(
                     val isSelected = itemData.Node == selectedNodeId && itemData.Enable
                     // 已选中或者未启用，直接返回
                     if (isSelected || !itemData.Enable) return
+
+//                    // 同步数据 Sel
+//                    datas.find { it.Node == selectedNodeId }?.Sel = false
+//                    itemData.Sel = true
 
                     Log.d(TAG, "onClick: 有子节点：点击了“${itemData.Name}")
                     onSelectedNodeChange(itemData.Node)
