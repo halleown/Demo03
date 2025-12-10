@@ -23,19 +23,18 @@ class LShapeView @JvmOverloads constructor(
         // 虚线宽度
         strokeWidth = context.resources.getDimension(R.dimen._3dp)
         style = Paint.Style.STROKE
+        isAntiAlias = true
+        strokeCap = Paint.Cap.BUTT
     }
 
-    private var dashLength: Float = 0f
-    private var gapLength: Float = 0f
-
     init {
+        // 避免硬件加速吞掉虚线
+        setLayerType(LAYER_TYPE_SOFTWARE, null)
         // 实线段长度
-        dashLength = 30f
-        // dashLength = resources.getDimension(R.dimen._10dp)
+        val dash = resources.getDimension(R.dimen._10dp)
         // 虚线段长度
-        gapLength = 10f
-        // gapLength = resources.getDimension(R.dimen._3dp)
-        paint.pathEffect = DashPathEffect(floatArrayOf(dashLength, gapLength), 0f)
+        val gap = resources.getDimension(R.dimen._3dp)
+        paint.pathEffect = DashPathEffect(floatArrayOf(dash, gap), 0f)
     }
 
     override fun onDraw(canvas: Canvas) {
