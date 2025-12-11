@@ -35,7 +35,7 @@ class TShapeView @JvmOverloads constructor(
         // 实线段长度
         val dash = resources.getDimension(R.dimen._10dp)
         // 虚线段长度
-        val gap = resources.getDimension(R.dimen._3dp)
+        val gap = resources.getDimension(R.dimen._4dp)
         paint.pathEffect = DashPathEffect(floatArrayOf(dash, gap), 0f)
     }
 
