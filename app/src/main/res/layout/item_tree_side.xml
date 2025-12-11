@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layoutDirection="ltr"
     android:orientation="vertical">
 
@@ -18,12 +19,14 @@
             android:id="@+id/view_t"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone" />
+            android:background="#03A9F4"
+            android:visibility="visible" />
 
         <com.example.demo03.mytree.LShapeView
             android:id="@+id/view_l"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#4CAF50"
             android:visibility="gone" />
 
     </FrameLayout>
@@ -32,11 +35,11 @@
     <LinearLayout
         android:id="@+id/llText"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/_92dp"
-        android:layout_marginTop="@dimen/_3dp"
+        android:layout_height="@dimen/_98dp"
+        android:layout_marginTop="@dimen/_4dp"
         android:layout_marginEnd="@dimen/_12dp"
         android:layout_toEndOf="@id/frame_view"
-        android:background="@drawable/select_site_menu"
+        android:background="#747E81"
         android:minWidth="@dimen/_290dp"
         android:orientation="horizontal"
         android:paddingVertical="@dimen/_18dp"
@@ -83,7 +86,8 @@
         android:id="@+id/view_i"
         android:layout_width="@dimen/_24dp"
         android:layout_height="0dp"
-        android:visibility="gone"
+        android:background="#FF5722"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@id/rlvChild"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/rlvChild" />
@@ -95,7 +99,7 @@
         android:layout_below="@id/llText"
         android:layout_marginStart="@dimen/_42dp"
         android:nestedScrollingEnabled="false"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/llText" />
 </androidx.constraintlayout.widget.ConstraintLayout>
