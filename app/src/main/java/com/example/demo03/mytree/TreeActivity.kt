@@ -1,7 +1,6 @@
 package com.example.demo03.mytree
 
 import android.os.Bundle
-import android.service.notification.Condition.newId
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager

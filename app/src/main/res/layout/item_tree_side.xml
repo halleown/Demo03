@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layoutDirection="ltr"
     android:orientation="vertical">
 
@@ -12,18 +13,20 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@id/llText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/llText">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.example.demo03.mytree.TShapeView
             android:id="@+id/view_t"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#03A9F4"
             android:visibility="gone" />
 
         <com.example.demo03.mytree.LShapeView
             android:id="@+id/view_l"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#4CAF50"
             android:visibility="gone" />
 
     </FrameLayout>
@@ -32,11 +35,11 @@
     <LinearLayout
         android:id="@+id/llText"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/_92dp"
-        android:layout_marginTop="@dimen/_3dp"
+        android:layout_height="@dimen/_98dp"
+        android:layout_marginTop="@dimen/_4dp"
         android:layout_marginEnd="@dimen/_12dp"
-        android:layout_toEndOf="@id/frame_view"
         android:background="@drawable/select_site_menu"
+        android:layout_toEndOf="@id/frame_view"
         android:minWidth="@dimen/_290dp"
         android:orientation="horizontal"
         android:paddingVertical="@dimen/_18dp"
@@ -83,6 +86,7 @@
         android:id="@+id/view_i"
         android:layout_width="@dimen/_24dp"
         android:layout_height="0dp"
+        android:background="#FF5722"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/rlvChild"
         app:layout_constraintStart_toStartOf="parent"

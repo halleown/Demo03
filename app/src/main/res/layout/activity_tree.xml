@@ -78,33 +78,52 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <com.example.demo03.mytree.TShapeView
-        android:id="@+id/view1"
-        android:layout_width="@dimen/_24dp"
-        android:layout_height="@dimen/_92dp"
-        android:layout_marginTop="@dimen/_10dp"
-        android:background="#00BCD4"
-        app:layout_constraintStart_toEndOf="@id/llTreeSide"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/_10dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/llTreeSide">
 
-    <com.example.demo03.mytree.LShapeView
-        android:id="@+id/view2"
-        android:layout_width="@dimen/_24dp"
-        android:layout_height="@dimen/_92dp"
 
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="@dimen/_10dp"
-        android:background="#4CAF50"
-        app:layout_constraintStart_toEndOf="@id/view1"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_92dp"
+            android:layout_marginTop="@dimen/_10dp"
+            android:orientation="horizontal">
 
-    <com.example.demo03.mytree.IShapeView
-        android:layout_width="@dimen/_24dp"
-        android:layout_height="@dimen/_92dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="@dimen/_10dp"
-        android:background="#4CAF50"
-        app:layout_constraintStart_toEndOf="@id/view2"
-        app:layout_constraintTop_toTopOf="parent" />
+            <com.example.demo03.mytree.TShapeView
+                android:id="@+id/view1"
+                android:layout_width="@dimen/_24dp"
+                android:layout_height="match_parent"
+                android:background="#00BCD4" />
+
+            <com.example.demo03.mytree.LShapeView
+                android:id="@+id/view2"
+                android:layout_width="@dimen/_24dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:background="#4CAF50" />
+
+            <com.example.demo03.mytree.IShapeView
+                android:layout_width="@dimen/_24dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:background="#4CAF50" />
+
+        </LinearLayout>
+
+        <!--<com.example.demo03.mytree.DashView-->
+        <!--    android:layout_width="@dimen/_24dp"-->
+        <!--    android:layout_height="@dimen/_304dp"-->
+        <!--    app:dashOrientation="1"-->
+        <!--    app:dashWidth="@dimen/_3dp"-->
+        <!--    app:lineColor="@android:color/holo_green_light"-->
+        <!--    app:lineHeight="@dimen/_3dp"-->
+        <!--    app:lineWidth="@dimen/_10dp" />-->
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
