@@ -8,9 +8,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-import androidx.core.graphics.toColorInt
 import com.example.demo03.R
-import kotlin.math.min
 
 class IShapeView @JvmOverloads constructor(
     context: Context,
@@ -18,9 +16,9 @@ class IShapeView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    private val TAG = "TShapeView"
+    private val TAG = "IShapeView"
 
-    private val paint = Paint().apply {
+    private val mPaint = Paint().apply {
        // color = "#9A9A9A".toColorInt()
         color = Color.BLACK
         strokeWidth = context.resources.getDimension(R.dimen._3dp)
@@ -29,14 +27,51 @@ class IShapeView @JvmOverloads constructor(
         strokeCap = Paint.Cap.BUTT
     }
 
+    // 虚线点长度
+    private val dashLength: Float
+    // 间隔长度
+    private val gapLength: Float
+    // 一个完整周期（dashLength + gapLength）的长度
+    private val dashGapCycle: Float
+
     init {
         // 避免硬件加速吞掉虚线
         setLayerType(LAYER_TYPE_SOFTWARE, null)
-        // 实线段长度
-        val dash = resources.getDimension(R.dimen._10dp)
-        // 虚线段长度
-        val gap = resources.getDimension(R.dimen._4dp)
-        paint.pathEffect = DashPathEffect(floatArrayOf(dash, gap), 0f)
+        dashLength = resources.getDimension(R.dimen._10dp)
+        gapLength = resources.getDimension(R.dimen._4dp)
+        dashGapCycle = dashLength + gapLength
+        mPaint.pathEffect = DashPathEffect(floatArrayOf(dashLength, gapLength), 0f)
+    }
+
+    /**
+     * 计算在指定长度下，最后一个虚线段（dash + gap）的长度
+     * @param lineLength 线的总长度
+     * @return 最后一个完整周期（dash + gap）的长度，如果线长度不足以包含一个完整周期则返回实际剩余长度
+     */
+    private fun getLastDashGapLength(lineLength: Float): Float {
+        if (lineLength <= 0f || dashGapCycle <= 0f) return 0f
+
+        // 计算能容纳多少个完整周期
+        val fullCycles = (lineLength / dashGapCycle).toInt()
+        // 剩余长度
+        val remainder = lineLength % dashGapCycle
+
+        // 如果剩余长度 >= dash，说明最后一个周期是完整的（dash + gap）
+        // 如果剩余长度 < dash，说明最后一个周期不完整，只有部分 dash
+        return if (remainder >= dashLength) {
+            dashGapCycle // 最后一个完整周期
+        } else if (remainder > 0f) {
+            remainder // 只有部分 dash，没有 gap
+        } else {
+            dashGapCycle // 正好是完整周期
+        }
+    }
+
+    /**
+     * 获取最后一个完整周期 剩余部分长度
+     */
+    fun getRemainLength(): Float {
+        return dashGapCycle - getLastDashGapLength(height.toFloat())
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -63,6 +98,20 @@ class IShapeView @JvmOverloads constructor(
         val verticalStartY = centerY - verticalSize / 2
         val verticalEndX = centerX - horizontalSize / 2
         val verticalEndY = centerY + verticalSize / 2
-        canvas.drawLine(verticalStartX, verticalStartY, verticalEndX, verticalEndY, paint)
+
+        // 计算竖线的长度
+        val verticalLineLength = verticalSize
+
+        // 获取最后一个虚线段（dash + gap）的长度
+        val lastDashGapLength = getLastDashGapLength(verticalLineLength)
+
+        // todo 需要将最后一个虚线段的长度传给adapter，以便下一个item可以偏移相应的距离
+        //  但是adapter 设置偏移后，但是实际偏移无效果
+
+        Log.d(TAG, "竖线总长度: $verticalLineLength")
+        Log.d(TAG, "一个周期长度(dash+gap): $dashGapCycle")
+        Log.d(TAG, "最后一个虚线段长度: $lastDashGapLength")
+
+        canvas.drawLine(verticalStartX, verticalStartY, verticalEndX, verticalEndY, mPaint)
     }
 }
