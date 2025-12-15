@@ -25,17 +25,23 @@ class TreeActivity : AppCompatActivity() {
 
         val myData = "{\n" +
                 "  \"TreeSideItems\": [\n" +
-                "    { \"Node\": 1, \"Name\": \"1\", \"Enable\": true, \"Expand\": true, \"Sel\": true },\n" +
                 "    {\n" +
-                "      \"Node\": 257,\n" +
-                "      \"Name\": \"1.1\",\n" +
+                "      \"Node\": 1,\n" +
+                "      \"Name\": \"1\",\n" +
                 "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": true\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 2,\n" +
+                "      \"Name\": \"2\",\n" +
+                "      \"Enable\": false,\n" +
                 "      \"Expand\": true,\n" +
                 "      \"Sel\": false\n" +
                 "    },\n" +
                 "    {\n" +
-                "      \"Node\": 65793,\n" +
-                "      \"Name\": \"1.1.1\",\n" +
+                "      \"Node\": 257,\n" +
+                "      \"Name\": \"1.1\",\n" +
                 "      \"Enable\": true,\n" +
                 "      \"Expand\": true,\n" +
                 "      \"Sel\": false\n" +
@@ -48,66 +54,36 @@ class TreeActivity : AppCompatActivity() {
                 "      \"Sel\": false\n" +
                 "    },\n" +
                 "    {\n" +
+                "      \"Node\": 65793,\n" +
+                "      \"Name\": \"1.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
                 "      \"Node\": 66049,\n" +
                 "      \"Name\": \"1.2.1\",\n" +
                 "      \"Enable\": true,\n" +
                 "      \"Expand\": true,\n" +
                 "      \"Sel\": false\n" +
                 "    },\n" +
-                "\n" +
-                "    { \"Node\": 2, \"Name\": \"2\", \"Enable\": true, \"Expand\": true, \"Sel\": false },\n" +
+                "    {\n" +
+                "      \"Node\": 131585,\n" +
+                "      \"Name\": \"1.2.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 196121,\n" +
+                "      \"Name\": \"1.2.3\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
                 "    {\n" +
                 "      \"Node\": 258,\n" +
                 "      \"Name\": \"2.1\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 65794,\n" +
-                "      \"Name\": \"2.1.1\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 16843010,\n" +
-                "      \"Name\": \"2.1.1.1\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 4311810306,\n" +
-                "      \"Name\": \"2.1.1.1.1\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 33620226,\n" +
-                "      \"Name\": \"2.1.1.2\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 4328587522,\n" +
-                "      \"Name\": \"2.1.1.2.1\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 131330,\n" +
-                "      \"Name\": \"2.1.2\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 16908546,\n" +
-                "      \"Name\": \"2.1.2.1\",\n" +
                 "      \"Enable\": true,\n" +
                 "      \"Expand\": true,\n" +
                 "      \"Sel\": false\n" +
@@ -120,61 +96,29 @@ class TreeActivity : AppCompatActivity() {
                 "      \"Sel\": false\n" +
                 "    },\n" +
                 "    {\n" +
+                "      \"Node\": 65794,\n" +
+                "      \"Name\": \"2.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 131330,\n" +
+                "      \"Name\": \"2.1.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
                 "      \"Node\": 66050,\n" +
                 "      \"Name\": \"2.2.1\",\n" +
                 "      \"Enable\": true,\n" +
                 "      \"Expand\": true,\n" +
                 "      \"Sel\": false\n" +
                 "    },\n" +
-                "\n" +
-                "    { \"Node\": 3, \"Name\": \"3\", \"Enable\": true, \"Expand\": true, \"Sel\": false },\n" +
                 "    {\n" +
-                "      \"Node\": 259,\n" +
-                "      \"Name\": \"3.1\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 65795,\n" +
-                "      \"Name\": \"3.1.1\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 515,\n" +
-                "      \"Name\": \"3.2\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 66051,\n" +
-                "      \"Name\": \"3.2.1\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "\n" +
-                "    { \"Node\": 4, \"Name\": \"4\", \"Enable\": true, \"Expand\": true, \"Sel\": false },\n" +
-                "    {\n" +
-                "      \"Node\": 260,\n" +
-                "      \"Name\": \"4.1\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 65796,\n" +
-                "      \"Name\": \"4.1.1\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 16843012,\n" +
-                "      \"Name\": \"4.1.1.1\",\n" +
+                "      \"Node\": 131586,\n" +
+                "      \"Name\": \"2.2.2\",\n" +
                 "      \"Enable\": true,\n" +
                 "      \"Expand\": true,\n" +
                 "      \"Sel\": false\n" +
@@ -235,85 +179,32 @@ class TreeActivity : AppCompatActivity() {
 }
 
 /*
-{
-  "TreeSideItems": [
-    {
-      "Node": 1,
-      "Name": "RootNode-1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": true
-    },
-    {
-      "Node": 2,
-      "Name": "RootNode-2",
-      "Enable": false,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 257,
-      "Name": "Root-1 Child-0",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 258,
-      "Name": "Root-2 Child-0",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 513,
-      "Name": "Root-1 Child-1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 514,
-      "Name": "Root-2 Child-1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 66050,
-      "Name": "Root2 Child-1-0",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 131586,
-      "Name": "Root2 Child-1-1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    }
-  ]
-}
+节点规则：
+节点值为十进制，对应的十六进制代表节点层级，
 
- */
+十进制   ->  十六进制    ->    节点值
+131585      0x020201        1.2.2
+197121      0x030201        1.2.3
+
+以十六进制【0x030201】为例，
+高位<-低位
+0x030201
+最低为【01】为根节点，【02】代表根节点的叶子节点，【03】代表根节点的叶子节点的叶子节点
 
 
 
-
-/*
 "TreeSideItems": [// 如果当前节点有子节点，那么显示ivExpand，
     {
         "Node": 1,
-        "Name": "RootNode-1",
+        "Name": "1",
         "Enable": true,// 是否可用
         "Expand": true,// 是否展开
         "Sel": true,// 是否选中
         "ShowExpand": true,// 是否显示展开图标（此参数非中间件传）【当childItems不为空时，showExpand自动为true】
         "childItems": [
             {
-                "Node": 257,// 01 01，父节点node=01
-                "Name": "Root-1 Child-0",
+                "Node": 257,// 0x0101，父节点node=01
+                "Name": "1.1",
                 "Enable": true,
                 "Expand": true,
                 "Sel": false,
@@ -321,7 +212,7 @@ class TreeActivity : AppCompatActivity() {
             },
             {
                 "Node": 513,// 02 01，父节点node=01
-                "Name": "Root-1 Child-1",
+                "Name": "1.2",
                 "Enable": true,
                 "Expand": true,
                 "Sel": false,
@@ -331,39 +222,39 @@ class TreeActivity : AppCompatActivity() {
     },
     {
         "Node": 2,
-        "Name": "RootNode-2",
+        "Name": "2",
         "Enable": false,
         "Expand": true,
         "Sel": false,
         "ShowExpand": true
         "childItems": [
             {
-                "Node": 258,// 01 02，父节点node=02
-                "Name": "Root-2 Child-0",
+                "Node": 258,// 0x0102，父节点node=02
+                "Name": "2.1",
                 "Enable": true,
                 "Expand": true,
                 "Sel": false,
                 "ShowExpand": false
             },
             {
-                "Node": 514,// 02 02，父节点node=02
-                "Name": "Root-2 Child-1",
+                "Node": 514,// 0x0202，父节点node=02
+                "Name": "2.2",
                 "Enable": true,
                 "Expand": true,
                 "Sel": false,
                 "ShowExpand": true
                 "childItems": [
                     {
-                        "Node": 66050,// 01 0202，父节点node=0202
-                        "Name": "Root2 Child-1-0",
+                        "Node": 66050,// 0x10202，父节点node=0202
+                        "Name": "2.2.1",
                         "Enable": true,
                         "Expand": true,
                         "Sel": false,
                         "ShowExpand": false
                     },
                     {
-                        "Node": 131586,// 02 0202，父节点node=0202
-                        "Name": "Root2 Child-1-1",
+                        "Node": 131586,// 0x20202，父节点node=0202
+                        "Name": "2.2.2",
                         "Enable": true,
                         "Expand": true,
                         "Sel": false,
@@ -374,5 +265,112 @@ class TreeActivity : AppCompatActivity() {
         ]
     }
 ]
+
+ */
+
+
+/*
+{
+  "TreeSideItems": [
+    {
+      "Node": 1,
+      "Name": "1",
+      "Enable": true,
+      "Expand": true,
+      "Sel": true
+    },
+    {
+      "Node": 2,
+      "Name": "2",
+      "Enable": false,
+      "Expand": true,
+      "Sel": false
+    },
+    {
+      "Node": 257,
+      "Name": "1.1",
+      "Enable": true,
+      "Expand": true,
+      "Sel": false
+    },
+    {
+      "Node": 513,
+      "Name": "1.2",
+      "Enable": true,
+      "Expand": true,
+      "Sel": false
+    },
+    {
+      "Node": 65793,
+      "Name": "1.1.1",
+      "Enable": true,
+      "Expand": true,
+      "Sel": false
+    },
+    {
+      "Node": 66049,
+      "Name": "1.2.1",
+      "Enable": true,
+      "Expand": true,
+      "Sel": false
+    },
+    {
+      "Node": 131585,
+      "Name": "1.2.2",
+      "Enable": true,
+      "Expand": true,
+      "Sel": false
+    },
+    {
+      "Node": 196121,
+      "Name": "1.2.3",
+      "Enable": true,
+      "Expand": true,
+      "Sel": false
+    },
+    {
+      "Node": 258,
+      "Name": "2.1",
+      "Enable": true,
+      "Expand": true,
+      "Sel": false
+    },
+    {
+      "Node": 514,
+      "Name": "2.2",
+      "Enable": true,
+      "Expand": true,
+      "Sel": false
+    },
+    {
+      "Node": 65794,
+      "Name": "2.1.1",
+      "Enable": true,
+      "Expand": true,
+      "Sel": false
+    },
+    {
+      "Node": 131330,
+      "Name": "2.1.2",
+      "Enable": true,
+      "Expand": true,
+      "Sel": false
+    },
+    {
+      "Node": 66050,
+      "Name": "2.2.1",
+      "Enable": true,
+      "Expand": true,
+      "Sel": false
+    },
+    {
+      "Node": 131586,
+      "Name": "2.2.2",
+      "Enable": true,
+      "Expand": true,
+      "Sel": false
+    }
+  ]
+}
 
  */
