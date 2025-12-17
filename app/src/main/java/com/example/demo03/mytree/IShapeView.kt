@@ -8,6 +8,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import androidx.compose.ui.text.TextPainter.paint
 import com.example.demo03.R
 
 class IShapeView @JvmOverloads constructor(
@@ -20,7 +21,7 @@ class IShapeView @JvmOverloads constructor(
 
     private val mPaint = Paint().apply {
        // color = "#9A9A9A".toColorInt()
-        color = Color.BLACK
+        color = Color.GREEN
         strokeWidth = context.resources.getDimension(R.dimen._3dp)
         style = Paint.Style.STROKE
         isAntiAlias = true
@@ -94,10 +95,10 @@ class IShapeView @JvmOverloads constructor(
         // val gapLength = dashLength / 2f
         // paint.pathEffect = DashPathEffect(floatArrayOf(dashLength, gapLength), 0f)
 
-        val verticalStartX = centerX - horizontalSize / 2  // 竖线起点X与横线起点对齐
-        val verticalStartY = centerY - verticalSize / 2
-        val verticalEndX = centerX - horizontalSize / 2
-        val verticalEndY = centerY + verticalSize / 2
+//        val verticalStartX = centerX - horizontalSize / 2  // 竖线起点X与横线起点对齐
+//        val verticalStartY = centerY - verticalSize / 2
+//        val verticalEndX = centerX - horizontalSize / 2
+//        val verticalEndY = centerY + verticalSize / 2
 
         // 计算竖线的长度
         val verticalLineLength = verticalSize
@@ -112,6 +113,6 @@ class IShapeView @JvmOverloads constructor(
         Log.d(TAG, "一个周期长度(dash+gap): $dashGapCycle")
         Log.d(TAG, "最后一个虚线段长度: $lastDashGapLength")
 
-        canvas.drawLine(verticalStartX, verticalStartY, verticalEndX, verticalEndY, mPaint)
+        canvas.drawLine(mPaint.strokeWidth * 0.5f, 0f, mPaint.strokeWidth * 0.5f, height, mPaint)
     }
 }

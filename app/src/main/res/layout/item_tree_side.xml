@@ -38,7 +38,7 @@
         android:layout_height="@dimen/_98dp"
         android:layout_marginTop="@dimen/_4dp"
         android:layout_marginEnd="@dimen/_12dp"
-        android:background="@drawable/select_site_menu"
+        android:background="#ADA3A3"
         android:layout_toEndOf="@id/frame_view"
         android:minWidth="@dimen/_290dp"
         android:orientation="horizontal"

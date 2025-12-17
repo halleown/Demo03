@@ -60,17 +60,17 @@ class TShapeView @JvmOverloads constructor(
         // paint.pathEffect = DashPathEffect(floatArrayOf(dashLength, gapLength), 0f)
 
         // 绘制竖线（中间，上下延伸）- 使用高度来填充
-        val verticalStartX = centerX - horizontalSize / 2  // 竖线起点X与横线起点对齐
-        val verticalStartY = centerY - verticalSize / 2
-        val verticalEndX = centerX - horizontalSize / 2
-        val verticalEndY = centerY + verticalSize / 2
-        canvas.drawLine(verticalStartX, verticalStartY, verticalEndX, verticalEndY, paint)
+//        val verticalStartX = centerX - horizontalSize / 2  // 竖线起点X与横线起点对齐
+//        val verticalStartY = centerY - verticalSize / 2
+//        val verticalEndX = centerX - horizontalSize / 2
+//        val verticalEndY = centerY + verticalSize / 2
+        canvas.drawLine(paint.strokeWidth  *0.5f, 0f, paint.strokeWidth * 0.5f, height, paint)
 
         // 绘制横线（从竖线中间向右延伸）- 使用宽度来填充
-        val horizontalStartX = centerX - horizontalSize / 2 + context.resources.getDimension(R.dimen._3dp)
-        val horizontalStartY = centerY
-        val horizontalEndX = centerX + horizontalSize / 2
-        val horizontalEndY = centerY
-        canvas.drawLine(horizontalStartX, horizontalStartY, horizontalEndX, horizontalEndY, paint)
+        val horizontalStartX = context.resources.getDimension(R.dimen._3dp)
+//        val horizontalStartY = centerY
+//        val horizontalEndX = centerX + horizontalSize / 2
+//        val horizontalEndY = centerY
+        canvas.drawLine(horizontalStartX, centerY, horizontalStartX + width, centerY, paint)
     }
 }
