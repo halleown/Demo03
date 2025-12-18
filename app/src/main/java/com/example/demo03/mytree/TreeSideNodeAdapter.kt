@@ -26,7 +26,6 @@ class TreeSideNodeAdapter(
     var mContext: Context,
     var customHorizontalScrollView: CustomHorizontalScrollView,
     var rlv_side_menu: RecyclerView,
-    var isShow: Boolean = false,
     private var selectedNodeId: Long = 1L,
     private val onSelectedNodeChange: (Long) -> Unit = {}
 ) : RecyclerView.Adapter<TreeSideNodeAdapter.TestDemoHolder>() {
@@ -41,7 +40,12 @@ class TreeSideNodeAdapter(
     //    var treeSideNodeCheck = false // 当节点不存在子级节点时,是否带复选框 false表示不带复选框单选模式,true表示带多选框多选模式
     var listener: Listener? = null
 
-    var isShowing: Boolean = false
+    // var isShowing: Boolean = false
+
+    /**
+     * 记录当前这一列（同一级别）的虚线 phase，使 view_t / view_l / view_i 看起来像一条连续的虚线
+     */
+    private var currentColumnPhase: Float = 0f
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestDemoHolder {
         val view: View = LayoutInflater.from(mContext).inflate(R.layout.item_tree_side, parent, false)
@@ -72,7 +76,7 @@ class TreeSideNodeAdapter(
             holder.llText.isSelected = isSelected
             holder.tvName.isSelected = isSelected
             holder.tvWeak.isSelected = isSelected
-            Log.d(TAG, "onBindViewHolder: 上一个节点：${itemData.Node}--------${selectedNodeId}")
+            // Log.d(TAG, "onBindViewHolder: 上一个节点：${itemData.Node}--------${selectedNodeId}")
             return
         }
         super.onBindViewHolder(holder, position, payloads)
@@ -99,7 +103,7 @@ class TreeSideNodeAdapter(
         holder.ivExpand.visibility = if (itemData.childItems?.isNotEmpty() == true) View.VISIBLE else View.INVISIBLE
         holder.ivExpand.setImageResource(if (itemData.Expand) R.drawable.down_arrow_black else R.drawable.right_arrow_black)
 
-        if (isShow) holder.view_i.visibility = View.VISIBLE else holder.view_i.visibility = View.GONE
+        // if (isShow) holder.view_i.visibility = View.VISIBLE else holder.view_i.visibility = View.GONE
 
 
         // 根节点不显示线
@@ -112,12 +116,87 @@ class TreeSideNodeAdapter(
                 holder.view_l.visibility = View.GONE
                 holder.view_t.visibility = View.VISIBLE
                 holder.view_i.visibility = View.VISIBLE
-                isShowing = position < datas.size - 1
+                // isShowing = position < datas.size - 1
             }
         } else {
             holder.view_l.visibility = View.GONE
             holder.view_t.visibility = View.GONE
             holder.view_i.visibility = View.GONE
+        }
+
+
+        // ================== 虚线 phase 串联处理 ==================
+        // 思路：同一级别的三种线（T / L / I）共享一个 phase，使相邻 item 的虚线可以“接上”
+        // 使用 addOnLayoutChangeListener 确保在当前 item 完成布局后再更新 phase，
+        // 这样下一个 item 在 onBind 时拿到的就是已经更新过的 phase。
+        if (holder.view_t.visibility == View.VISIBLE) {
+            holder.view_t.setDashPhase(currentColumnPhase)
+            Log.d("xialj", "onBindViewHolder: ---${itemData.Name}---T_设置当前偏移----${currentColumnPhase}---")
+            holder.view_t.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+                override fun onLayoutChange(
+                    v: View?,
+                    left: Int,
+                    top: Int,
+                    right: Int,
+                    bottom: Int,
+                    oldLeft: Int,
+                    oldTop: Int,
+                    oldRight: Int,
+                    oldBottom: Int
+                ) {
+                    holder.view_t.removeOnLayoutChangeListener(this)
+                    // currentColumnPhase = holder.view_t.getNextViewPhase()
+                    currentColumnPhase = holder.view_t.getLastDashGapLength()
+                    Log.d("xialj", "onBindViewHolder: ---${itemData.Name}--T_获取下一次偏移----${currentColumnPhase}---")
+                }
+            })
+        }
+
+        if (holder.view_i.visibility == View.VISIBLE) {
+            holder.view_i.setDashPhase(currentColumnPhase)
+            Log.d("xialj", "onBindViewHolder: ---${itemData.Name}--I_设置当前偏移----${currentColumnPhase}---")
+            holder.view_i.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+                override fun onLayoutChange(
+                    v: View?,
+                    left: Int,
+                    top: Int,
+                    right: Int,
+                    bottom: Int,
+                    oldLeft: Int,
+                    oldTop: Int,
+                    oldRight: Int,
+                    oldBottom: Int
+                ) {
+                    holder.view_i.removeOnLayoutChangeListener(this)
+                    // currentColumnPhase = holder.view_i.getNextViewPhase()
+                    currentColumnPhase = holder.view_i.getLastDashGapLength()
+                    Log.d("xialj", "onBindViewHolder: ---${itemData.Name}--I_获取下一次偏移----${currentColumnPhase}---")
+                }
+            })
+        }
+
+
+        if (holder.view_l.visibility == View.VISIBLE) {
+            holder.view_l.setDashPhase(currentColumnPhase)
+            Log.d("xialj", "onBindViewHolder: --${itemData.Name}---L_设置当前偏移----${currentColumnPhase}---")
+            holder.view_l.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+                override fun onLayoutChange(
+                    v: View?,
+                    left: Int,
+                    top: Int,
+                    right: Int,
+                    bottom: Int,
+                    oldLeft: Int,
+                    oldTop: Int,
+                    oldRight: Int,
+                    oldBottom: Int
+                ) {
+                    holder.view_l.removeOnLayoutChangeListener(this)
+                    // currentColumnPhase = holder.view_l.getNextViewPhase()
+                    // currentColumnPhase = holder.view_l.getLastDashGapLength()
+                    Log.d("xialj", "onBindViewHolder: --${itemData.Name}---L_获取下一次偏移----${currentColumnPhase}---")
+                }
+            })
         }
 
         // 选中态
@@ -150,7 +229,6 @@ class TreeSideNodeAdapter(
             }
         })
 
-        Log.d("xialj", "onBindViewHolder: $selectedNodeId------${itemData.Name}")
 
         if (itemData.childItems.isNullOrEmpty()) {
             holder.rlvChild.visibility = View.GONE
@@ -184,7 +262,6 @@ class TreeSideNodeAdapter(
                 mContext,
                 customHorizontalScrollView,
                 rlv_side_menu,
-                isShowing,
                 selectedNodeId,
                 onSelectedNodeChange
             )

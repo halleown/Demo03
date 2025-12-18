@@ -33,13 +33,6 @@ class TreeActivity : AppCompatActivity() {
                 "      \"Sel\": true\n" +
                 "    },\n" +
                 "    {\n" +
-                "      \"Node\": 2,\n" +
-                "      \"Name\": \"2\",\n" +
-                "      \"Enable\": false,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
                 "      \"Node\": 257,\n" +
                 "      \"Name\": \"1.1\",\n" +
                 "      \"Enable\": true,\n" +
@@ -59,72 +52,9 @@ class TreeActivity : AppCompatActivity() {
                 "      \"Enable\": true,\n" +
                 "      \"Expand\": true,\n" +
                 "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 66049,\n" +
-                "      \"Name\": \"1.2.1\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 131585,\n" +
-                "      \"Name\": \"1.2.2\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 196121,\n" +
-                "      \"Name\": \"1.2.3\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 258,\n" +
-                "      \"Name\": \"2.1\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 514,\n" +
-                "      \"Name\": \"2.2\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 65794,\n" +
-                "      \"Name\": \"2.1.1\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 131330,\n" +
-                "      \"Name\": \"2.1.2\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 66050,\n" +
-                "      \"Name\": \"2.2.1\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"Node\": 131586,\n" +
-                "      \"Name\": \"2.2.2\",\n" +
-                "      \"Enable\": true,\n" +
-                "      \"Expand\": true,\n" +
-                "      \"Sel\": false\n" +
                 "    }\n" +
                 "  ]\n" +
-                "}\n"
+                "}"
         val bean = Gson().fromJson(myData, Bean::class.java)
         val buildTree = buildTree(bean.TreeSideItems)
         treeSideDatas.clear()
@@ -141,7 +71,7 @@ class TreeActivity : AppCompatActivity() {
         // 记录当前选中
         var lastSelectedNodeId: Long = 1L
 
-        treeSideAdapter = TreeSideNodeAdapter(treeSideDatas, this, srvTree, rlv_side_menu, false, lastSelectedNodeId) { nodeId ->
+        treeSideAdapter = TreeSideNodeAdapter(treeSideDatas, this, srvTree, rlv_side_menu, lastSelectedNodeId) { nodeId ->
             // 外层只更新选中 id，不用全量 notify
 //            lastSelectedNodeId = nodeId
 //            treeSideAdapter.updateSelection(nodeId)
