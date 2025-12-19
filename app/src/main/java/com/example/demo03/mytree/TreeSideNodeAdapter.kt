@@ -13,6 +13,7 @@ import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -45,7 +46,7 @@ class TreeSideNodeAdapter(
     /**
      * 记录当前这一列（同一级别）的虚线 phase，使 view_t / view_l / view_i 看起来像一条连续的虚线
      */
-    private var currentColumnPhase: Float = 0f
+    private var columnEndPhase: Float = 0f
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestDemoHolder {
         val view: View = LayoutInflater.from(mContext).inflate(R.layout.item_tree_side, parent, false)
@@ -115,7 +116,13 @@ class TreeSideNodeAdapter(
             } else {// 中间节点
                 holder.view_l.visibility = View.GONE
                 holder.view_t.visibility = View.VISIBLE
-                holder.view_i.visibility = View.VISIBLE
+
+                // 显不显示I，看当前节点还有没有子节点 且 还有同级的节点
+                if (!itemData.childItems.isNullOrEmpty()) {
+                    // 需要添加约束条件，才显示i
+                    holder.view_i.visibility = View.VISIBLE
+                }
+
                 // isShowing = position < datas.size - 1
             }
         } else {
@@ -126,12 +133,17 @@ class TreeSideNodeAdapter(
 
 
         // ================== 虚线 phase 串联处理 ==================
-        // 思路：同一级别的三种线（T / L / I）共享一个 phase，使相邻 item 的虚线可以“接上”
-        // 使用 addOnLayoutChangeListener 确保在当前 item 完成布局后再更新 phase，
-        // 这样下一个 item 在 onBind 时拿到的就是已经更新过的 phase。
-        if (holder.view_t.visibility == View.VISIBLE) {
-            holder.view_t.setDashPhase(currentColumnPhase)
-            Log.d("xialj", "onBindViewHolder: ---${itemData.Name}---T_设置当前偏移----${currentColumnPhase}---")
+        // 规则：
+        // 1. view_t 不偏移，总是从 0 开始画；画完后把最后一个虚线周期信息传给 view_i
+        // 2. view_i 根据 view_t 的最后一个虚线周期进行偏移；画完后把信息传给 view_l / 下一节点
+        // 3. view_l 根据 view_i（或上一节点）的最后一个虚线周期进行偏移
+
+        // 1) 先处理 view_t：它不偏移，但它的“尾巴”要决定下一个 view（可能是 I，也可能是 L，或者下一条竖线）
+        if (holder.view_t.isVisible) {
+            Log.d(TAG, "onBindViewHolder: 11111")
+
+            // view_t 固定从 0 开始画
+            holder.view_t.setDashPhase(0f)
             holder.view_t.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
                 override fun onLayoutChange(
                     v: View?,
@@ -145,58 +157,101 @@ class TreeSideNodeAdapter(
                     oldBottom: Int
                 ) {
                     holder.view_t.removeOnLayoutChangeListener(this)
-                    // currentColumnPhase = holder.view_t.getNextViewPhase()
-                    currentColumnPhase = holder.view_t.getLastDashGapLength()
-                    Log.d("xialj", "onBindViewHolder: ---${itemData.Name}--T_获取下一次偏移----${currentColumnPhase}---")
+                    val phaseAfterT = holder.view_t.getNextViewPhase()
+
+                    // 情况 A：同一 item 下一个是 I todo bug：I应该是不可见的
+                    if (holder.view_i.isVisible) {
+                        Log.d(TAG, "onBindViewHolder: 2222")
+                        holder.view_i.setDashPhase(phaseAfterT)
+                        holder.view_i.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+                            override fun onLayoutChange(
+                                v: View?,
+                                left: Int,
+                                top: Int,
+                                right: Int,
+                                bottom: Int,
+                                oldLeft: Int,
+                                oldTop: Int,
+                                oldRight: Int,
+                                oldBottom: Int
+                            ) {
+                                holder.view_i.removeOnLayoutChangeListener(this)
+                                columnEndPhase = holder.view_i.getNextViewPhase()
+                            }
+                        })
+                    } else if (holder.view_l.isVisible) {
+                        Log.d(TAG, "onBindViewHolder: 3333")
+
+                        // 情况 B：同一 item 下一个是 L（没有 I）
+                        holder.view_l.setDashPhase(phaseAfterT)
+                        holder.view_l.addOnLayoutChangeListener(object :
+                            View.OnLayoutChangeListener {
+                            override fun onLayoutChange(
+                                v: View?,
+                                left: Int,
+                                top: Int,
+                                right: Int,
+                                bottom: Int,
+                                oldLeft: Int,
+                                oldTop: Int,
+                                oldRight: Int,
+                                oldBottom: Int
+                            ) {
+                                holder.view_l.removeOnLayoutChangeListener(this)
+                                // columnEndPhase = holder.view_l.getNextViewPhase()
+                                columnEndPhase = 0f
+                            }
+                        })
+                    } else {
+                        Log.d(TAG, "onBindViewHolder: 44444")
+                        // 情况 C：当前 item 只有 T，没有 I / L，把 phase 直接传给下一条竖线
+                        columnEndPhase = phaseAfterT
+                        // columnEndPhase = 0f
+                    }
                 }
             })
-        }
-
-        if (holder.view_i.visibility == View.VISIBLE) {
-            holder.view_i.setDashPhase(currentColumnPhase)
-            Log.d("xialj", "onBindViewHolder: ---${itemData.Name}--I_设置当前偏移----${currentColumnPhase}---")
-            holder.view_i.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
-                override fun onLayoutChange(
-                    v: View?,
-                    left: Int,
-                    top: Int,
-                    right: Int,
-                    bottom: Int,
-                    oldLeft: Int,
-                    oldTop: Int,
-                    oldRight: Int,
-                    oldBottom: Int
-                ) {
-                    holder.view_i.removeOnLayoutChangeListener(this)
-                    // currentColumnPhase = holder.view_i.getNextViewPhase()
-                    currentColumnPhase = holder.view_i.getLastDashGapLength()
-                    Log.d("xialj", "onBindViewHolder: ---${itemData.Name}--I_获取下一次偏移----${currentColumnPhase}---")
-                }
-            })
-        }
-
-
-        if (holder.view_l.visibility == View.VISIBLE) {
-            holder.view_l.setDashPhase(currentColumnPhase)
-            Log.d("xialj", "onBindViewHolder: --${itemData.Name}---L_设置当前偏移----${currentColumnPhase}---")
-            holder.view_l.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
-                override fun onLayoutChange(
-                    v: View?,
-                    left: Int,
-                    top: Int,
-                    right: Int,
-                    bottom: Int,
-                    oldLeft: Int,
-                    oldTop: Int,
-                    oldRight: Int,
-                    oldBottom: Int
-                ) {
-                    holder.view_l.removeOnLayoutChangeListener(this)
-                    // currentColumnPhase = holder.view_l.getNextViewPhase()
-                    // currentColumnPhase = holder.view_l.getLastDashGapLength()
-                    Log.d("xialj", "onBindViewHolder: --${itemData.Name}---L_获取下一次偏移----${currentColumnPhase}---")
-                }
-            })
+        } else {
+            // 2) 当前 item 没有 T，用上一条竖线的 columnEndPhase 来驱动 I 和 L
+            if (holder.view_i.isVisible) {
+                Log.d(TAG, "onBindViewHolder: 55555")
+                holder.view_i.setDashPhase(columnEndPhase)
+                holder.view_i.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+                    override fun onLayoutChange(
+                        v: View?,
+                        left: Int,
+                        top: Int,
+                        right: Int,
+                        bottom: Int,
+                        oldLeft: Int,
+                        oldTop: Int,
+                        oldRight: Int,
+                        oldBottom: Int
+                    ) {
+                        holder.view_i.removeOnLayoutChangeListener(this)
+                        columnEndPhase = holder.view_i.getNextViewPhase()
+                    }
+                })
+            } else if (holder.view_l.isVisible) {
+                Log.d(TAG, "onBindViewHolder: 66666")
+                holder.view_l.setDashPhase(columnEndPhase)
+                holder.view_l.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+                    override fun onLayoutChange(
+                        v: View?,
+                        left: Int,
+                        top: Int,
+                        right: Int,
+                        bottom: Int,
+                        oldLeft: Int,
+                        oldTop: Int,
+                        oldRight: Int,
+                        oldBottom: Int
+                    ) {
+                        holder.view_l.removeOnLayoutChangeListener(this)
+                        columnEndPhase = 0f
+                        // columnEndPhase = holder.view_l.getNextViewPhase()
+                    }
+                })
+            }
         }
 
         // 选中态

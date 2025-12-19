@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.demo03.R
+import com.example.demo03.dash.DashedLineView
 import com.google.gson.Gson
 
 class TreeActivity : AppCompatActivity() {
@@ -92,6 +93,50 @@ class TreeActivity : AppCompatActivity() {
 
         rlv_side_menu.adapter = treeSideAdapter
 
+        showTwoDash()
+        myTest()
+
+    }
+
+    private fun showTwoDash() {
+        val dashView1 = findViewById<DashedLineView>(R.id.dashView1)
+        val dashView2 = findViewById<DashedLineView>(R.id.dashView2)
+
+        dashView1.post {
+            val h1 = dashView1.height
+
+            // 1. 假设第一个 View 从 0 开始画
+            dashView1.phaseOffset = 0f
+
+            // 2. 计算第一个 View 结束时的进度
+            // 如果 dashView1 高度是 50，周期是 60，那么它结束时进度是 50
+            val nextOffset = dashView1.getNextOffset(h1)
+
+            // 3. 让第二个 View 从这个进度接着画
+            // 这样 dashView2 的开头就会从周期的第 50 像素位置开始，视觉上就接上了！
+            dashView2.phaseOffset = nextOffset
+        }
+    }
+
+    private fun myTest() {
+        val view_t = findViewById<TShapeView>(R.id.view_t)
+        val view_i = findViewById<IShapeView>(R.id.view_i)
+        val view_l = findViewById<LShapeView>(R.id.view_l)
+
+        var phase = 0f
+        view_t.post {
+            view_t.setDashPhase(phase)
+            phase = view_t.getNextViewPhase()
+        }
+        view_i.post {
+            view_i.setDashPhase(phase)
+            phase = view_i.getNextViewPhase()
+        }
+        view_l.post {
+            view_l.setDashPhase(phase)
+            // 最后一个节点没有下一个自定义view了
+            // phase = view_l.getLastDashGapLength()
+        }
     }
 
     // 递归修改 Sel

@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import com.example.demo03.R
 
@@ -55,41 +56,11 @@ class IShapeView @JvmOverloads constructor(
      */
     fun setDashPhase(phase: Float) {
         dashPhase = phase
+        Log.d("xialj", "I___setDashPhase: ${phase}")
         updatePathEffect()
         // 重新触发绘制，确保 phase 生效
         invalidate()
     }
-
-    // /**
-    //  * 计算在指定长度下，最后一个虚线段（dash + gap）的长度
-    //  * @param lineLength 线的总长度
-    //  * @return 最后一个完整周期（dash + gap）的长度，如果线长度不足以包含一个完整周期则返回实际剩余长度
-    //  */
-    // private fun getLastDashGapLength(lineLength: Float): Float {
-    //     if (lineLength <= 0f || dashGapCycle <= 0f) return 0f
-    //
-    //     // 计算能容纳多少个完整周期
-    //     val fullCycles = (lineLength / dashGapCycle).toInt()
-    //     // 剩余长度
-    //     val remainder = lineLength % dashGapCycle
-    //
-    //     // 如果剩余长度 >= dash，说明最后一个周期是完整的（dash + gap）
-    //     // 如果剩余长度 < dash，说明最后一个周期不完整，只有部分 dash
-    //     return if (remainder >= dashLength) {
-    //         dashGapCycle // 最后一个完整周期
-    //     } else if (remainder > 0f) {
-    //         remainder // 只有部分 dash，没有 gap
-    //     } else {
-    //         dashGapCycle // 正好是完整周期
-    //     }
-    // }
-
-    // /**
-    //  * 获取最后一个完整周期 剩余部分长度
-    //  */
-    // fun getRemainLength(): Float {
-    //     return dashGapCycle - getLastDashGapLength(height.toFloat())
-    // }
 
     /**
      * 计算"下一个 View"应该使用的 phase。
@@ -109,36 +80,14 @@ class IShapeView @JvmOverloads constructor(
         val positionInCycle = (dashPhase + lineLength) % dashGapCycle
         // 如果位置在 dash 部分（< dashLength），说明最后一个 dash 没画完，返回这个位置让下一个 view 补齐
         // 如果位置在 gap 部分（>= dashLength），说明最后一个 dash 画完了，返回 0 让下一个 view 跳过 gap
-        return if (positionInCycle < dashLength) {
-            positionInCycle
-        } else {
-            0f
-        }
-    }
-
-    /**
-     * 计算在指定长度下，最后一个虚线段（dash + gap）的长度
-     * @param lineLength 线的总长度
-     * @return 最后一个完整周期（dash + gap）的长度，如果线长度不足以包含一个完整周期则返回实际剩余长度
-     */
-    fun getLastDashGapLength(): Float {
-        val lineLength = height.toFloat()
-        if (lineLength <= 0f || dashGapCycle <= 0f) return 0f
-
-        // 计算能容纳多少个完整周期
-        val fullCycles = (lineLength / dashGapCycle).toInt()
-        // 剩余长度
-        val remainder = lineLength % dashGapCycle
-
-        // 如果剩余长度 >= dash，说明最后一个周期是完整的（dash + gap）
-        // 如果剩余长度 < dash，说明最后一个周期不完整，只有部分 dash
-        return if (remainder >= dashLength) {
-            dashGapCycle // 最后一个完整周期
-        } else if (remainder > 0f) {
-            remainder // 只有部分 dash，没有 gap
-        } else {
-            dashGapCycle // 正好是完整周期
-        }
+        // return if (positionInCycle < dashLength) {
+        //     positionInCycle
+        // } else {
+        //     0f
+        // }
+        val result = (dashPhase + height) % dashGapCycle
+        Log.d("xialj", "I___getNextViewPhase: ${result}")
+        return result
     }
 
     override fun onDraw(canvas: Canvas) {
