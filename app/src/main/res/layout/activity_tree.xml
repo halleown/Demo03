@@ -133,7 +133,7 @@
 
         </LinearLayout>
 
-        <!--<com.example.demo03.mytree.DashView-->
+        <!--<com.example.demo03.dash.DashView-->
         <!--    android:layout_width="@dimen/_24dp"-->
         <!--    android:layout_height="@dimen/_304dp"-->
         <!--    app:dashOrientation="1"-->

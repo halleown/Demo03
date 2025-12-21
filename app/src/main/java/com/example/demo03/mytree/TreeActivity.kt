@@ -28,10 +28,31 @@ class TreeActivity : AppCompatActivity() {
                 "  \"TreeSideItems\": [\n" +
                 "    {\n" +
                 "      \"Node\": 1,\n" +
-                "      \"Name\": \"1\",\n" +
+                "      \"Name\": \"Root-1\",\n" +
                 "      \"Enable\": true,\n" +
                 "      \"Expand\": true,\n" +
                 "      \"Sel\": true\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 2,\n" +
+                "      \"Name\": \"Root-2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 3,\n" +
+                "      \"Name\": \"Root-3\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4,\n" +
+                "      \"Name\": \"Root-4\",\n" +
+                "      \"Enable\": false,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
                 "    },\n" +
                 "    {\n" +
                 "      \"Node\": 257,\n" +
@@ -48,14 +69,995 @@ class TreeActivity : AppCompatActivity() {
                 "      \"Sel\": false\n" +
                 "    },\n" +
                 "    {\n" +
+                "      \"Node\": 769,\n" +
+                "      \"Name\": \"1.3\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 1025,\n" +
+                "      \"Name\": \"1.4\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 258,\n" +
+                "      \"Name\": \"2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 514,\n" +
+                "      \"Name\": \"2.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 770,\n" +
+                "      \"Name\": \"2.3\",\n" +
+                "      \"Enable\": false,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 259,\n" +
+                "      \"Name\": \"3.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 515,\n" +
+                "      \"Name\": \"3.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
                 "      \"Node\": 65793,\n" +
                 "      \"Name\": \"1.1.1\",\n" +
                 "      \"Enable\": true,\n" +
                 "      \"Expand\": true,\n" +
                 "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 66049,\n" +
+                "      \"Name\": \"1.1.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 66305,\n" +
+                "      \"Name\": \"1.1.3\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 66561,\n" +
+                "      \"Name\": \"1.1.4\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 131585,\n" +
+                "      \"Name\": \"1.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 131841,\n" +
+                "      \"Name\": \"1.2.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 132097,\n" +
+                "      \"Name\": \"1.2.3\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 132353,\n" +
+                "      \"Name\": \"1.2.4\",\n" +
+                "      \"Enable\": false,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 197121,\n" +
+                "      \"Name\": \"1.3.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 197377,\n" +
+                "      \"Name\": \"1.3.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 197633,\n" +
+                "      \"Name\": \"1.3.3\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 262657,\n" +
+                "      \"Name\": \"1.4.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 262913,\n" +
+                "      \"Name\": \"1.4.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 65794,\n" +
+                "      \"Name\": \"2.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 66050,\n" +
+                "      \"Name\": \"2.1.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 66306,\n" +
+                "      \"Name\": \"2.1.3\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 131330,\n" +
+                "      \"Name\": \"2.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 131586,\n" +
+                "      \"Name\": \"2.2.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 131842,\n" +
+                "      \"Name\": \"2.2.3\",\n" +
+                "      \"Enable\": false,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 197122,\n" +
+                "      \"Name\": \"2.3.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 197378,\n" +
+                "      \"Name\": \"2.3.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 65795,\n" +
+                "      \"Name\": \"3.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 66051,\n" +
+                "      \"Name\": \"3.1.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 66307,\n" +
+                "      \"Name\": \"3.1.3\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 66563,\n" +
+                "      \"Name\": \"3.1.4\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 131587,\n" +
+                "      \"Name\": \"3.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 131843,\n" +
+                "      \"Name\": \"3.2.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16843009,\n" +
+                "      \"Name\": \"1.1.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16843265,\n" +
+                "      \"Name\": \"1.1.1.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16843521,\n" +
+                "      \"Name\": \"1.1.1.3\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16843777,\n" +
+                "      \"Name\": \"1.1.1.4\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16908545,\n" +
+                "      \"Name\": \"1.1.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16908801,\n" +
+                "      \"Name\": \"1.1.2.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16909057,\n" +
+                "      \"Name\": \"1.1.2.3\",\n" +
+                "      \"Enable\": false,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16974081,\n" +
+                "      \"Name\": \"1.1.3.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16974337,\n" +
+                "      \"Name\": \"1.1.3.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 17039617,\n" +
+                "      \"Name\": \"1.1.4.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 17039873,\n" +
+                "      \"Name\": \"1.1.4.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 17040129,\n" +
+                "      \"Name\": \"1.1.4.3\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33554945,\n" +
+                "      \"Name\": \"1.2.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33555201,\n" +
+                "      \"Name\": \"1.2.1.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33555457,\n" +
+                "      \"Name\": \"1.2.1.3\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33620225,\n" +
+                "      \"Name\": \"1.2.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33620481,\n" +
+                "      \"Name\": \"1.2.2.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33620737,\n" +
+                "      \"Name\": \"1.2.2.3\",\n" +
+                "      \"Enable\": false,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33620993,\n" +
+                "      \"Name\": \"1.2.2.4\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33685505,\n" +
+                "      \"Name\": \"1.2.3.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33685761,\n" +
+                "      \"Name\": \"1.2.3.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33750785,\n" +
+                "      \"Name\": \"1.2.4.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33751041,\n" +
+                "      \"Name\": \"1.2.4.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 40140801,\n" +
+                "      \"Name\": \"1.3.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 40141057,\n" +
+                "      \"Name\": \"1.3.1.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 40205825,\n" +
+                "      \"Name\": \"1.3.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 40206081,\n" +
+                "      \"Name\": \"1.3.2.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 40206337,\n" +
+                "      \"Name\": \"1.3.2.3\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 40270849,\n" +
+                "      \"Name\": \"1.3.3.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 40271105,\n" +
+                "      \"Name\": \"1.3.3.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 46746881,\n" +
+                "      \"Name\": \"1.4.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 46811649,\n" +
+                "      \"Name\": \"1.4.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 46811905,\n" +
+                "      \"Name\": \"1.4.2.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16843010,\n" +
+                "      \"Name\": \"2.1.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16843266,\n" +
+                "      \"Name\": \"2.1.1.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16843522,\n" +
+                "      \"Name\": \"2.1.1.3\",\n" +
+                "      \"Enable\": false,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16908546,\n" +
+                "      \"Name\": \"2.1.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16908802,\n" +
+                "      \"Name\": \"2.1.2.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16974082,\n" +
+                "      \"Name\": \"2.1.3.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16974338,\n" +
+                "      \"Name\": \"2.1.3.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33554946,\n" +
+                "      \"Name\": \"2.2.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33555202,\n" +
+                "      \"Name\": \"2.2.1.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33620226,\n" +
+                "      \"Name\": \"2.2.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33620482,\n" +
+                "      \"Name\": \"2.2.2.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33620738,\n" +
+                "      \"Name\": \"2.2.2.3\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33685506,\n" +
+                "      \"Name\": \"2.2.3.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 40140802,\n" +
+                "      \"Name\": \"2.3.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 40141058,\n" +
+                "      \"Name\": \"2.3.1.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 40205826,\n" +
+                "      \"Name\": \"2.3.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16843011,\n" +
+                "      \"Name\": \"3.1.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16843267,\n" +
+                "      \"Name\": \"3.1.1.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16843523,\n" +
+                "      \"Name\": \"3.1.1.3\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16843779,\n" +
+                "      \"Name\": \"3.1.1.4\",\n" +
+                "      \"Enable\": false,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16908547,\n" +
+                "      \"Name\": \"3.1.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16908803,\n" +
+                "      \"Name\": \"3.1.2.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 16974083,\n" +
+                "      \"Name\": \"3.1.3.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 17039619,\n" +
+                "      \"Name\": \"3.1.4.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 17039875,\n" +
+                "      \"Name\": \"3.1.4.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33554947,\n" +
+                "      \"Name\": \"3.2.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33555203,\n" +
+                "      \"Name\": \"3.2.1.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33620227,\n" +
+                "      \"Name\": \"3.2.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 33620483,\n" +
+                "      \"Name\": \"3.2.2.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4311810305,\n" +
+                "      \"Name\": \"1.1.1.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4311810561,\n" +
+                "      \"Name\": \"1.1.1.1.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4311810817,\n" +
+                "      \"Name\": \"1.1.1.1.3\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4311875841,\n" +
+                "      \"Name\": \"1.1.1.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4311876097,\n" +
+                "      \"Name\": \"1.1.1.2.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4311941121,\n" +
+                "      \"Name\": \"1.1.1.3.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4312006657,\n" +
+                "      \"Name\": \"1.1.1.4.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4312006913,\n" +
+                "      \"Name\": \"1.1.1.4.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4318072833,\n" +
+                "      \"Name\": \"1.1.2.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4318073089,\n" +
+                "      \"Name\": \"1.1.2.1.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4318138369,\n" +
+                "      \"Name\": \"1.1.2.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4318138625,\n" +
+                "      \"Name\": \"1.1.2.2.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4318203905,\n" +
+                "      \"Name\": \"1.1.2.3.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4324269825,\n" +
+                "      \"Name\": \"1.1.3.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4324335361,\n" +
+                "      \"Name\": \"1.1.3.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4324335617,\n" +
+                "      \"Name\": \"1.1.3.2.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4330401537,\n" +
+                "      \"Name\": \"1.1.4.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4330401793,\n" +
+                "      \"Name\": \"1.1.4.1.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4330467329,\n" +
+                "      \"Name\": \"1.1.4.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4330467585,\n" +
+                "      \"Name\": \"1.1.4.2.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4330533121,\n" +
+                "      \"Name\": \"1.1.4.3.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4395638785,\n" +
+                "      \"Name\": \"1.2.1.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4395639041,\n" +
+                "      \"Name\": \"1.2.1.1.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4395704577,\n" +
+                "      \"Name\": \"1.2.1.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4395770113,\n" +
+                "      \"Name\": \"1.2.1.3.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4401836033,\n" +
+                "      \"Name\": \"1.2.2.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4401836289,\n" +
+                "      \"Name\": \"1.2.2.1.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4401901825,\n" +
+                "      \"Name\": \"1.2.2.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4401967361,\n" +
+                "      \"Name\": \"1.2.2.3.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4402032897,\n" +
+                "      \"Name\": \"1.2.2.4.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4408098817,\n" +
+                "      \"Name\": \"1.2.3.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4408164353,\n" +
+                "      \"Name\": \"1.2.3.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4414230273,\n" +
+                "      \"Name\": \"1.2.4.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4414230529,\n" +
+                "      \"Name\": \"1.2.4.1.2\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4414296065,\n" +
+                "      \"Name\": \"1.2.4.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4480401921,\n" +
+                "      \"Name\": \"1.3.1.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4480467457,\n" +
+                "      \"Name\": \"1.3.1.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4486533377,\n" +
+                "      \"Name\": \"1.3.2.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4486598913,\n" +
+                "      \"Name\": \"1.3.2.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4486664449,\n" +
+                "      \"Name\": \"1.3.2.3.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4492730369,\n" +
+                "      \"Name\": \"1.3.3.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4492795905,\n" +
+                "      \"Name\": \"1.3.3.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4558901761,\n" +
+                "      \"Name\": \"1.4.1.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": false,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4564967681,\n" +
+                "      \"Name\": \"1.4.2.1.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Node\": 4565033217,\n" +
+                "      \"Name\": \"1.4.2.2.1\",\n" +
+                "      \"Enable\": true,\n" +
+                "      \"Expand\": true,\n" +
+                "      \"Sel\": false\n" +
                 "    }\n" +
                 "  ]\n" +
-                "}"
+                "}\n" +
+                "\n"
         val bean = Gson().fromJson(myData, Bean::class.java)
         val buildTree = buildTree(bean.TreeSideItems)
         treeSideDatas.clear()
