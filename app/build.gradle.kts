@@ -61,4 +61,5 @@ dependencies {
 
 
     implementation("com.google.code.gson:gson:2.8.9")
+    implementation("com.github.halleown:xtools:1.0.2")
 }

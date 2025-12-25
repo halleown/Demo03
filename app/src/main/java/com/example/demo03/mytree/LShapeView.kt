@@ -7,6 +7,7 @@ import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.util.AttributeSet
 import com.example.demo03.R
+import kotlin.div
 
 
 class LShapeView @JvmOverloads constructor(
@@ -38,13 +39,12 @@ class LShapeView @JvmOverloads constructor(
         val width = width.toFloat()
         val height = height.toFloat()
         val dashWidth = paint.strokeWidth
-        val centerY = height / 2f
+        val centerY = height / 2f + context.resources.getDimension(R.dimen._4dp) - dashWidth / 2f
 
         // 绘制只占高度一半的竖线
         canvas.drawLine(dashWidth / 2f, 0f, dashWidth / 2f, centerY, paint)
 
         // 绘制横线
-        val horizontalY = centerY - dashWidth / 2f
-        canvas.drawLine(dashWidth, horizontalY, width, horizontalY, horizontalDashPaint)
+        canvas.drawLine(0f, centerY, width, centerY, horizontalDashPaint)
     }
 }

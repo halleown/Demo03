@@ -7,6 +7,8 @@ import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.util.AttributeSet
 import com.example.demo03.R
+import kotlin.div
+import kotlin.text.toFloat
 
 class TShapeView @JvmOverloads constructor(
     context: Context,
@@ -36,8 +38,9 @@ class TShapeView @JvmOverloads constructor(
         super.onDraw(canvas)
         val width = width.toFloat()
         val height = height.toFloat()
-        val centerY = height / 2f
         val dashWidth = paint.strokeWidth
+        // 4dp是节点的marginTop距离
+        val centerY = height / 2f + context.resources.getDimension(R.dimen._4dp) - dashWidth / 2f
 
         // 绘制竖线
         canvas.drawLine(dashWidth / 2f, 0f, dashWidth / 2f, height, paint)
