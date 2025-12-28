@@ -16,8 +16,8 @@ class LShapeView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : BaseDashShapeView(context, attrs, defStyleAttr) {
 
-    override val dashColor: Int
-        get() = Color.RED
+//    override val dashColor: Int
+//        get() = Color.RED
 
     private val horizontalDashPaint = Paint().apply {
         color = dashColor

@@ -207,6 +207,15 @@ class TreeSideNodeAdapter(
                 holder.rlvChild.visibility = if (itemData.Expand) View.VISIBLE else View.GONE
                 (holder.rlvChild.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
 
+                // 触发重新绑定，更新 view_i 可见性等
+                notifyDataSetChanged()
+                
+                // 布局更新后，立即刷新虚线相位
+                // 使用 holder.itemView.parent 获取当前 RecyclerView，避免侵入性修改 Adapter 结构
+                (holder.itemView.parent as? RecyclerView)?.post {
+                    refreshLinePhases(holder.itemView.parent as RecyclerView)
+                }
+
                 holder.itemView.postDelayed({
                     customHorizontalScrollView.scrollTo(scrollX, 0)
                     if (globalList != null) customHorizontalScrollView.viewTreeObserver.removeOnGlobalLayoutListener(globalList)
@@ -327,6 +336,58 @@ class TreeSideNodeAdapter(
         var DENSITY = Resources.getSystem()
             .getDisplayMetrics().density
         return (dpValue * DENSITY + 0.5f).toInt()
+    }
+
+    /**
+     * 重新按照视觉顺序（Top-to-Bottom）刷新所有可见 Item 的虚线 Phase
+     * @param recyclerView 必须是显示当前 Adapter Item 的那个 RecyclerView
+     */
+    private fun refreshLinePhases(recyclerView: RecyclerView) {
+        val layoutManager = recyclerView.layoutManager as? LinearLayoutManager ?: return
+
+        // 获取所有可见子 View，并按 Top 坐标排序
+        val childCount = recyclerView.childCount
+        val views = (0 until childCount).map { recyclerView.getChildAt(it) }.sortedBy { it.top }
+
+        var runningPhase = 0f
+
+        views.forEach { view ->
+            val holder = recyclerView.getChildViewHolder(view) as? TestDemoHolder ?: return@forEach
+            val position = holder.bindingAdapterPosition
+            if (position in datas.indices) {
+                val itemData = datas[position]
+                runningPhase = updateItemPhase(holder, itemData, runningPhase)
+            }
+        }
+    }
+
+    private fun updateItemPhase(holder: TestDemoHolder, itemData: TreeSideItems, startPhase: Float): Float {
+        var currentPhase = startPhase
+
+        fun processView(view: BaseDashShapeView) {
+            view.setDashPhase(currentPhase)
+            if (view.height > 0) {
+                currentPhase = view.getNextViewPhase()
+            }
+        }
+
+        when {
+            holder.view_t.isVisible -> {
+                processView(holder.view_t)
+                if (holder.view_i.isVisible) {
+                    processView(holder.view_i)
+                } else if (holder.view_l.isVisible) {
+                    processView(holder.view_l)
+                }
+            }
+            holder.view_i.isVisible -> {
+                processView(holder.view_i)
+            }
+            holder.view_l.isVisible -> {
+                processView(holder.view_l)
+            }
+        }
+        return currentPhase
     }
 
     /**

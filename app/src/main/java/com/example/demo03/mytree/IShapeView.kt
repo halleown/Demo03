@@ -11,8 +11,8 @@ class IShapeView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : BaseDashShapeView(context, attrs, defStyleAttr) {
 
-    override val dashColor: Int
-        get() = Color.GREEN
+//    override val dashColor: Int
+//        get() = Color.GREEN
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
