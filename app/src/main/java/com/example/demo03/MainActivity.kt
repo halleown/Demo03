@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import com.example.demo03.mytree.TreeActivity
+import com.example.demo03.scan.QRCodeScanActivity
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineStart
@@ -54,7 +55,7 @@ class MainActivity : Activity() {
         }
         // findViewById<Button>(R.id.btn5).setOnClickListener {
         // }
-        startActivity(Intent(this@MainActivity, TreeActivity::class.java))
+        startActivity(Intent(this@MainActivity, QRCodeScanActivity::class.java))
     }
 
     private fun testConroutineContext() {

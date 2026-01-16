@@ -1,3 +1,5 @@
+import java.lang.module.ModuleFinder.compose
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -62,4 +64,14 @@ dependencies {
 
     implementation("com.google.code.gson:gson:2.8.9")
     implementation("com.github.halleown:xtools:1.0.2")
+
+    // 使用 v3.1.x 以上版本时，要求 compileSdkVersion >= 34
+    // implementation("com.github.jenly1314:zxing-lite:3.3.0")
+    // 使用 v3.0.x 以上版本时，要求 compileSdkVersion >= 33
+    implementation("com.github.jenly1314:zxing-lite:3.0.1")
+    // 如果 compileSdkVersion < 33 请使用 v2.x版本
+    // implementation("com.github.jenly1314:zxing-lite:2.4.0")
+
+    // 扫码取景器——自定义view
+    implementation("com.github.jenly1314:viewfinderview:1.4.0")
 }
