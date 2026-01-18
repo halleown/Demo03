@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.example.demo03.graph.StepChartView
+        android:id="@+id/stepChartView"
+        android:layout_width="@dimen/_750dp"
+        android:layout_height="@dimen/_750dp" />
+
+</LinearLayout>

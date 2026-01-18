@@ -1,224 +1,202 @@
 package com.example.demo03.spinner
 
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
-import android.view.View.MeasureSpec
-import android.view.ViewTreeObserver
 import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.LinearLayout.LayoutParams
 import android.widget.ListView
 import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.postDelayed
 import com.example.demo03.R
-
 
 /**
  * 自定义下拉框
  */
-class CustomSpinnerView @JvmOverloads constructor(context: Context, attr: AttributeSet): LinearLayout(context, attr) {
+class CustomSpinnerView @JvmOverloads constructor(
+    context: Context,
+    attr: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : LinearLayout(context, attr) {
 
     private val TAG = "CustomSpinnerView"
-    private lateinit var tvSpinnerFelid: TextView
+    private lateinit var tvSpinnerField: TextView
     private lateinit var ivDrop: ImageView
+    private lateinit var rlView: RelativeLayout
     private lateinit var mDropPopupWindow: PopupWindow
     private lateinit var mDropAdapter: PopFormAdapter
-    private lateinit var rlView: RelativeLayout
 
     /**
      * 下拉框列表数据源
      */
     private var dropList: MutableList<String> = mutableListOf()
+    private var dismissTime: Long = 0
 
     /**
-     * 下拉框选中值
+     * 状态配置
      */
-    private var mSpinnerField = ""
-    private var dismissTime: Long = 0
-    private var navigationBarHeight: Int = 0
-    private var actionClickTime: Long = 0
-    private var mOnViewChangeListener: OnViewChangeListener? = null
+    private var statusMap: Map<String, ViewStatusConfig> = emptyMap()
 
-    private var statusConfigs: List<InputStatusConfig> = listOf(
-        InputStatusConfig("normal", R.drawable.custom_spinner_view_normal_bg, R.color.black),
-        InputStatusConfig("disabled", R.drawable.custom_spinner_view_disable_bg, R.color.light_gray),
-    )
+    /**
+     * 下拉框是否启用
+     */
+    private var isEnable = true
+
+    /**
+     * 记录当前选中索引
+     */
+    var selectedIndex: Int = -1
+        private set
+
+    private var mOnViewChangeListener: OnViewChangeListener? = null
 
     init {
         initView(context)
         initDropDialog()
-        updateState("normal")
+        setupDefaultConfigs()
     }
 
     private fun initView(context: Context) {
         LayoutInflater.from(context).inflate(R.layout.ui_custom_spinner_view, this, true)
-        tvSpinnerFelid = findViewById(R.id.tv_spinner_field)
+        tvSpinnerField = findViewById(R.id.tv_spinner_field)
         ivDrop = findViewById(R.id.iv_drop)
         rlView = findViewById(R.id.rl_view)
+
+        rlView.setOnClickListener {
+            if (!isEnable) return@setOnClickListener
+            // 防抖：如果刚刚关闭，300ms内不允许再次打开
+            if (System.currentTimeMillis() - dismissTime > 300) {
+                showPopDialog()
+            }
+        }
+    }
+
+    private fun setupDefaultConfigs() {
+        val defaults = listOf(
+            ViewStatusConfig(
+                "normal",
+                R.drawable.custom_spinner_view_normal_bg,
+                R.color.black,
+                true
+            ),
+            ViewStatusConfig(
+                "disabled",
+                R.drawable.custom_spinner_view_disable_bg,
+                R.color.light_gray,
+                false
+            ),
+        )
+        setStatusConfigs(defaults)
     }
 
     private fun initDropDialog() {
-        val view: View = LayoutInflater.from(context).inflate(R.layout.pop_form_drop_view, null)
-        val mDropListView = view.findViewById<ListView>(R.id.listview)
+        val popView = LayoutInflater.from(context).inflate(R.layout.pop_form_drop_view, null)
+        val listView = popView.findViewById<ListView>(R.id.listview)
+
         mDropPopupWindow = PopupWindow(
-            view,
+            popView,
+            LayoutParams.WRAP_CONTENT, // 宽度会在显示时动态覆盖
             LayoutParams.WRAP_CONTENT,
-            LayoutParams.WRAP_CONTENT
-        )
-
-        mDropPopupWindow.isOutsideTouchable = true
-        mDropPopupWindow.setBackgroundDrawable(ColorDrawable())
-        mDropAdapter = PopFormAdapter(context, dropList)
-        mDropListView.setAdapter(mDropAdapter)
-
-        rlView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                rlView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                rlView.postDelayed(50) {
-                    val editWidth = rlView.measuredWidth
-                    if (editWidth > 0) {
-                        mDropPopupWindow.width = editWidth
-                    }
-                    Log.d(TAG, "onGlobalLayout: rlView: ${editWidth}")
-                }
-            }
-        })
-
-        rlView.setOnClickListener {
-            if (!isEnabled) return@setOnClickListener
-            actionClickTime = System.currentTimeMillis()
-            if (actionClickTime - dismissTime > 300) {
-                showPopDialog()
-            } else {
-                setDropImage(false)
-            }
-        }
-
-        mDropListView.onItemClickListener = object : AdapterView.OnItemClickListener {
-            override fun onItemClick(
-                parent: AdapterView<*>?, view: View, position: Int, id: Long
-            ) {
-                if (position >= dropList.size) return
-                Log.d(TAG, "onItemClick: ${dropList[position]}")
-                mOnViewChangeListener?.onSelectChanged(
-                    position,
-                    dropList[position]
-                )
-                setSpinnerField(dropList[position])
-                mDropPopupWindow.dismiss()
-            }
-        }
-        mDropPopupWindow.setOnDismissListener(object : PopupWindow.OnDismissListener {
-            override fun onDismiss() {
+            true
+        ).apply {
+            setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+            isOutsideTouchable = true
+            setOnDismissListener {
                 dismissTime = System.currentTimeMillis()
-                setDropImage(false)
+                setDropIcon(false)
             }
-        })
-    }
+        }
 
-    fun dismissPop() {
-        if (this::mDropPopupWindow.isInitialized) {
+        mDropAdapter = PopFormAdapter(context, dropList)
+        listView.adapter = mDropAdapter
+
+        listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            selectItem(position)
             mDropPopupWindow.dismiss()
         }
     }
 
+    /**
+     * 显示下拉框并自动计算方向
+     */
     private fun showPopDialog() {
-        // val isShow = mOnViewChangeListener?.onDropDownShowing()
-        // if (isShow == false) {
-        //     return
-        // }
-        setDropImage(true)
+        setDropIcon(true)
 
-        mDropPopupWindow.contentView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
-        val popupHeight = mDropPopupWindow.contentView.measuredHeight
+        // 强制下拉框宽度与输入框一致
+        mDropPopupWindow.width = rlView.width
 
+        // 计算位置
         val location = IntArray(2)
-        rlView.postDelayed(100) {
-            rlView.getLocationOnScreen(location)
-            // edittext的y坐标
-            val anchorY = location[1]
+        rlView.getLocationOnScreen(location)
+        val screenHeight = resources.displayMetrics.heightPixels
+        val viewBottom = location[1] + rlView.height
 
-            val screenHeight = Resources.getSystem().displayMetrics.heightPixels
-            Log.d(
-                TAG,
-                "showPopDialog: anchorY: ${anchorY} rlViewHeight: ${rlView.height} popHeight: ${popupHeight} screenHeight: ${screenHeight} navigationBarHeight: ${navigationBarHeight}"
-            )
-            if (anchorY + rlView.height + popupHeight > screenHeight - navigationBarHeight) {
-                // 向下显示不全，向上弹出
-                mDropPopupWindow.showAsDropDown(rlView, 0, -rlView.height - popupHeight)
-            } else {
-                // 向下弹出
-                mDropPopupWindow.showAsDropDown(rlView)
-            }
+        // 测量内容高度
+        mDropPopupWindow.contentView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+        val popHeight = mDropPopupWindow.contentView.measuredHeight
+
+        if (screenHeight - viewBottom < popHeight) {
+            // 空间不足，向上弹出 (偏移量为：-(popHeight + 控件本身高度))
+            mDropPopupWindow.showAsDropDown(rlView, 0, -(popHeight + rlView.height))
+        } else {
+            mDropPopupWindow.showAsDropDown(rlView)
         }
     }
 
-    private fun setDropImage(isFold: Boolean) {
-        var srcDrawable =
-            ResourcesCompat.getDrawable(resources, R.drawable.ic_select_up_black, context.theme)
-        if (!isFold) {
-            srcDrawable = ResourcesCompat.getDrawable(
-                resources, R.drawable.ic_select_drop_black, context.theme
-            )
-        }
-        ivDrop.setImageDrawable(srcDrawable)
+    private fun setDropIcon(isUp: Boolean) {
+        val resId = if (isUp) R.drawable.ic_select_up_black else R.drawable.ic_select_drop_black
+        ivDrop.setImageResource(resId)
     }
 
-    private fun setSpinnerField(name: String?) {
-        name?.let {
-            mSpinnerField = name
-            tvSpinnerFelid.text = name
-        }
-    }
-
-    fun setDropList(dropList: MutableList<String>) {
-        this.dropList.clear()
-        this.dropList.addAll(dropList)
-        mDropAdapter.setData(dropList)
-        mDropAdapter.notifyDataSetChanged()
-    }
-
-
-
-    fun setStatusConfigs(configs: List<InputStatusConfig>) {
-        this.statusConfigs = configs
+    fun setStatusConfigs(configs: List<ViewStatusConfig>) {
+        statusMap = configs.associateBy { it.stateTag }
+        // 默认选中normal模式
+        updateState("normal")
     }
 
     fun updateState(tag: String) {
-        val config = statusConfigs.find { it.stateTag == tag }
-        config?.let {
-            setBackgroundResource(it.backgroundRes)
-            tvSpinnerFelid.setTextColor(ContextCompat.getColor(context, it.textColorRes))
+        statusMap[tag]?.let { config ->
+            rlView.setBackgroundResource(config.backgroundRes)
+            tvSpinnerField.setTextColor(ContextCompat.getColor(context, config.textColorRes))
+
+            this.isEnable = config.isEnable
+//            // 禁用逻辑处理
+//            if (tag == "disabled") {
+////                this.isEnabled = false
+//                rlView.alpha = 0.5f
+//            } else {
+////                this.isEnabled = true
+//                rlView.alpha = 1.0f
+//            }
         }
     }
 
-    // fun getNavigationBarHeight(): Int {
-    //     val resourceId = context.resources.getIdentifier("navigation_bar_height", "dimen", "android")
-    //     return context.resources.getDimensionPixelSize(resourceId)
-    // }
+    fun setDropList(list: List<String>, defaultPos: Int = -1) {
+        dropList.clear()
+        dropList.addAll(list)
+        mDropAdapter.setData(dropList)
+        if (defaultPos in list.indices) {
+            selectItem(defaultPos)
+        }
+    }
 
-    fun setOnInputChangeListener(onViewChangeListener: OnViewChangeListener) {
-        this.mOnViewChangeListener = onViewChangeListener
+    fun selectItem(position: Int) {
+        if (position in dropList.indices) {
+            selectedIndex = position
+            tvSpinnerField.text = dropList[position]
+            mOnViewChangeListener?.onSelectChanged(position, dropList[position])
+        }
+    }
+
+    fun setOnViewChangeListener(listener: OnViewChangeListener) {
+        this.mOnViewChangeListener = listener
     }
 
     interface OnViewChangeListener {
-        fun onSelectChanged(afterPos: Int, text: String)
+        fun onSelectChanged(index: Int, text: String)
     }
-
 }
-
-data class InputStatusConfig(
-    val stateTag: String,       // 状态标识，例如 "normal", "error", "disabled"
-    val backgroundRes: Int,     // 背景资源 ID (drawable)
-    val textColorRes: Int       // 文字颜色资源 ID
-)

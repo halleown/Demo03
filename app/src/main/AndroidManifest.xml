@@ -28,6 +28,7 @@
         <activity android:name=".Activity4" />
         <activity android:name=".mytree.TreeActivity" />
         <activity android:name=".scan.QRCodeScanActivity" />
+        <activity android:name=".graph.GraphActivity" />
     </application>
 
 </manifest>

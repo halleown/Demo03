@@ -29,7 +29,39 @@
         android:id="@+id/btn5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="1111菜单树"/>
+        android:text="扫码"/>
+
+    <Button
+        android:id="@+id/btn6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="阶梯图｜折线图"/>
+
+    <Button
+        android:id="@+id/btn7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="正常"/>
+
+    <Button
+        android:id="@+id/btn8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="禁用"/>
+
+    <Button
+        android:id="@+id/btn9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="异常"/>
+
+    <com.example.demo03.spinner.CustomSpinnerView
+        android:id="@+id/mySpinner"
+        android:layout_marginStart="@dimen/_40dp"
+        android:layout_marginTop="@dimen/_40dp"
+        android:layout_width="@dimen/_250dp"
+        android:layout_height="@dimen/_50dp" />
+
 
 
 </LinearLayout>

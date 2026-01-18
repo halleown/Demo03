@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import com.example.demo03.mytree.TreeActivity
+import com.example.demo03.graph.GraphActivity
 import com.example.demo03.scan.QRCodeScanActivity
+import com.example.demo03.spinner.CustomSpinnerView
+import com.example.demo03.spinner.ViewStatusConfig
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineStart
@@ -17,6 +19,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlin.jvm.java
 
 class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,9 +56,53 @@ class MainActivity : Activity() {
         findViewById<Button>(R.id.btn4).setOnClickListener {
             startActivity(Intent(this@MainActivity, Activity4::class.java))
         }
-        // findViewById<Button>(R.id.btn5).setOnClickListener {
-        // }
-        startActivity(Intent(this@MainActivity, QRCodeScanActivity::class.java))
+        findViewById<Button>(R.id.btn5).setOnClickListener {
+            startActivity(Intent(this@MainActivity, QRCodeScanActivity::class.java))
+        }
+        findViewById<Button>(R.id.btn6).setOnClickListener {
+            startActivity(Intent(this@MainActivity, GraphActivity::class.java))
+        }
+
+
+        val spinner = findViewById<CustomSpinnerView>(R.id.mySpinner)
+        val defaults = listOf(
+            ViewStatusConfig("normal", R.drawable.custom_spinner_view_normal_bg, R.color.black),
+            ViewStatusConfig(
+                "disabled",
+                R.drawable.custom_spinner_view_disable_bg,
+                R.color.light_gray,
+                false
+            ),
+            ViewStatusConfig("error", R.drawable.trim_spinner_view_error, R.color.white, false)
+        )
+        spinner.setStatusConfigs(defaults)
+
+        val data = listOf("北京", "上海", "广州", "深圳")
+        spinner.setDropList(data, defaultPos = 0)
+
+        // 2. 监听选择
+        spinner.setOnViewChangeListener(object : CustomSpinnerView.OnViewChangeListener {
+            override fun onSelectChanged(index: Int, text: String) {
+                // 选择后自动恢复 normal 状态
+                spinner.updateState("normal")
+                Log.d("Spinner", "Selected: $text")
+            }
+        })
+
+        // 3. 模拟业务逻辑切换状态
+        findViewById<Button>(R.id.btn7).setOnClickListener {
+            spinner.updateState("normal")
+        }
+
+        findViewById<Button>(R.id.btn8).setOnClickListener {
+            spinner.updateState("disabled")
+        }
+
+        findViewById<Button>(R.id.btn9).setOnClickListener {
+            spinner.updateState("error")
+        }
+
+//        startActivity(Intent(this@MainActivity, QRCodeScanActivity::class.java))
     }
 
     private fun testConroutineContext() {
