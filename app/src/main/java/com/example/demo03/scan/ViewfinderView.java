@@ -299,6 +299,16 @@ public class ViewfinderView extends View {
     private GestureDetector gestureDetector;
 
     /**
+     * 网格扫描线背景画笔
+     */
+    private Paint backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+    /**
+     * 网格扫描线周期
+     */
+    private static final int SCAN_PERIOD = 2000; // 2秒一个周期
+
+    /**
      * 取景框样式
      */
     @IntDef({ViewfinderStyle.CLASSIC, ViewfinderStyle.POPULAR})
@@ -738,6 +748,12 @@ public class ViewfinderView extends View {
      * 绘制激光扫描线
      */
     private void drawLaserScanner(Canvas canvas, RectF frame) {
+        float step = frame.height() / (2000f / 16f); // 假设16ms一帧 (60fps)
+        if (scannerStart < scannerEnd) {
+            scannerStart += step;
+        } else {
+            scannerStart = frame.top;
+        }
         if (laserStyle == null) {
             return;
         }
@@ -786,24 +802,58 @@ public class ViewfinderView extends View {
      * 绘制网格式扫描
      */
     private void drawGridScanner(Canvas canvas, RectF frame) {
+        // 计算动画进度和透明度
+        // 假设 scannerStart 是根据时间变化的，我们需要根据它相对于 frame 的位置计算当前动画的时间点
+        float totalDistance = frame.height();
+        float currentDistance = scannerStart - frame.top;
+        float progress = currentDistance / totalDistance; // 0.0 到 1.0
+
+        int alpha = 255;
+        long currentTimeMillis = (long) (progress * SCAN_PERIOD);
+
+        // 0ms -> 200ms 透明度从 0 -> 1
+        if (currentTimeMillis < 200) {
+            alpha = (int) (255 * (currentTimeMillis / 200f));
+        }
+        // 1800ms -> 2000ms 透明度从 1 -> 0
+        else if (currentTimeMillis > 1800) {
+            alpha = (int) (255 * (1 - (currentTimeMillis - 1800) / 200f));
+        }
+
+        // 绘制网格背景渐变 (从下往上)
+        // 底部 #FF6D00 (40%透明度是 0x66), 顶部 #D8D8D8 (0%透明度是 0x00)
+        // 注意：计算起始位置，根据 laserGridHeight 限制背景高度
+        float backgroundTop = Math.max(frame.top, scannerStart - laserGridHeight);
+        // 网格线背景渐变（从下往上是#FF6D00，40%到#D8D8D8，0%）
+        LinearGradient bgGradient = new LinearGradient(
+                frame.centerX(), scannerStart,  // 底部开始 (橙色 40%)
+                frame.centerX(), backgroundTop,   // 向上延伸 (灰色 0%)
+                new int[]{0x66FF6D00, 0x00D8D8D8},
+                null,
+                Shader.TileMode.CLAMP
+        );
+        backgroundPaint.setShader(bgGradient);
+        backgroundPaint.setAlpha(alpha);
+        canvas.drawRect(frame.left, backgroundTop, frame.right, scannerStart, backgroundPaint);
+
+        // 绘制网格线
         paint.setStrokeWidth(laserGridStrokeWidth);
         paint.setStyle(Paint.Style.STROKE);
+        paint.setAlpha(alpha);
 
-        // 计算Y轴开始位置
-        float startY = (laserGridHeight > 0 && scannerStart - frame.top > laserGridHeight)
-                ? scannerStart - laserGridHeight : frame.top;
-
-        // 渐变设置
-        LinearGradient linearGradient = new LinearGradient(
+        float startY = backgroundTop;
+        // 网格线渐变
+        LinearGradient lineGradient = new LinearGradient(
                 frame.centerX(), startY,
                 frame.centerX(), scannerStart,
                 new int[]{shadeColor(laserColor), laserColor},
                 null,
                 Shader.TileMode.CLAMP
         );
-        paint.setShader(linearGradient);
+        paint.setShader(lineGradient);
 
         float gridItemSize = frame.width() / laserGridColumn;
+        laserGridHeight = gridItemSize * 4;
         Path gridPath = new Path();
 
         // 绘制纵向线
@@ -819,11 +869,18 @@ public class ViewfinderView extends View {
         float padding = frameLineStrokeWidth / 2f;
         for (int i = 0; i <= horizontalLineCount; i++) {
             float y = scannerStart - i * gridItemSize;
+            if (y < startY) continue;
             gridPath.moveTo(frame.left + padding, y);
             gridPath.lineTo(frame.right - padding, y);
         }
-
         canvas.drawPath(gridPath, paint);
+
+        // 绘制底部扫描线 (3px 高, #FF6D00)
+        paint.setShader(null); // 清除渐变
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(0xFFFF6D00);
+        paint.setAlpha(alpha);
+        canvas.drawRect(frame.left + padding, scannerStart - 1.5f, frame.right - padding, scannerStart + 1.5f, paint);
     }
 
     /**

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.king.view.viewfinderview.ViewfinderView
+    <com.example.demo03.scan.ViewfinderView
         android:id="@+id/myView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
