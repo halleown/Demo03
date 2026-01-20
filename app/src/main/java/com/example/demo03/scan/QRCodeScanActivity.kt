@@ -16,7 +16,7 @@ import com.king.zxing.analyze.MultiFormatAnalyzer
 
 class QRCodeScanActivity : BarcodeCameraScanActivity() {
 
-    private lateinit var myView: CustomViewfinderView
+    private lateinit var myView: ViewfinderView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

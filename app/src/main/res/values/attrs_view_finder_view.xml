@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="viewfinder_corner">#FF1FB3E2</color>
+    <color name="viewfinder_frame">#7F1FB3E2</color>
+    <color name="viewfinder_label_text">#FFC0C0C0</color>
+    <color name="viewfinder_laser">#FF1FB3E2</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="viewfinder_point">#FF1FB3E2</color>
+    <color name="viewfinder_point_stroke">#FFFFFFFF</color>
+    <declare-styleable name="ViewfinderView">
+        <attr format="enum" name="vvViewfinderStyle">
+            <enum name="classic" value="0"/>
+            <enum name="popular" value="1"/>
+        </attr>
+        <attr format="color" name="vvMaskColor"/>
+        <attr format="color" name="vvFrameColor"/>
+        <attr format="dimension" name="vvFrameWidth"/>
+        <attr format="dimension" name="vvFrameHeight"/>
+        <attr format="float" name="vvFrameRatio"/>
+        <attr format="dimension" name="vvFrameLineStrokeWidth"/>
+        <attr format="dimension" name="vvFramePaddingLeft"/>
+        <attr format="dimension" name="vvFramePaddingTop"/>
+        <attr format="dimension" name="vvFramePaddingRight"/>
+        <attr format="dimension" name="vvFramePaddingBottom"/>
+        <attr format="enum" name="vvFrameGravity">
+            <enum name="center" value="0"/>
+            <enum name="left" value="1"/>
+            <enum name="top" value="2"/>
+            <enum name="right" value="3"/>
+            <enum name="bottom" value="4"/>
+        </attr>
+        <attr format="color" name="vvFrameCornerColor"/>
+        <attr format="dimension" name="vvFrameCornerSize"/>
+        <attr format="dimension" name="vvFrameCornerStrokeWidth"/>
+        <attr format="dimension" name="vvFrameCornerRadius"/>
+        <attr format="reference" name="vvFrameDrawable"/>
+
+        <attr format="dimension" name="vvLaserLineHeight"/>
+        <attr format="dimension" name="vvLaserMovementSpeed"/>
+        <attr format="integer" name="vvLaserAnimationInterval"/>
+        <attr format="integer" name="vvLaserGridColumn"/>
+        <attr format="dimension" name="vvLaserGridHeight"/>
+        <attr format="dimension" name="vvLaserGridStrokeWidth"/>
+        <attr format="color" name="vvLaserColor"/>
+        <attr format="enum" name="vvLaserStyle">
+            <enum name="none" value="0"/>
+            <enum name="line" value="1"/>
+            <enum name="grid" value="2"/>
+            <enum name="image" value="3"/>
+        </attr>
+        <attr format="reference" name="vvLaserDrawable"/>
+        <attr format="float" name="vvLaserDrawableRatio"/>
+
+        <attr format="string" name="vvLabelText"/>
+        <attr format="color" name="vvLabelTextColor"/>
+        <attr format="dimension" name="vvLabelTextSize"/>
+        <attr format="dimension" name="vvLabelTextPadding"/>
+        <attr format="dimension" name="vvLabelTextWidth"/>
+        <attr format="enum" name="vvLabelTextLocation">
+            <enum name="top" value="0"/>
+            <enum name="bottom" value="1"/>
+        </attr>
+
+        <attr format="color" name="vvPointColor"/>
+        <attr format="color" name="vvPointStrokeColor"/>
+        <attr format="dimension" name="vvPointRadius"/>
+        <attr format="float" name="vvPointStrokeRatio"/>
+        <attr format="reference" name="vvPointDrawable"/>
+        <attr format="boolean" name="vvPointAnimation"/>
+        <attr format="integer" name="vvPointAnimationInterval"/>
+        <attr format="boolean" name="vvFullRefresh"/>
+    </declare-styleable>
+</resources>

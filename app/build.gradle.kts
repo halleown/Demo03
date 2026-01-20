@@ -73,5 +73,5 @@ dependencies {
     // implementation("com.github.jenly1314:zxing-lite:2.4.0")
 
     // 扫码取景器——自定义view
-    implementation("com.github.jenly1314:viewfinderview:1.3.0")
+    // implementation("com.github.jenly1314:viewfinderview:1.4.0")
 }

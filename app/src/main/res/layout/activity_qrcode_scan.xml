@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.example.demo03.scan.CustomViewfinderView
+    <com.king.view.viewfinderview.ViewfinderView
         android:id="@+id/myView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -37,5 +37,6 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/camera_scan_flashlight_margin_top"
         android:contentDescription="@null"
-        android:src="@drawable/camera_scan_flashlight_selector" />
+        android:src="@drawable/camera_scan_flashlight_selector"
+        android:visibility="gone" />
 </FrameLayout>
