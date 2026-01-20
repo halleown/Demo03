@@ -10,11 +10,14 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.example.demo03.R
 
-class PopFormAdapter(
+/**
+ * 下拉框的数据适配器
+ */
+class CustomSpinnerDropAdapter(
     private val mContext: Context,
     private var data: MutableList<String>?
-) :
-    BaseAdapter() {
+) : BaseAdapter() {
+
     override fun getCount(): Int {
         return data?.size ?: 0
     }
@@ -37,9 +40,9 @@ class PopFormAdapter(
         if (convertView == null) {
             holder = ViewHolder()
             convertView =
-                LayoutInflater.from(mContext).inflate(R.layout.item_pop_input, parent, false)
+                LayoutInflater.from(mContext).inflate(R.layout.item_spinner_drop, parent, false)
             holder.tvName = convertView.findViewById(R.id.tv_name)
-            holder.rlItem = convertView.findViewById(R.id.ll_settings_laguage_item)
+            holder.rlItem = convertView.findViewById(R.id.rl_item)
             convertView.tag = holder
         } else {
             holder = convertView.tag as ViewHolder

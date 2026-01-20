@@ -62,6 +62,18 @@
         android:layout_width="@dimen/_250dp"
         android:layout_height="@dimen/_50dp" />
 
+    <com.example.demo03.spinner.CustomSpinnerView
+        android:layout_marginStart="@dimen/_40dp"
+        android:layout_marginTop="@dimen/_40dp"
+        android:layout_width="@dimen/_250dp"
+        android:layout_height="@dimen/_50dp" />
+
+    <com.example.demo03.spinner.CustomEditorText
+        android:id="@+id/myEditor"
+        android:layout_marginStart="@dimen/_40dp"
+        android:layout_marginTop="@dimen/_40dp"
+        android:layout_width="@dimen/_250dp"
+        android:layout_height="@dimen/_50dp" />
 
 
 </LinearLayout>

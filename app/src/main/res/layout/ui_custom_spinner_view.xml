@@ -5,31 +5,30 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tv_spinner_field"
+        android:id="@+id/tv_spinner_value"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_centerInParent="true"
-        android:layout_marginEnd="@dimen/_12dp"
         android:layout_toStartOf="@id/iv_drop"
         android:clickable="false"
         android:focusable="false"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/_18dp"
-        android:paddingEnd="@dimen/_5dp"
+        android:paddingStart="@dimen/_12dp"
+        android:paddingEnd="@dimen/_12dp"
         android:singleLine="true"
         android:textColor="@color/black"
         android:textSize="@dimen/_24sp" />
 
     <ImageView
         android:id="@+id/iv_drop"
-        android:layout_width="@dimen/_40dp"
+        android:layout_width="@dimen/_18dp"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_centerInParent="true"
+        android:layout_marginStart="@dimen/_20dp"
+        android:layout_marginEnd="@dimen/_20dp"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/_10dp"
-        android:paddingEnd="@dimen/_10dp"
         android:scaleType="centerInside"
         android:src="@drawable/ic_select_drop_black" />
 

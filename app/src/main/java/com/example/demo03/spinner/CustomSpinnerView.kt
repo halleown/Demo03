@@ -6,45 +6,35 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.AdapterView
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import com.example.demo03.R
 
 /**
  * 自定义下拉框
  */
-class CustomSpinnerView @JvmOverloads constructor(
+open class CustomSpinnerView @JvmOverloads constructor(
     context: Context,
     attr: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : LinearLayout(context, attr) {
+) : BaseCustomFormView(context, attr, defStyleAttr) {
 
     private val TAG = "CustomSpinnerView"
-    private lateinit var tvSpinnerField: TextView
+    private lateinit var tvSpinnerValue: TextView
     private lateinit var ivDrop: ImageView
     private lateinit var rlView: RelativeLayout
     private lateinit var mDropPopupWindow: PopupWindow
-    private lateinit var mDropAdapter: PopFormAdapter
+    private lateinit var mDropAdapter: CustomSpinnerDropAdapter
 
     /**
      * 下拉框列表数据源
      */
     private var dropList: MutableList<String> = mutableListOf()
     private var dismissTime: Long = 0
-
-    /**
-     * 状态配置
-     */
-    private var statusMap: Map<String, ViewStatusConfig> = emptyMap()
-
-    /**
-     * 下拉框是否启用
-     */
-    private var isEnable = true
 
     /**
      * 记录当前选中索引
@@ -55,14 +45,20 @@ class CustomSpinnerView @JvmOverloads constructor(
     private var mOnViewChangeListener: OnViewChangeListener? = null
 
     init {
-        initView(context)
+        onApplyConfig = { config ->
+            rlView.setBackgroundResource(config.backgroundRes)
+            tvSpinnerValue.setTextColor(ContextCompat.getColor(context, config.textColorRes))
+            this.isEnable = config.isEnable
+        }
         initDropDialog()
-        setupDefaultConfigs()
     }
 
-    private fun initView(context: Context) {
-        LayoutInflater.from(context).inflate(R.layout.ui_custom_spinner_view, this, true)
-        tvSpinnerField = findViewById(R.id.tv_spinner_field)
+    @LayoutRes
+    open fun getLayoutId(): Int = R.layout.ui_custom_spinner_view
+
+    override fun initView() {
+        LayoutInflater.from(context).inflate(getLayoutId(), this, true)
+        tvSpinnerValue = findViewById(R.id.tv_spinner_value)
         ivDrop = findViewById(R.id.iv_drop)
         rlView = findViewById(R.id.rl_view)
 
@@ -75,26 +71,8 @@ class CustomSpinnerView @JvmOverloads constructor(
         }
     }
 
-    private fun setupDefaultConfigs() {
-        val defaults = listOf(
-            ViewStatusConfig(
-                "normal",
-                R.drawable.custom_spinner_view_normal_bg,
-                R.color.black,
-                true
-            ),
-            ViewStatusConfig(
-                "disabled",
-                R.drawable.custom_spinner_view_disable_bg,
-                R.color.light_gray,
-                false
-            ),
-        )
-        setStatusConfigs(defaults)
-    }
-
     private fun initDropDialog() {
-        val popView = LayoutInflater.from(context).inflate(R.layout.pop_form_drop_view, null)
+        val popView = LayoutInflater.from(context).inflate(R.layout.custom_spinner_drop_view, null)
         val listView = popView.findViewById<ListView>(R.id.listview)
 
         mDropPopupWindow = PopupWindow(
@@ -111,7 +89,7 @@ class CustomSpinnerView @JvmOverloads constructor(
             }
         }
 
-        mDropAdapter = PopFormAdapter(context, dropList)
+        mDropAdapter = CustomSpinnerDropAdapter(context, dropList)
         listView.adapter = mDropAdapter
 
         listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
@@ -152,29 +130,6 @@ class CustomSpinnerView @JvmOverloads constructor(
         ivDrop.setImageResource(resId)
     }
 
-    fun setStatusConfigs(configs: List<ViewStatusConfig>) {
-        statusMap = configs.associateBy { it.stateTag }
-        // 默认选中normal模式
-        updateState("normal")
-    }
-
-    fun updateState(tag: String) {
-        statusMap[tag]?.let { config ->
-            rlView.setBackgroundResource(config.backgroundRes)
-            tvSpinnerField.setTextColor(ContextCompat.getColor(context, config.textColorRes))
-
-            this.isEnable = config.isEnable
-//            // 禁用逻辑处理
-//            if (tag == "disabled") {
-////                this.isEnabled = false
-//                rlView.alpha = 0.5f
-//            } else {
-////                this.isEnabled = true
-//                rlView.alpha = 1.0f
-//            }
-        }
-    }
-
     fun setDropList(list: List<String>, defaultPos: Int = -1) {
         dropList.clear()
         dropList.addAll(list)
@@ -187,7 +142,7 @@ class CustomSpinnerView @JvmOverloads constructor(
     fun selectItem(position: Int) {
         if (position in dropList.indices) {
             selectedIndex = position
-            tvSpinnerField.text = dropList[position]
+            tvSpinnerValue.text = dropList[position]
             mOnViewChangeListener?.onSelectChanged(position, dropList[position])
         }
     }
