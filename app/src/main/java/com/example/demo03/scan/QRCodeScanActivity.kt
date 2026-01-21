@@ -3,6 +3,9 @@ package com.example.demo03.scan
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
+import androidx.camera.view.PreviewView
 import com.example.demo03.R
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.Result
@@ -22,7 +25,29 @@ class QRCodeScanActivity : BarcodeCameraScanActivity() {
         super.onCreate(savedInstanceState)
 
         myView = findViewById(R.id.myView)
-//        myView.setLaserBitmapRatio(0.625f)
+
+        val previewView = findViewById<PreviewView>(R.id.previewView)
+        val loading = findViewById<ProgressBar>(R.id.pbCameraLoading)
+
+        findViewById<View>(R.id.btnBack).setOnClickListener {
+//            it.isEnabled = false            // 简单防抖，避免多次点击
+//            onBackPressedDispatcher.onBackPressed()
+             finish()
+        }
+
+        // 初始：隐藏扫码 UI，只显示转圈
+        previewView.visibility = View.INVISIBLE
+        myView.visibility = View.INVISIBLE
+        loading.visibility = View.VISIBLE
+
+        // 相机预览开始输出帧（STREAMING）后再显示扫码页面
+        previewView.previewStreamState.observe(this) { state ->
+            if (state == PreviewView.StreamState.STREAMING) {
+                loading.visibility = View.GONE
+                previewView.visibility = View.VISIBLE
+                myView.visibility = View.VISIBLE
+            }
+        }
     }
 
     override fun initCameraScan(cameraScan: CameraScan<Result?>) {
