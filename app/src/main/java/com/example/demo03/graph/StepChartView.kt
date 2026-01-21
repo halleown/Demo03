@@ -121,6 +121,7 @@ class StepChartView @JvmOverloads constructor(
     private val unitPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLACK
         textSize = context.resources.getDimension(R.dimen._18sp)
+        textAlign = Paint.Align.CENTER
     }
 
     /**
@@ -181,11 +182,12 @@ class StepChartView @JvmOverloads constructor(
             }
         }
 
-        // X轴单位
+        // X轴单位（放在最后一个刻度位置）
+        val lastXTickPos = chartPaddingLeft + xGridCount * (width / xGridCount)
         canvas.drawText(
             xUnit,
-            width + context.resources.getDimension(R.dimen._30dp),
-            chartPaddingTop + height + context.resources.getDimension(R.dimen._24dp),
+            lastXTickPos,
+            chartPaddingTop + height + context.resources.getDimension(R.dimen._28dp),
             unitPaint
         )
 
@@ -216,10 +218,10 @@ class StepChartView @JvmOverloads constructor(
                 )
             }
         }
-        // Y轴单位
+        // Y轴单位（让纵轴线穿过单位文字）
         canvas.drawText(
             yUnit,
-            chartPaddingLeft - context.resources.getDimension(R.dimen._8dp),
+            chartPaddingLeft,
             chartPaddingTop - context.resources.getDimension(R.dimen._14dp),
             unitPaint
         )
