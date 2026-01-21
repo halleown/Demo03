@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.example.demo03.graph.StepChartView
         android:id="@+id/stepChartView"
-        android:layout_width="@dimen/_750dp"
-        android:layout_height="@dimen/_750dp" />
+        android:layout_width="@dimen/_540dp"
+        android:layout_height="@dimen/_368dp"
+        android:layout_alignParentStart="true"
+        android:background="#EBEBEB"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

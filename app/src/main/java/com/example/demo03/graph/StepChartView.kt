@@ -4,227 +4,285 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import com.example.demo03.R
 
 class StepChartView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    private var dataPoints: List<Pair<Float, Float>> = emptyList()
-
-    private var maxY = 125f       // Y轴最大值，通常是 100 或 125
-    private var maxX = 6000f      // X轴最大值，例如 6000
-    private var yGridCount = 5    // Y轴格数，例如 5 (对应 0, 25, 50, 75, 100, 125)
-    private var xGridCount = 6    // X轴格数，例如 6 (对应 0, 1000, 2000...6000)
-
-    private var unitY = "(%)"     // Y轴单位文本
-    private var unitX = "(rpm)"   // X轴单位文本
-
-    // --- 画笔定义 ---
-    private val yAxisPaint =
-        Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.RED; strokeWidth = 4f }
-    private val xAxisPaint =
-        Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.BLACK; strokeWidth = 4f }
-    private val tickPaint =
-        Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.RED; strokeWidth = 3f }
-    private val gridPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#E0E0E0") // 浅灰色虚线网格
-        strokeWidth = 2f
-        pathEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
-    }
-    private val stepLinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.RED; strokeWidth = 6f; style = Paint.Style.STROKE; strokeJoin =
-        Paint.Join.MITER // 确保是尖角
-    }
-    private val unitPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.BLACK; textSize = 34f; typeface = Typeface.DEFAULT_BOLD
-    }
-    private val labelPaint =
-        Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.GRAY; textSize = 28f }
-
-    // --- 边距控制 ---
-    private val leftPadding = 140f
-    private val bottomPadding = 120f
-    private val topPadding = 100f
-    private val rightPadding = 160f
+    /**
+     * X轴最大值
+     */
+    private var xMax = 6000f
 
     /**
-     * Activity 调用此方法更新图表数据和所有配置
-     * @param points 数据点列表，Pair<Float, Float> 分别代表 X值(rpm) 和 Y值(百分比)
-     * @param maxRpm X轴的最大刻度值
-     * @param maxPercent Y轴的最大刻度值
-     * @param xGrids X轴的网格划分数量
-     * @param yGrids Y轴的网格划分数量
-     * @param labelX X轴单位文本
-     * @param labelY Y轴单位文本
+     * Y轴最大值
      */
-    fun setChartData(
-        points: List<Pair<Float, Float>>,
-        maxRpm: Float,
-        maxPercent: Float,
-        xGrids: Int = 6,
-        yGrids: Int = 5,
-        labelX: String = "(rpm)",
-        labelY: String = "(%)"
-    ) {
-        this.dataPoints = points
-        this.maxX = maxRpm
-        this.maxY = maxPercent
-        this.xGridCount = xGrids
-        this.yGridCount = yGrids
-        this.unitX = labelX
-        this.unitY = labelY
+    private var yMax = 125f
 
-        // 当数据和配置更新后，请求重新测量布局和重绘
-        requestLayout()
-        invalidate()
+    /**
+     * Y轴格数
+     */
+    private var yGridCount = 5
+
+    /**
+     * X轴格数
+     */
+    private var xGridCount = 7
+
+    /**
+     * X轴单位文本
+     */
+    private var xUnit = "(rpm)"
+
+    /**
+     * Y轴单位文本
+     */
+    private var yUnit = "(%)"
+
+    /**
+     * 横坐标线
+     */
+    private val xAxisPaint =
+        Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.parseColor("#999999"); strokeWidth =
+            context.resources.getDimension(R.dimen._3dp)
+        }
+
+    /**
+     * 纵坐标线
+     */
+    private val yAxisPaint =
+        Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.parseColor("#E6212A"); strokeWidth =
+            context.resources.getDimension(R.dimen._3dp)
+        }
+
+    /**
+     * 短横线画笔（纵坐标文本和纵轴之间的短横线）
+     */
+    private val tickPaint =
+        Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.parseColor("#E6212A"); strokeWidth =
+            context.resources.getDimension(R.dimen._1dp)
+        }
+
+    /**
+     * X轴刻度
+     */
+    private var xLabels = emptyList<String>()
+
+    /**
+     * Y轴单位刻度
+     */
+    private var yLabels = emptyList<String>()
+
+    /**
+     * 折线点 (修改为匹配原图的大致阶梯路径)
+     */
+    private var dataPoints = emptyList<Pair<Float, Float>>()
+
+    /**
+     * 坐标系背景画笔（注意，横纵坐标的两条线可以不用画虚线）
+     */
+    private val gridPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.parseColor("#666666")
+        style = Paint.Style.STROKE
+        strokeWidth = context.resources.getDimension(R.dimen._1dp)
+        pathEffect = DashPathEffect(
+            floatArrayOf(
+                context.resources.getDimension(R.dimen._10dp),
+                context.resources.getDimension(R.dimen._6dp)
+            ), 0f
+        )
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val widthSize = MeasureSpec.getSize(widthMeasureSpec)
-        val heightSize = MeasureSpec.getSize(heightMeasureSpec)
+    /**
+     * 横坐标刻度文字画笔
+     */
+    private val xTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.BLACK
+        textSize = context.resources.getDimension(R.dimen._18sp)
+        textAlign = Paint.Align.CENTER
+    }
 
-        val usableW = widthSize - leftPadding - rightPadding
-        val usableH = heightSize - topPadding - bottomPadding
+    /**
+     * 纵坐标刻度文字画笔
+     */
+    private val yTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.parseColor("#E6212A")
+        textSize = context.resources.getDimension(R.dimen._18sp)
+        textAlign = Paint.Align.RIGHT
+    }
 
-        // 核心：计算单个网格单元的边长，以保证网格是正方形
-        val cellSize = Math.min(usableW / xGridCount, usableH / yGridCount)
+    /**
+     * 单位画笔
+     */
+    private val unitPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.BLACK
+        textSize = context.resources.getDimension(R.dimen._18sp)
+    }
 
-        // 根据计算出的 cellSize 确定 View 的最终尺寸
-        val finalW = (cellSize * xGridCount + leftPadding + rightPadding).toInt()
-        val finalH = (cellSize * yGridCount + topPadding + bottomPadding).toInt()
+    /**
+     * 折线画笔
+     */
+    private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        strokeWidth = context.resources.getDimension(R.dimen._3dp)
+        style = Paint.Style.STROKE
+        strokeJoin = Paint.Join.ROUND
+        color = Color.parseColor("#E41F19")
+    }
 
-        setMeasuredDimension(
-            resolveSize(finalW, widthMeasureSpec),
-            resolveSize(finalH, heightMeasureSpec)
-        )
+    /**
+     * 图表（网格）距左边的距离，为了给文字留出一定空间
+     */
+    private val chartPaddingLeft = context.resources.getDimension(R.dimen._64dp)
+    private val chartPaddingRight = context.resources.getDimension(R.dimen._30dp)
+    private val chartPaddingTop = context.resources.getDimension(R.dimen._40dp)
+    private val chartPaddingBottom = context.resources.getDimension(R.dimen._40dp)
+
+
+    init {
+        // 避免硬件加速吞掉虚线
+        setLayerType(LAYER_TYPE_SOFTWARE, null)
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        // 如果没有数据，则不绘制曲线，但背景网格和轴线依然绘制
-        if (dataPoints.isEmpty()) {
-            drawBackgroundAndAxes(canvas) // 即使没有数据，也要绘制背景和轴线
-            return
-        }
-
-        // 重新计算绘图区域和 cellSize
-        val usableW = width - leftPadding - rightPadding
-        val usableH = height - topPadding - bottomPadding
-        val cellSize = Math.min(usableW / xGridCount, usableH / yGridCount)
-
-        val realChartWidth = cellSize * xGridCount
-        val realChartHeight = cellSize * yGridCount
-        val tickLength = 20f // 刻度线长度
-
-        // 调用私有方法绘制背景和轴线，避免重复代码
         drawBackgroundAndAxes(canvas)
-
-        // --- 绘制阶梯曲线 ---
-        drawStepPath(canvas, leftPadding, topPadding, realChartWidth, realChartHeight)
+        drawStepPath(canvas)
     }
 
-    // 辅助方法：绘制背景网格和坐标轴 (不依赖 dataPoints)
-    private fun drawBackgroundAndAxes(canvas: Canvas) {
-        val usableW = width - leftPadding - rightPadding
-        val usableH = height - topPadding - bottomPadding
-        val cellSize = Math.min(usableW / xGridCount, usableH / yGridCount) // 再次计算确保正确性
-
-        val realChartWidth = cellSize * xGridCount
-        val realChartHeight = cellSize * yGridCount
-        val tickLength = 20f
-
-        // 1. 绘制 Y 轴背景网格、红色刻度线及动态数字
-        val yValuePerGrid = maxY / yGridCount
-        for (i in 0..yGridCount) {
-            val y = topPadding + realChartHeight - (i * cellSize)
-            canvas.drawLine(leftPadding, y, leftPadding + realChartWidth, y, gridPaint) // 横向网格线
-
-            // 绘制红色刻度短线
-            canvas.drawLine(leftPadding - tickLength, y, leftPadding, y, tickPaint)
-
-            labelPaint.color = Color.RED
-            val labelYStr = String.format("%.0f", i * yValuePerGrid)
-            canvas.drawText(labelYStr, leftPadding - tickLength - 80f, y + 10f, labelPaint)
+    /**
+     * 绘制背景网格和坐标轴
+     */
+    fun drawBackgroundAndAxes(canvas: Canvas) {
+        if (xLabels.isEmpty() || yLabels.isEmpty()) {
+            return
         }
+        val width = width - chartPaddingLeft - chartPaddingRight
+        val height = height - chartPaddingTop - chartPaddingBottom
 
-        // 2. 绘制 X 轴背景网格及动态数字
-        val xValuePerGrid = maxX / xGridCount
+        // 1. 绘制纵向虚线和X轴文字
         for (i in 0..xGridCount) {
-            val x = leftPadding + (i * cellSize)
-            canvas.drawLine(x, topPadding, x, topPadding + realChartHeight, gridPaint) // 纵向网格线
-
-            labelPaint.color = Color.GRAY
-            val labelXStr = String.format("%.0f", i * xValuePerGrid)
-            canvas.drawText(labelXStr, x - 40f, topPadding + realChartHeight + 50f, labelPaint)
+            val x = chartPaddingLeft + i * (width / xGridCount)
+            // 虚线
+            if (i > 0) {
+                canvas.drawLine(x, chartPaddingTop, x, chartPaddingTop + height, gridPaint)
+            }
+            // 绘制文字（除横坐标最后一个文字不绘制，其余都绘制）
+            if (i < xLabels.size - 1) {
+                canvas.drawText(
+                    xLabels[i],
+                    x,
+                    chartPaddingTop + height + context.resources.getDimension(R.dimen._28dp),
+                    xTextPaint
+                )
+            }
         }
 
-        // 3. 绘制坐标轴 (Y红 X黑)
-        canvas.drawLine(
-            leftPadding,
-            topPadding,
-            leftPadding,
-            topPadding + realChartHeight,
-            yAxisPaint
-        ) // Y轴线
-        canvas.drawLine(
-            leftPadding,
-            topPadding + realChartHeight,
-            leftPadding + realChartWidth,
-            topPadding + realChartHeight,
-            xAxisPaint
-        ) // X轴线
-
-        // 4. 绘制单位
-        canvas.drawText(unitY, leftPadding - 40f, topPadding - 40f, unitPaint)
+        // X轴单位
         canvas.drawText(
-            unitX,
-            leftPadding + realChartWidth + 10f,
-            topPadding + realChartHeight + 45f,
+            xUnit,
+            width + context.resources.getDimension(R.dimen._30dp),
+            chartPaddingTop + height + context.resources.getDimension(R.dimen._24dp),
             unitPaint
+        )
+
+        // 2. 绘制横向虚线和Y轴文字
+        for (i in 0..yGridCount) {
+            val y = chartPaddingTop + height - i * (height / yGridCount)
+            // 虚线
+            if (i > 0) {
+                canvas.drawLine(chartPaddingLeft, y, chartPaddingLeft + width, y, gridPaint)
+            }
+            // 文字
+            if (i < yLabels.size) {
+                canvas.drawText(
+                    yLabels[i],
+                    chartPaddingLeft - context.resources.getDimension(R.dimen._20dp),
+                    y + context.resources.getDimension(R.dimen._6dp),
+                    yTextPaint
+                )
+            }
+            if (i > 0) {
+                // 刻度短横线（0刻度不画短横线）
+                canvas.drawLine(
+                    chartPaddingLeft - context.resources.getDimension(R.dimen._14dp),
+                    y,
+                    chartPaddingLeft,
+                    y,
+                    tickPaint
+                )
+            }
+        }
+        // Y轴单位
+        canvas.drawText(
+            yUnit,
+            chartPaddingLeft - context.resources.getDimension(R.dimen._8dp),
+            chartPaddingTop - context.resources.getDimension(R.dimen._14dp),
+            unitPaint
+        )
+
+        // 3. 绘制坐标轴主线
+        canvas.drawLine(
+            chartPaddingLeft,
+            chartPaddingTop,
+            chartPaddingLeft,
+            chartPaddingTop + height,
+            yAxisPaint
+        )
+        canvas.drawLine(
+            chartPaddingLeft,
+            chartPaddingTop + height,
+            chartPaddingLeft + width,
+            chartPaddingTop + height,
+            xAxisPaint
         )
     }
 
-    // 辅助方法：绘制阶梯曲线
-    private fun drawStepPath(
-        canvas: Canvas,
-        chartLeft: Float,
-        chartTop: Float,
-        chartWidth: Float,
-        chartHeight: Float
-    ) {
-        val path = Path()
-
-        // 映射函数：使用动态的 maxX 和 maxY 进行映射
-        fun mapX(rpm: Float) = chartLeft + (rpm / maxX) * chartWidth
-        fun mapY(pct: Float) = chartTop + chartHeight - (pct / maxY) * chartHeight
-
-        // 确保数据点不为空，且至少有一个点
+    /**
+     * 画折线
+     */
+    fun drawStepPath(canvas: Canvas) {
         if (dataPoints.isEmpty()) return
 
-        // 曲线的起点：通常从第一个数据点的X值，但Y轴起点0%开始
-        val firstPointX = mapX(dataPoints[0].first)
-        val startY = mapY(0f)
-        path.moveTo(firstPointX, startY)
+        val width = width - chartPaddingLeft - chartPaddingRight
+        val height = height - chartPaddingTop - chartPaddingBottom
 
-        // 当前绘图位置 (用于绘制阶梯线)
-        var currentPathX = firstPointX
-        var currentPathY = startY
+        val path = Path()
 
-        // 遍历所有数据点绘制阶梯
-        dataPoints.forEach { point ->
-            val targetX = mapX(point.first)
-            val targetY = mapY(point.second)
+        for (i in dataPoints.indices) {
+            val px = chartPaddingLeft + (dataPoints[i].first / xMax) * width
+            val py = chartPaddingTop + height - (dataPoints[i].second / yMax) * height
 
-            // 第一段：水平延伸，到当前数据点的 X 坐标，但保持前一个 Y 坐标
-            path.lineTo(targetX, currentPathY)
+            if (i == 0) {
+                path.moveTo(px, py)
+            } else {
+                // 实现阶梯效果：先画到前一个点的Y值，当前点的X值
+                val prevPx = chartPaddingLeft + (dataPoints[i - 1].first / xMax) * width
+                val prevPy = chartPaddingTop + height - (dataPoints[i - 1].second / yMax) * height
 
-            // 第二段：垂直延伸，从当前 X 坐标，到当前数据点的 Y 坐标
-            path.lineTo(targetX, targetY)
-
-            // 更新当前路径位置
-            currentPathX = targetX
-            currentPathY = targetY
+                path.lineTo(px, prevPy) // 水平线
+                path.lineTo(px, py)     // 垂直线
+            }
         }
-        canvas.drawPath(path, stepLinePaint)
+        canvas.drawPath(path, linePaint)
+    }
+
+    fun setChartData(
+        points: List<Pair<Float, Float>>,
+        xLabels: List<String>,
+        yLabels: List<String>,
+        xUnit: String,
+        yUnit: String,
+    ) {
+        this.dataPoints = points
+        this.xLabels = xLabels
+        this.yLabels = yLabels
+        this.xUnit = xUnit
+        this.yUnit = yUnit
+        requestLayout()
+        invalidate()
     }
 }

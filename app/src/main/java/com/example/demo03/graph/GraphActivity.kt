@@ -21,13 +21,11 @@ class GraphActivity : AppCompatActivity() {
         )
 
         stepChartView.setChartData(
-            points = myPoints,
-            maxRpm = 6000f,       // 横坐标最大值
-            maxPercent = 125f,    // 纵坐标最大值
-            xGrids = 6,           // 横向分6格
-            yGrids = 5,           // 纵向分5格
-            labelX = "(rpm)",
-            labelY = "(%)"
+            myPoints,
+            listOf("0", "1000", "2000", "3000", "4000", "5000", "6000", "7000"),
+            listOf("0", "25", "50", "75", "100", "125"),
+            "(rpm)",
+            "(%)"
         )
     }
 }

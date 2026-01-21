@@ -109,7 +109,7 @@ class MainActivity : Activity() {
             myEditor.updateState("error")
         }
 
-//        startActivity(Intent(this@MainActivity, QRCodeScanActivity::class.java))
+       startActivity(Intent(this@MainActivity, GraphActivity::class.java))
     }
 
     private fun testConroutineContext() {
