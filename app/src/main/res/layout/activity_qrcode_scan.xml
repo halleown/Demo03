@@ -13,20 +13,18 @@
         android:id="@+id/myView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
         app:vvFrameColor="#FF6D00"
         app:vvFrameCornerRadius="@dimen/_34dp"
-        app:vvFrameCornerSize="@dimen/_32dp"
+        app:vvFrameCornerSize="@dimen/_34dp"
         app:vvFrameDrawable="@drawable/scan_outside_border"
         app:vvFrameGravity="center"
         app:vvFrameHeight="@dimen/_320dp"
         app:vvFrameWidth="@dimen/_320dp"
-        app:vvLabelText="扫描"
+        app:vvLabelText="扫描二维码以获取信息"
         app:vvLabelTextColor="#FFFFFF"
         app:vvLabelTextLocation="bottom"
-        app:vvLabelTextPadding="@dimen/_32dp"
-        app:vvLabelTextSize="14dp"
-        app:vvLaserAnimationInterval="40"
+        app:vvLabelTextPadding="@dimen/_20dp"
+        app:vvLabelTextSize="@dimen/_24sp"
         app:vvLaserColor="#FF6D00"
         app:vvLaserGridColumn="17"
         app:vvLaserStyle="grid" />
@@ -44,29 +42,25 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="#D1BDBD"
-        android:layout_height="@dimen/_50dp">
+        android:layout_height="@dimen/_48dp"
+        android:layout_gravity="top|start"
+        android:background="#DCDCDC">
 
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="start|top"
-            android:padding="12dp"
-            android:layout_alignParentStart="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_select_up_black"
-            android:clickable="true"
-            android:focusable="true"/>
+        <ImageView
+            android:id="@+id/iv_exit"
+            android:layout_width="@dimen/_120dp"
+            android:layout_height="@dimen/_48dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/down_arrow_black" />
 
         <TextView
-            android:layout_centerHorizontal="true"
+            android:id="@+id/tv_scan_qr"
             android:layout_width="wrap_content"
-            android:textSize="@dimen/_24sp"
             android:layout_height="wrap_content"
-            android:text="标题" />
-
-
+            android:layout_centerInParent="true"
+            android:text="扫描二维码"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_24sp" />
 
     </RelativeLayout>
 
