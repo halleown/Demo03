@@ -1,7 +1,11 @@
 package com.example.demo03.graph
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.DashPathEffect
+import android.graphics.Paint
+import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
 import com.example.demo03.R
@@ -11,34 +15,59 @@ class StepChartView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     /**
+     * X轴最小值
+     */
+    private var xMin: Int = 0
+
+    /**
      * X轴最大值
      */
-    private var xMax = 6000f
-
-    /**
-     * Y轴最大值
-     */
-    private var yMax = 125f
-
-    /**
-     * Y轴格数
-     */
-    private var yGridCount = 5
-
-    /**
-     * X轴格数
-     */
-    private var xGridCount = 7
+    private var xMax: Int = 0
 
     /**
      * X轴单位文本
      */
-    private var xUnit = "(rpm)"
+    private var xUnit: String = "(X)"
+
+    /**
+     * Y轴最小值
+     */
+    private var yMin: Float = 0f
+
+    /**
+     * Y轴最大值
+     */
+    private var yMax: Float = 0f
 
     /**
      * Y轴单位文本
      */
-    private var yUnit = "(%)"
+    private var yUnit: String = "(Y)"
+
+    /**
+     * X轴格数
+     */
+    private var xGridCount: Int = 7
+
+    /**
+     * X轴刻度（固定7格）
+     */
+    private var xScales = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f)
+
+    /**
+     * Y轴格数
+     */
+    private var yGridCount: Int = 5
+
+    /**
+     * Y轴单位刻度（固定5格）
+     */
+    private var yScales = floatArrayOf(0f, 0f, 0f, 0f, 0f)
+
+    /**
+     * 折线点 (修改为匹配原图的大致阶梯路径)
+     */
+    private var dataPoints = emptyList<ChartValItem>()
 
     /**
      * 横坐标线
@@ -66,21 +95,6 @@ class StepChartView @JvmOverloads constructor(
             color = Color.parseColor("#E6212A"); strokeWidth =
             context.resources.getDimension(R.dimen._1dp)
         }
-
-    /**
-     * X轴刻度
-     */
-    private var xLabels = emptyList<String>()
-
-    /**
-     * Y轴单位刻度
-     */
-    private var yLabels = emptyList<String>()
-
-    /**
-     * 折线点 (修改为匹配原图的大致阶梯路径)
-     */
-    private var dataPoints = emptyList<Pair<Float, Float>>()
 
     /**
      * 坐标系背景画笔（注意，横纵坐标的两条线可以不用画虚线）
@@ -142,10 +156,55 @@ class StepChartView @JvmOverloads constructor(
     private val chartPaddingTop = context.resources.getDimension(R.dimen._40dp)
     private val chartPaddingBottom = context.resources.getDimension(R.dimen._40dp)
 
-
     init {
         // 避免硬件加速吞掉虚线
         setLayerType(LAYER_TYPE_SOFTWARE, null)
+    }
+
+    fun setChartData(
+        xUnit: String,
+        xMin: Int,
+        xMax: Int,
+        yUnit: String,
+        yMin: Float,
+        yMax: Float,
+        points: List<ChartValItem>
+    ) {
+        this.xUnit = xUnit
+        this.xMin = xMin
+        this.xMax = xMax
+        this.yUnit = yUnit
+        this.yMin = yMin
+        this.yMax = yMax
+
+        val xInterval: Float = ((xMax - xMin) * 1.0f / xGridCount)
+        for (i in 0 until xGridCount) {
+            when (i) {
+                0 -> xScales[i] = yMin
+                xScales.size -> xScales[i] = yMax
+                else -> xScales[i] = yMin + i * xInterval
+            }
+        }
+
+        val yInterval: Float = ((yMax - yMin) * 1.0f / yGridCount)
+        for (i in 0 until yGridCount) {
+            when (i) {
+                0 -> yScales[i] = yMin
+                yScales.size -> yScales[i] = yMax
+                else -> yScales[i] = yMin + i * yInterval
+            }
+        }
+
+        setStepPathData(points)
+    }
+
+    /**
+     * 设置折线图数据值
+     */
+    fun setStepPathData(points: List<ChartValItem>) {
+        this.dataPoints = points
+        requestLayout()
+        invalidate()
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -158,7 +217,7 @@ class StepChartView @JvmOverloads constructor(
      * 绘制背景网格和坐标轴
      */
     fun drawBackgroundAndAxes(canvas: Canvas) {
-        if (xLabels.isEmpty() || yLabels.isEmpty()) {
+        if (xScales.isEmpty() || yScales.isEmpty()) {
             return
         }
         val width = width - chartPaddingLeft - chartPaddingRight
@@ -172,9 +231,9 @@ class StepChartView @JvmOverloads constructor(
                 canvas.drawLine(x, chartPaddingTop, x, chartPaddingTop + height, gridPaint)
             }
             // 绘制文字（除横坐标最后一个文字不绘制，其余都绘制）
-            if (i < xLabels.size - 1) {
+            if (i < xScales.size - 1) {
                 canvas.drawText(
-                    xLabels[i],
+                    xScales[i].toString(),
                     x,
                     chartPaddingTop + height + context.resources.getDimension(R.dimen._28dp),
                     xTextPaint
@@ -182,7 +241,7 @@ class StepChartView @JvmOverloads constructor(
             }
         }
 
-        // X轴单位（放在最后一个刻度位置）
+        // X轴单位
         val lastXTickPos = chartPaddingLeft + xGridCount * (width / xGridCount)
         canvas.drawText(
             xUnit,
@@ -199,9 +258,9 @@ class StepChartView @JvmOverloads constructor(
                 canvas.drawLine(chartPaddingLeft, y, chartPaddingLeft + width, y, gridPaint)
             }
             // 文字
-            if (i < yLabels.size) {
+            if (i < yScales.size) {
                 canvas.drawText(
-                    yLabels[i],
+                    yScales[i].toString(),
                     chartPaddingLeft - context.resources.getDimension(R.dimen._20dp),
                     y + context.resources.getDimension(R.dimen._6dp),
                     yTextPaint
@@ -218,7 +277,7 @@ class StepChartView @JvmOverloads constructor(
                 )
             }
         }
-        // Y轴单位（让纵轴线穿过单位文字）
+        // Y轴单位
         canvas.drawText(
             yUnit,
             chartPaddingLeft,
@@ -255,36 +314,20 @@ class StepChartView @JvmOverloads constructor(
         val path = Path()
 
         for (i in dataPoints.indices) {
-            val px = chartPaddingLeft + (dataPoints[i].first / xMax) * width
-            val py = chartPaddingTop + height - (dataPoints[i].second / yMax) * height
+            val px = chartPaddingLeft + (dataPoints[i].x / xMax) * width
+            val py = chartPaddingTop + height - (dataPoints[i].y / yMax) * height
 
             if (i == 0) {
                 path.moveTo(px, py)
             } else {
                 // 实现阶梯效果：先画到前一个点的Y值，当前点的X值
-                val prevPx = chartPaddingLeft + (dataPoints[i - 1].first / xMax) * width
-                val prevPy = chartPaddingTop + height - (dataPoints[i - 1].second / yMax) * height
+                val prevPx = chartPaddingLeft + (dataPoints[i - 1].x / xMax) * width
+                val prevPy = chartPaddingTop + height - (dataPoints[i - 1].y / yMax) * height
 
                 path.lineTo(px, prevPy) // 水平线
                 path.lineTo(px, py)     // 垂直线
             }
         }
         canvas.drawPath(path, linePaint)
-    }
-
-    fun setChartData(
-        points: List<Pair<Float, Float>>,
-        xLabels: List<String>,
-        yLabels: List<String>,
-        xUnit: String,
-        yUnit: String,
-    ) {
-        this.dataPoints = points
-        this.xLabels = xLabels
-        this.yLabels = yLabels
-        this.xUnit = xUnit
-        this.yUnit = yUnit
-        requestLayout()
-        invalidate()
     }
 }

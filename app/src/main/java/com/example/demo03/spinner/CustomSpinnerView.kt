@@ -3,7 +3,9 @@ package com.example.demo03.spinner
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.ListView
@@ -13,6 +15,7 @@ import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import com.example.demo03.R
+import kotlin.compareTo
 
 /**
  * 自定义下拉框
@@ -48,7 +51,7 @@ open class CustomSpinnerView @JvmOverloads constructor(
         onApplyConfig = { config ->
             rlView.setBackgroundResource(config.backgroundRes)
             tvSpinnerValue.setTextColor(ContextCompat.getColor(context, config.textColorRes))
-            this.isEnable = config.isEnable
+            this.isViewEnable = config.isEnable
         }
         initDropDialog()
     }
@@ -56,14 +59,17 @@ open class CustomSpinnerView @JvmOverloads constructor(
     @LayoutRes
     open fun getLayoutId(): Int = R.layout.ui_custom_spinner_view
 
+    override fun getTargetAlignView(): View? = null
+
     override fun initView() {
         LayoutInflater.from(context).inflate(getLayoutId(), this, true)
         tvSpinnerValue = findViewById(R.id.tv_spinner_value)
+        tvSpinnerValue.gravity = Gravity.START
         ivDrop = findViewById(R.id.iv_drop)
         rlView = findViewById(R.id.rl_view)
 
         rlView.setOnClickListener {
-            if (!isEnable) return@setOnClickListener
+            if (!isViewEnable) return@setOnClickListener
             // 防抖：如果刚刚关闭，300ms内不允许再次打开
             if (System.currentTimeMillis() - dismissTime > 300) {
                 showPopDialog()
@@ -93,7 +99,7 @@ open class CustomSpinnerView @JvmOverloads constructor(
         listView.adapter = mDropAdapter
 
         listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            selectItem(position)
+            setSpinnerPos(position)
             mDropPopupWindow.dismiss()
         }
     }
@@ -130,16 +136,20 @@ open class CustomSpinnerView @JvmOverloads constructor(
         ivDrop.setImageResource(resId)
     }
 
+    /**
+     * 设置下拉框选项数据
+     */
     fun setDropList(list: List<String>, defaultPos: Int = -1) {
         dropList.clear()
         dropList.addAll(list)
         mDropAdapter.setData(dropList)
-        if (defaultPos in list.indices) {
-            selectItem(defaultPos)
-        }
+        setSpinnerPos(defaultPos)
     }
 
-    fun selectItem(position: Int) {
+    /**
+     * 设置下拉框选中项
+     */
+    fun setSpinnerPos(position: Int) {
         if (position in dropList.indices) {
             selectedIndex = position
             tvSpinnerValue.text = dropList[position]
@@ -152,6 +162,6 @@ open class CustomSpinnerView @JvmOverloads constructor(
     }
 
     interface OnViewChangeListener {
-        fun onSelectChanged(index: Int, text: String)
+        fun onSelectChanged(pos: Int, text: String)
     }
 }

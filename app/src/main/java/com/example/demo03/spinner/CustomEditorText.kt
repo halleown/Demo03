@@ -6,6 +6,8 @@ import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.annotation.LayoutRes
@@ -35,16 +37,25 @@ open class CustomEditorText @JvmOverloads constructor(
      * 输入类型为数字时，限定输入的最大值
      */
     private var maxNum: Int = Int.MAX_VALUE
+
+    /**
+     * 显示自定义键盘
+     */
+    var isCustom: Boolean = false
+
     private lateinit var etInput: EditText
     private lateinit var llView: LinearLayout
-    private var onValueChangeListener: ((String) -> Unit)? = null
+    // private var onValueChangeListener: ((String) -> Unit)? = null
+    private var listener: onViewChangeListener? = null
 
     init {
-        val typedArray = context.obtainStyledAttributes(attr, R.styleable.CustomEditorText)
-        inputType = typedArray.getIndex(R.styleable.CustomEditorText_mInputType)
-        minNum = typedArray.getInt(R.styleable.CustomEditorText_mMinNum, minNum)
-        maxNum = typedArray.getInt(R.styleable.CustomEditorText_mMaxNum, maxNum)
-        typedArray.recycle()
+        attr?.let {
+            val a = context.obtainStyledAttributes(attr, R.styleable.CustomEditorText)
+            inputType = a.getInt(R.styleable.CustomEditorText_mInputType, inputType)
+            minNum = a.getInt(R.styleable.CustomEditorText_mMinNum, minNum)
+            maxNum = a.getInt(R.styleable.CustomEditorText_mMaxNum, maxNum)
+            a.recycle()
+        }
 
         onApplyConfig = { config ->
             llView.setBackgroundResource(config.backgroundRes)
@@ -57,33 +68,75 @@ open class CustomEditorText @JvmOverloads constructor(
     @LayoutRes
     open fun getLayoutId(): Int = R.layout.ui_custom_editor_text
 
+    override fun getTargetAlignView(): View? = etInput
+
     override fun initView() {
         LayoutInflater.from(context).inflate(getLayoutId(), this, true)
 
         etInput = findViewById(R.id.et_input)
         llView = findViewById(R.id.ll_view)
 
+
+        etInput.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus && inputType == 1) { // 失去焦点且是数字类型
+                val info = etInput.text.toString().trim()
+                if (info.isNotEmpty()) {
+                    try {
+                        val num = info.toInt()
+                        if (num < minNum) {
+                            etInput.setText(minNum.toString())
+                        }
+                    } catch (e: Exception) {
+                        etInput.setText(minNum.toString())
+                    }
+                }
+            }
+        }
+
+        etInput.setOnTouchListener { v: View, event: MotionEvent? ->
+            if (event?.action == MotionEvent.ACTION_DOWN) {
+                if (v is EditText && isCustom) {
+                    listener?.onTouchEditor(etInput, true)
+                }
+            }
+            false
+        }
+
         etInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val info = s.toString().trim()
-                when (inputType) {
-                    1 -> {// 数字类型
-                        // todo 先判断输入的内容是否为纯数字
-                        val num = 0
-                        if (num < minNum && num > maxNum) {
-                            // 删掉最后一个输入的字符
-                            etInput.setText(info.substring(0, info.length - 1))
-                        }
+                if (inputType == 1) {
+                    if (info.isEmpty()) return
+
+                    if (!info.matches("\\d+".toRegex())) {
+                        return
                     }
+                    var oldText = info
+
+                    try {
+                        val num = info.toInt()
+                        if (num > maxNum) {
+                            oldText = info.substring(0, info.length - 1)
+                            etInput.setText(oldText)
+                            etInput.setSelection(oldText.length)
+                        }
+                    } catch (e: Exception) {
+                        oldText = info.substring(0, info.length - 1)
+                        etInput.setText(oldText)
+                        etInput.setSelection(oldText.length)
+                    }
+                    listener?.onValueChange(oldText)
                 }
             }
             override fun afterTextChanged(s: Editable?) {
-                onValueChangeListener?.invoke(s.toString())
             }
         })
     }
 
+    /**
+     * 设置最多输入多少字符
+     */
     fun setMaxLen(max: Int) {
         etInput.setFilters(arrayOf<InputFilter>(InputFilter.LengthFilter(max)))
     }
@@ -98,7 +151,28 @@ open class CustomEditorText @JvmOverloads constructor(
         etInput.hint = hint
     }
 
-    fun setOnValueChangeListener(listener: (String) -> Unit) {
-        this.onValueChangeListener = listener
+    /**
+     * 当输入类型为数字类型时，数字的最大值
+     */
+    fun setMaxNum(max: Int) {
+        this.maxNum = max
+    }
+
+    /**
+     * 当输入类型为数字类型时，数字的最小值
+     */
+    fun setMinNum(min: Int) {
+        this.minNum = min
+    }
+
+
+    fun setOnValueChangeListener(listener: onViewChangeListener) {
+        this.listener = listener
+    }
+
+    interface onViewChangeListener {
+        fun onValueChange(s: String)
+
+        fun onTouchEditor(editText: EditText, isCustom: Boolean)
     }
 }

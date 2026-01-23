@@ -9,8 +9,10 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import com.example.demo03.graph.GraphActivity
+import com.example.demo03.scan.QRCodeScanActivity
 import com.example.demo03.spinner.CustomEditorText
 import com.example.demo03.spinner.CustomSpinnerView
+import com.example.demo03.spinner.FormState
 import com.example.demo03.spinner.ViewStatusConfig
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineName
@@ -68,18 +70,9 @@ class MainActivity : Activity() {
 
         val spinner = findViewById<CustomSpinnerView>(R.id.mySpinner)
         val myEditor = findViewById<CustomEditorText>(R.id.myEditor)
-        val defaults = listOf(
-            ViewStatusConfig("normal", R.drawable.custom_form_view_normal_bg, R.color.black),
-            ViewStatusConfig(
-                "disabled",
-                R.drawable.custom_form_view_disable_bg,
-                R.color.light_gray,
-                false
-            ),
-            ViewStatusConfig("error", R.drawable.trim_spinner_view_error, R.color.white, false)
-        )
-        spinner.setStatusConfigs(defaults)
-        myEditor.setStatusConfigs(defaults)
+        val defaults = ViewStatusConfig(FormState.Error, R.drawable.trim_spinner_view_error, R.color.white, false)
+        spinner.addStatusConfig(defaults)
+        myEditor.addStatusConfig(defaults)
 
         val data = listOf("北京", "上海", "广州", "深圳", "aaa", "bbb", "ccc")
         spinner.setDropList(data, defaultPos = 0)
@@ -88,26 +81,26 @@ class MainActivity : Activity() {
         spinner.setOnViewChangeListener(object : CustomSpinnerView.OnViewChangeListener {
             override fun onSelectChanged(index: Int, text: String) {
                 // 选择后自动恢复 normal 状态
-                spinner.updateState("normal")
+                spinner.updateState(FormState.Normal)
                 Log.d("Spinner", "Selected: $text")
             }
         })
 
         // 3. 模拟业务逻辑切换状态
         findViewById<Button>(R.id.btn7).setOnClickListener {
-            spinner.updateState("normal")
-            myEditor.updateState("normal")
+            spinner.updateState(FormState.Normal)
+            myEditor.updateState(FormState.Normal)
 
         }
 
         findViewById<Button>(R.id.btn8).setOnClickListener {
-            spinner.updateState("disabled")
-            myEditor.updateState("disabled")
+            spinner.updateState(FormState.Disable)
+            myEditor.updateState(FormState.Disable)
         }
 
         findViewById<Button>(R.id.btn9).setOnClickListener {
-            spinner.updateState("error")
-            myEditor.updateState("error")
+            spinner.updateState(FormState.Error)
+            myEditor.updateState(FormState.Error)
         }
 
     }

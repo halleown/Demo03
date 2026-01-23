@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="BaseCustomFormView">
+        <attr name="mTextAlign" format="enum">
+            <enum name="left" value="0" />
+            <enum name="center" value="1" />
+            <enum name="right" value="2" />
+        </attr>
+    </declare-styleable>
     <declare-styleable name="CustomEditorText">
         <attr name="mInputType" format="enum">
             <enum name="string" value="0" />
             <enum name="num" value="1" />
         </attr>
-        <attr name="mMinNum" format="integer"/>
+        <attr name="mMinNum" format="integer" />
         <attr name="mMaxNum" format="integer" />
     </declare-styleable>
 </resources>
