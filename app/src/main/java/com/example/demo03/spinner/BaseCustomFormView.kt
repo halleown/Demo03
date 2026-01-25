@@ -2,6 +2,7 @@ package com.example.demo03.spinner
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
@@ -13,26 +14,31 @@ abstract class BaseCustomFormView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attr, defStyleAttr) {
 
+    private val TAG = "BaseCustomFormView"
+
+    protected abstract fun initView()
+
     /**
-     * 目标View，用于设置文本对齐方式
+     * 目标View，用于设置表单内文本对齐方式
      */
     abstract fun getTargetAlignView(): View?
 
     /**
-     * 文本对齐方式：0 左对齐 1 居中对齐 2 右对齐
+     * 表单内文本对齐方式：0 左对齐 1 居中对齐 2 右对齐
      */
     protected var mTextAlign: Int = 0
 
-    private var statusMap: MutableMap<FormState, ViewStatusConfig> = mutableMapOf()
-    protected var onApplyConfig: ((ViewStatusConfig) -> Unit)? = null
+    private var styleMap: MutableMap<FormState, FormStateStyle> = mutableMapOf()
+
+    /**
+     * 应用样式，子类必须实现此方法以响应状态变化
+     */
+    protected abstract fun onApplyStateStyle(style: FormStateStyle)
 
     /**
      * 自定义控件是否启用
      */
-    protected var isViewEnable = true
-
-    abstract fun initView()
-
+    protected var mIsEnable = true
 
     init {
         attr?.let {
@@ -41,13 +47,15 @@ abstract class BaseCustomFormView @JvmOverloads constructor(
             a.recycle()
         }
         initView()
-        initDefaultConfigs()
+        initDefaultStyles()
+        // 默认选中Normal状态
+        updateStateStyle(FormState.Normal)
 
         setAlignMethod(mTextAlign)
     }
 
     /**
-     * 设置文本对齐方式
+     * 设置表单内文本对齐方式
      */
     fun setAlignMethod(align: Int?) {
         val view = getTargetAlignView() as? android.widget.TextView ?: return
@@ -61,52 +69,47 @@ abstract class BaseCustomFormView @JvmOverloads constructor(
         }
     }
 
-    open fun initDefaultConfigs() {
+    open fun initDefaultStyles() {
         val defaults = listOf(
-            ViewStatusConfig(
+            FormStateStyle(
                 FormState.Normal,
                 R.drawable.custom_form_view_normal_bg,
                 R.color.black,
                 true
             ),
-            ViewStatusConfig(
+            FormStateStyle(
                 FormState.Disable,
                 R.drawable.custom_form_view_disable_bg,
                 R.color.light_gray,
                 false
             )
         )
-        statusMap.putAll(defaults.associateBy { it.backgroundState })
+        addStateStyles(defaults)
     }
 
-    fun setStatusConfigs(configs: List<ViewStatusConfig>, posState: Int = 0) {
-        statusMap.clear()
-        statusMap.putAll(configs.associateBy { it.backgroundState })
-        updateState(posState)
+    fun setStateStyles(styles: List<FormStateStyle>, defaultStyle: FormState = FormState.Normal) {
+        styleMap.clear()
+        addStateStyles(styles)
+        updateStateStyle(defaultStyle)
     }
 
-    fun addStatusConfigs(configs: List<ViewStatusConfig>) {
-        statusMap.putAll(configs.associateBy { it.backgroundState })
+    fun addStateStyles(styles: List<FormStateStyle>) {
+        styleMap.putAll(styles.associateBy { it.backgroundState })
     }
 
-    fun addStatusConfig(config: ViewStatusConfig) {
-        statusMap[config.backgroundState] = config
+    fun addStateStyle(style: FormStateStyle) {
+        styleMap[style.backgroundState] = style
     }
 
     /**
-     * 更新视图状态
+     * 更新表单状态样式
      */
-    fun updateState(state: FormState) {
-        val config = statusMap[state] ?: throw RuntimeException("状态 [$state] 不存在")
-        onApplyConfig?.invoke(config)
-    }
-
-    fun updateState(statePos: Int) {
-        if (statePos < 0 || statePos >= statusMap.size) {
-            throw RuntimeException("索引 [$statePos] 超出状态范围")
+    fun updateStateStyle(state: FormState) {
+        if (styleMap[state] == null) {
+            Log.e(TAG, "状态 [$state] 不存在")
         }
-        val stateTag = statusMap.keys.elementAt(statePos)
-        updateState(stateTag)
+        val style = styleMap[state] ?: styleMap.getValue(FormState.Normal)
+        onApplyStateStyle(style)
     }
 
 }
@@ -120,9 +123,9 @@ sealed class FormState(val tag: String) {
     override fun hashCode(): Int = tag.hashCode()
 }
 
-data class ViewStatusConfig(
+data class FormStateStyle(
     val backgroundState: FormState,  // 背景状态标识
     val backgroundRes: Int,         // 背景资源 ID (drawable)
     val textColorRes: Int,          // 文字颜色资源 ID
-    val isEnable: Boolean = true,   // 当前组件是否启用
+    val isEnable: Boolean = true,   // 当前组件是否启用，是否能够响应事件
 )

@@ -4,16 +4,14 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.util.TypedValue
 import android.view.View
 import android.widget.Button
-import android.widget.TextView
 import com.example.demo03.graph.GraphActivity
 import com.example.demo03.scan.QRCodeScanActivity
 import com.example.demo03.spinner.CustomEditorText
 import com.example.demo03.spinner.CustomSpinnerView
 import com.example.demo03.spinner.FormState
-import com.example.demo03.spinner.ViewStatusConfig
+import com.example.demo03.spinner.FormStateStyle
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineStart
@@ -70,37 +68,42 @@ class MainActivity : Activity() {
 
         val spinner = findViewById<CustomSpinnerView>(R.id.mySpinner)
         val myEditor = findViewById<CustomEditorText>(R.id.myEditor)
-        val defaults = ViewStatusConfig(FormState.Error, R.drawable.trim_spinner_view_error, R.color.white, false)
-        spinner.addStatusConfig(defaults)
-        myEditor.addStatusConfig(defaults)
+
+        val errorState = FormStateStyle(
+            FormState.Error,
+            R.drawable.trim_spinner_view_error,
+            R.color.white,
+            false
+        )
+        myEditor.addStateStyle(errorState)
+        myEditor.updateStateStyle(FormState.Disable)
 
         val data = listOf("北京", "上海", "广州", "深圳", "aaa", "bbb", "ccc")
         spinner.setDropList(data, defaultPos = 0)
 
-        // 2. 监听选择
-        spinner.setOnViewChangeListener(object : CustomSpinnerView.OnViewChangeListener {
-            override fun onSelectChanged(index: Int, text: String) {
+        spinner.setOnSpinnerItemSelectedListener(object : CustomSpinnerView.OnSpinnerItemSelectedListener {
+            override fun onItemSelected(index: Int, text: String) {
                 // 选择后自动恢复 normal 状态
-                spinner.updateState(FormState.Normal)
+                spinner.updateStateStyle(FormState.Normal)
                 Log.d("Spinner", "Selected: $text")
             }
         })
 
         // 3. 模拟业务逻辑切换状态
         findViewById<Button>(R.id.btn7).setOnClickListener {
-            spinner.updateState(FormState.Normal)
-            myEditor.updateState(FormState.Normal)
+            spinner.updateStateStyle(FormState.Normal)
+            myEditor.updateStateStyle(FormState.Normal)
 
         }
 
         findViewById<Button>(R.id.btn8).setOnClickListener {
-            spinner.updateState(FormState.Disable)
-            myEditor.updateState(FormState.Disable)
+            spinner.updateStateStyle(FormState.Disable)
+            myEditor.updateStateStyle(FormState.Disable)
         }
 
         findViewById<Button>(R.id.btn9).setOnClickListener {
-            spinner.updateState(FormState.Error)
-            myEditor.updateState(FormState.Error)
+            spinner.updateStateStyle(FormState.Error)
+            myEditor.updateStateStyle(FormState.Error)
         }
 
     }

@@ -15,7 +15,6 @@ import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import com.example.demo03.R
-import kotlin.compareTo
 
 /**
  * 自定义下拉框
@@ -27,9 +26,9 @@ open class CustomSpinnerView @JvmOverloads constructor(
 ) : BaseCustomFormView(context, attr, defStyleAttr) {
 
     private val TAG = "CustomSpinnerView"
-    private lateinit var tvSpinnerValue: TextView
-    private lateinit var ivDrop: ImageView
-    private lateinit var rlView: RelativeLayout
+    protected lateinit var tvSpinnerValue: TextView
+    protected lateinit var ivDrop: ImageView
+    protected lateinit var rlView: RelativeLayout
     private lateinit var mDropPopupWindow: PopupWindow
     private lateinit var mDropAdapter: CustomSpinnerDropAdapter
 
@@ -45,15 +44,16 @@ open class CustomSpinnerView @JvmOverloads constructor(
     var selectedIndex: Int = -1
         private set
 
-    private var mOnViewChangeListener: OnViewChangeListener? = null
+    private var mOnSpinnerItemSelectedListener: OnSpinnerItemSelectedListener? = null
 
     init {
-        onApplyConfig = { config ->
-            rlView.setBackgroundResource(config.backgroundRes)
-            tvSpinnerValue.setTextColor(ContextCompat.getColor(context, config.textColorRes))
-            this.isViewEnable = config.isEnable
-        }
         initDropDialog()
+    }
+
+    override fun onApplyStateStyle(style: FormStateStyle) {
+        rlView.setBackgroundResource(style.backgroundRes)
+        tvSpinnerValue.setTextColor(ContextCompat.getColor(context, style.textColorRes))
+        this.mIsEnable = style.isEnable
     }
 
     @LayoutRes
@@ -69,7 +69,7 @@ open class CustomSpinnerView @JvmOverloads constructor(
         rlView = findViewById(R.id.rl_view)
 
         rlView.setOnClickListener {
-            if (!isViewEnable) return@setOnClickListener
+            if (!mIsEnable) return@setOnClickListener
             // 防抖：如果刚刚关闭，300ms内不允许再次打开
             if (System.currentTimeMillis() - dismissTime > 300) {
                 showPopDialog()
@@ -153,15 +153,15 @@ open class CustomSpinnerView @JvmOverloads constructor(
         if (position in dropList.indices) {
             selectedIndex = position
             tvSpinnerValue.text = dropList[position]
-            mOnViewChangeListener?.onSelectChanged(position, dropList[position])
+            mOnSpinnerItemSelectedListener?.onItemSelected(position, dropList[position])
         }
     }
 
-    fun setOnViewChangeListener(listener: OnViewChangeListener) {
-        this.mOnViewChangeListener = listener
+    fun setOnSpinnerItemSelectedListener(listener: OnSpinnerItemSelectedListener) {
+        this.mOnSpinnerItemSelectedListener = listener
     }
 
-    interface OnViewChangeListener {
-        fun onSelectChanged(pos: Int, text: String)
+    interface OnSpinnerItemSelectedListener {
+        fun onItemSelected(pos: Int, text: String)
     }
 }

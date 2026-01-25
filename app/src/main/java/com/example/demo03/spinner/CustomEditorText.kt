@@ -23,6 +23,9 @@ open class CustomEditorText @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : BaseCustomFormView(context, attr, defStyleAttr) {
 
+    protected lateinit var etInput: EditText
+    protected lateinit var llView: LinearLayout
+
     /**
      * 输入类型：0：字符串 1：数字
      */
@@ -41,12 +44,9 @@ open class CustomEditorText @JvmOverloads constructor(
     /**
      * 显示自定义键盘
      */
-    var isCustom: Boolean = false
+    private var isCustomKeyBoard: Boolean = false
 
-    private lateinit var etInput: EditText
-    private lateinit var llView: LinearLayout
-    // private var onValueChangeListener: ((String) -> Unit)? = null
-    private var listener: onViewChangeListener? = null
+    private var listener: OnEditorActionListener? = null
 
     init {
         attr?.let {
@@ -56,13 +56,12 @@ open class CustomEditorText @JvmOverloads constructor(
             maxNum = a.getInt(R.styleable.CustomEditorText_mMaxNum, maxNum)
             a.recycle()
         }
+    }
 
-        onApplyConfig = { config ->
-            llView.setBackgroundResource(config.backgroundRes)
-            etInput.setTextColor(ContextCompat.getColor(context, config.textColorRes))
-            etInput.isEnabled = config.isEnable
-            // llView.alpha = if (config.isEnable) 1.0f else 0.5f
-        }
+    override fun onApplyStateStyle(style: FormStateStyle) {
+        llView.setBackgroundResource(style.backgroundRes)
+        etInput.setTextColor(ContextCompat.getColor(context, style.textColorRes))
+        etInput.isEnabled = style.isEnable
     }
 
     @LayoutRes
@@ -76,27 +75,16 @@ open class CustomEditorText @JvmOverloads constructor(
         etInput = findViewById(R.id.et_input)
         llView = findViewById(R.id.ll_view)
 
-
         etInput.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus && inputType == 1) { // 失去焦点且是数字类型
-                val info = etInput.text.toString().trim()
-                if (info.isNotEmpty()) {
-                    try {
-                        val num = info.toInt()
-                        if (num < minNum) {
-                            etInput.setText(minNum.toString())
-                        }
-                    } catch (e: Exception) {
-                        etInput.setText(minNum.toString())
-                    }
-                }
+            if (!hasFocus && inputType == 1) { // 失去焦点且是数字类型，检查最小值
+                validateMinNum()
             }
         }
 
         etInput.setOnTouchListener { v: View, event: MotionEvent? ->
             if (event?.action == MotionEvent.ACTION_DOWN) {
-                if (v is EditText && isCustom) {
-                    listener?.onTouchEditor(etInput, true)
+                if (v is EditText && isCustomKeyBoard) {
+                    listener?.onEditorTouched(etInput, true)
                 }
             }
             false
@@ -105,33 +93,56 @@ open class CustomEditorText @JvmOverloads constructor(
         etInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val info = s.toString().trim()
-                if (inputType == 1) {
-                    if (info.isEmpty()) return
+                listener?.onTextChanged(s.toString())
+            }
 
-                    if (!info.matches("\\d+".toRegex())) {
-                        return
-                    }
-                    var oldText = info
-
-                    try {
-                        val num = info.toInt()
-                        if (num > maxNum) {
-                            oldText = info.substring(0, info.length - 1)
-                            etInput.setText(oldText)
-                            etInput.setSelection(oldText.length)
-                        }
-                    } catch (e: Exception) {
-                        oldText = info.substring(0, info.length - 1)
-                        etInput.setText(oldText)
-                        etInput.setSelection(oldText.length)
-                    }
-                    listener?.onValueChange(oldText)
+            override fun afterTextChanged(s: Editable?) {
+                if (inputType == 1 && s != null && s.isNotEmpty()) {
+                    validateNumberInput(s)
                 }
             }
-            override fun afterTextChanged(s: Editable?) {
-            }
         })
+    }
+    
+    private fun validateMinNum() {
+        val info = etInput.text.toString().trim()
+        if (info.isNotEmpty()) {
+            try {
+                val num = info.toInt()
+                if (num < minNum) {
+                    etInput.setText(minNum.toString())
+                }
+            } catch (e: NumberFormatException) {
+                etInput.setText(minNum.toString())
+            }
+        }
+    }
+
+    private fun validateNumberInput(s: Editable) {
+        val info = s.toString().trim()
+        if (info.isEmpty()) return
+
+        // 如果不是纯数字（由于inputType=1通常配合xml inputType=number，这里做额外保障）
+        if (!info.matches(Regex("-?\\d+"))) { // 支持负数的话用 -?
+             // 这里简单处理，如果仅仅是检查数字范围
+        }
+        
+        try {
+            val num = info.toLong()
+            if (num > maxNum) {
+                val newText = maxNum.toString()
+                if (info != newText) {
+                    etInput.setText(newText)
+                    etInput.setSelection(newText.length)
+                }
+            }
+        } catch (e: NumberFormatException) {
+             if (info.length > 1) {
+                 // Revert to maxNum or safety
+                  etInput.setText(maxNum.toString())
+                  etInput.setSelection(etInput.length())
+             }
+        }
     }
 
     /**
@@ -166,13 +177,13 @@ open class CustomEditorText @JvmOverloads constructor(
     }
 
 
-    fun setOnValueChangeListener(listener: onViewChangeListener) {
+    fun setOnEditorActionListener(listener: OnEditorActionListener) {
         this.listener = listener
     }
 
-    interface onViewChangeListener {
-        fun onValueChange(s: String)
+    interface OnEditorActionListener {
+        fun onTextChanged(text: String)
 
-        fun onTouchEditor(editText: EditText, isCustom: Boolean)
+        fun onEditorTouched(editText: EditText, isCustomKeyboard: Boolean)
     }
 }

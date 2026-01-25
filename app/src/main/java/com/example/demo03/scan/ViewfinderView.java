@@ -1503,6 +1503,16 @@ public class ViewfinderView extends View {
     }
 
     /**
+     * 获取扫描框的位置和大小（RectF）
+     * 用于精确设置扫码识别区域
+     *
+     * @return 扫描框的RectF，如果还未初始化则返回null
+     */
+    public RectF getFrameRect() {
+        return frame;
+    }
+
+    /**
      * 设置是否显示结果点缩放动画；默认为：true
      *
      * @param pointAnimation 是否显示结果点缩放动画
