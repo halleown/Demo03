@@ -55,6 +55,15 @@
         android:layout_height="wrap_content"
         android:text="异常"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_20dp"
+        android:layout_marginTop="@dimen/_20dp"
+        android:textSize="@dimen/_24sp"
+        android:textColor="@color/black"
+        android:text="测试测试" />
+
     <com.example.demo03.spinner.CustomSpinnerView
         android:id="@+id/mySpinner"
         android:layout_marginStart="@dimen/_40dp"
@@ -63,6 +72,7 @@
         android:layout_height="@dimen/_50dp" />
 
     <com.example.demo03.spinner.CustomSpinnerView
+        android:id="@+id/spinner2"
         android:layout_marginStart="@dimen/_40dp"
         android:layout_marginTop="@dimen/_40dp"
         android:layout_width="@dimen/_250dp"

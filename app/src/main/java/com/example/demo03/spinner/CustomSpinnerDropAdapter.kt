@@ -6,17 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.annotation.LayoutRes
 import com.example.demo03.R
 
 /**
  * 下拉框的数据适配器
  */
-class CustomSpinnerDropAdapter(
+open class CustomSpinnerDropAdapter(
     private val mContext: Context,
-    private var data: MutableList<String>?
+    private var data: List<String>? = null
 ) : BaseAdapter() {
+
+    private var cachedHeight: Int = -1
 
     override fun getCount(): Int {
         return data?.size ?: 0
@@ -32,32 +34,49 @@ class CustomSpinnerDropAdapter(
 
     fun setData(data: MutableList<String>?) {
         this.data = data
+        notifyDataSetChanged()
     }
+
+    /**
+     * 测量单个 Item 的高度
+     */
+    fun measureItemHeight(parent: ViewGroup): Int {
+        if (cachedHeight > 0) return cachedHeight
+
+        val view = LayoutInflater.from(mContext).inflate(getLayoutId(), parent, false)
+        val widthSpec = View.MeasureSpec.makeMeasureSpec(parent.width, View.MeasureSpec.EXACTLY)
+        val heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        view.measure(widthSpec, heightSpec)
+
+        cachedHeight = view.measuredHeight
+        return cachedHeight
+    }
+
+    open val singleRowColor = Color.parseColor("#e4e5e7")
+    open val doubleRowColor = Color.parseColor("#eeeeee")
+
+    @LayoutRes
+    open fun getLayoutId(): Int = R.layout.item_spinner_drop
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
-        var convertView = convertView
+        val view: View
         val holder: ViewHolder
         if (convertView == null) {
-            holder = ViewHolder()
-            convertView =
-                LayoutInflater.from(mContext).inflate(R.layout.item_spinner_drop, parent, false)
-            holder.tvName = convertView.findViewById(R.id.tv_name)
-            holder.rlItem = convertView.findViewById(R.id.rl_item)
-            convertView.tag = holder
+            view = LayoutInflater.from(mContext).inflate(getLayoutId(), parent, false)
+            holder = ViewHolder(view)
+            view.tag = holder
         } else {
+            view = convertView
             holder = convertView.tag as ViewHolder
         }
-        holder.tvName!!.text = data?.get(position)
-        if (position % 2 == 0) {
-            holder.rlItem!!.setBackgroundColor(Color.parseColor("#e4e5e7"))
-        } else {
-            holder.rlItem!!.setBackgroundColor(Color.parseColor("#eeeeee"))
-        }
-        return convertView
+        holder.tvName.text = data?.get(position)
+        holder.rlItem.setBackgroundColor(if (position % 2 == 0) singleRowColor else doubleRowColor)
+
+        return view
     }
 
-    internal class ViewHolder {
-        var tvName: TextView? = null
-        var rlItem: RelativeLayout? = null
+    private class ViewHolder(root: View) {
+        val tvName: TextView = root.findViewById(R.id.tv_name)
+        val rlItem: View = root.findViewById(R.id.rl_item)
     }
 }

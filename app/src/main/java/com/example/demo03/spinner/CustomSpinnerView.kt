@@ -44,6 +44,12 @@ open class CustomSpinnerView @JvmOverloads constructor(
     var selectedIndex: Int = -1
         private set
 
+    /**
+     * 下拉框默认可见的item个数
+     */
+    var showDropItem: Int = 4
+        private set
+
     private var mOnSpinnerItemSelectedListener: OnSpinnerItemSelectedListener? = null
 
     init {
@@ -54,6 +60,10 @@ open class CustomSpinnerView @JvmOverloads constructor(
         rlView.setBackgroundResource(style.backgroundRes)
         tvSpinnerValue.setTextColor(ContextCompat.getColor(context, style.textColorRes))
         this.mIsEnable = style.isEnable
+    }
+
+    fun setShowDropItem(item: Int) {
+        this.showDropItem = item
     }
 
     @LayoutRes
@@ -112,6 +122,8 @@ open class CustomSpinnerView @JvmOverloads constructor(
 
         // 强制下拉框宽度与输入框一致
         mDropPopupWindow.width = rlView.width
+        val itemHeight = mDropAdapter.measureItemHeight(this)
+        mDropPopupWindow.height = itemHeight * minOf(mDropAdapter.count, showDropItem)
 
         // 计算位置
         val location = IntArray(2)

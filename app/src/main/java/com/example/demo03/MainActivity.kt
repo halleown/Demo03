@@ -67,6 +67,7 @@ class MainActivity : Activity() {
 
 
         val spinner = findViewById<CustomSpinnerView>(R.id.mySpinner)
+        val spinner2 = findViewById<CustomSpinnerView>(R.id.spinner2)
         val myEditor = findViewById<CustomEditorText>(R.id.myEditor)
 
         val errorState = FormStateStyle(
@@ -80,6 +81,10 @@ class MainActivity : Activity() {
 
         val data = listOf("北京", "上海", "广州", "深圳", "aaa", "bbb", "ccc")
         spinner.setDropList(data, defaultPos = 0)
+        spinner.setShowDropItem(5)
+
+        spinner2.setDropList(data, 3)
+
 
         spinner.setOnSpinnerItemSelectedListener(object : CustomSpinnerView.OnSpinnerItemSelectedListener {
             override fun onItemSelected(index: Int, text: String) {
