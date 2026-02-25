@@ -1,56 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="30dp">
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
     <Button
         android:id="@+id/btn1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="协程上下文"/>
-    <Button
-        android:id="@+id/btn2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="android中使用协程"/>
-    <Button
-        android:id="@+id/btn3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="挂起函数"/>
-    <Button
-        android:id="@+id/btn4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="菜单树"/>
-
-    <Button
-        android:id="@+id/btn5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="扫码"/>
-
-    <Button
-        android:id="@+id/btn6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="阶梯图｜折线图"/>
-
-    <Button
-        android:id="@+id/btn7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="正常"/>
 
     <Button
-        android:id="@+id/btn8"
+        android:id="@+id/btn2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="禁用"/>
 
     <Button
-        android:id="@+id/btn9"
+        android:id="@+id/btn3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="异常"/>
@@ -64,26 +31,25 @@
         android:textColor="@color/black"
         android:text="测试测试" />
 
-    <com.example.demo03.spinner.CustomSpinnerView
+    <com.example.demo03.form.CustomSpinnerView
         android:id="@+id/mySpinner"
         android:layout_marginStart="@dimen/_40dp"
         android:layout_marginTop="@dimen/_40dp"
         android:layout_width="@dimen/_250dp"
         android:layout_height="@dimen/_50dp" />
 
-    <com.example.demo03.spinner.CustomSpinnerView
-        android:id="@+id/spinner2"
+    <com.example.demo03.form.CustomSpinnerView
+        android:id="@+id/spinner1"
         android:layout_marginStart="@dimen/_40dp"
         android:layout_marginTop="@dimen/_40dp"
         android:layout_width="@dimen/_250dp"
         android:layout_height="@dimen/_50dp" />
 
-    <com.example.demo03.spinner.CustomEditorText
+    <com.example.demo03.form.CustomEditorText
         android:id="@+id/myEditor"
         android:layout_marginStart="@dimen/_40dp"
         android:layout_marginTop="@dimen/_40dp"
         android:layout_width="@dimen/_250dp"
         android:layout_height="@dimen/_50dp" />
-
 
 </LinearLayout>

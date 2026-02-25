@@ -1,4 +1,4 @@
-package com.example.demo03
+package com.example.demo03.coroutine
 
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
+import com.example.demo03.GlobalCoroutineExceptionHandler
+import com.example.demo03.R
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
@@ -20,6 +22,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
 
+/**
+ * android中使用协程
+ */
 class Activity2 : AppCompatActivity() {
 
     val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
@@ -140,7 +145,12 @@ inline fun AppCompatActivity.requestIO(
     errCode: Int = -1, errMsg: String = "", report: Boolean = false,
     noinline block: suspend CoroutineScope.() -> Unit
 ): Job {
-    return lifecycleScope.launch(Dispatchers.IO + GlobalCoroutineExceptionHandler(errCode, errMsg, report)) {
+    return lifecycleScope.launch(Dispatchers.IO + GlobalCoroutineExceptionHandler(
+        errCode,
+        errMsg,
+        report
+    )
+    ) {
         block.invoke(this)
     }
 }

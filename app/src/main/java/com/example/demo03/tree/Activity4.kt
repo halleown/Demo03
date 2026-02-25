@@ -1,13 +1,10 @@
-package com.example.demo03
+package com.example.demo03.tree
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.demo03.tree.Component
-import com.example.demo03.tree.Composite
-import com.example.demo03.tree.Leaf
-import com.example.demo03.tree.TreeAdapter
+import com.example.demo03.R
 
 /**
  * 菜单树
@@ -56,4 +53,3 @@ class Activity4 : AppCompatActivity() {
         treeAdapter.addDataList(datas)
     }
 }
-

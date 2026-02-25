@@ -23,12 +23,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity2" />
-        <activity android:name=".Activity3" />
-        <activity android:name=".Activity4" />
+        <activity android:name=".coroutine.Activity1" />
+        <activity android:name=".coroutine.Activity2" />
+        <activity android:name=".coroutine.Activity3" />
+        <activity android:name=".tree.Activity4" />
         <activity android:name=".mytree.TreeActivity" />
         <activity android:name=".scan.QRCodeScanActivity" />
         <activity android:name=".graph.GraphActivity" />
+        <activity android:name=".form.CustomFormActivity" />
     </application>
 
 </manifest>
