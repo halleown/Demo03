@@ -2,408 +2,1052 @@
   "TreeSideItems": [
     {
       "Node": 1,
-      "Name": "1",
+      "Name": "System Monitor",
       "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 257,
-      "Name": "1.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 65793,
-      "Name": "1.1.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 16843009,
-      "Name": "1.1.1.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 4311810305,
-      "Name": "1.1.1.1.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 1103823438081,
-      "Name": "1.1.1.1.1.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 131329,
-      "Name": "1.1.2",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 16908545,
-      "Name": "1.1.2.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 4311875841,
-      "Name": "1.1.2.1.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 1103823503617,
-      "Name": "1.1.2.1.1.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 513,
-      "Name": "1.2",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 66049,
-      "Name": "1.2.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 16843265,
-      "Name": "1.2.1.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 4311810561,
-      "Name": "1.2.1.1.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 1103823438337,
-      "Name": "1.2.1.1.1.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 131585,
-      "Name": "1.2.2",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 16908801,
-      "Name": "1.2.2.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 4311876097,
-      "Name": "1.2.2.1.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 1103823503873,
-      "Name": "1.2.2.1.1.1",
-      "Enable": true,
-      "Expand": true,
+      "Expand": false,
       "Sel": false
     },
     {
       "Node": 2,
-      "Name": "2",
+      "Name": "Mode Settings",
       "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 258,
-      "Name": "2.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 65794,
-      "Name": "2.1.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 131330,
-      "Name": "2.1.2",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 196866,
-      "Name": "2.1.3",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 262402,
-      "Name": "2.1.4",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 327938,
-      "Name": "2.1.5",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 514,
-      "Name": "2.2",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 66050,
-      "Name": "2.2.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 131586,
-      "Name": "2.2.2",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 197122,
-      "Name": "2.2.3",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 262658,
-      "Name": "2.2.4",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 328194,
-      "Name": "2.2.5",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 770,
-      "Name": "2.3",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 66306,
-      "Name": "2.3.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 131842,
-      "Name": "2.3.2",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 197378,
-      "Name": "2.3.3",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 262914,
-      "Name": "2.3.4",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 328450,
-      "Name": "2.3.5",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 1026,
-      "Name": "2.4",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 66562,
-      "Name": "2.4.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 132098,
-      "Name": "2.4.2",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 197634,
-      "Name": "2.4.3",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 263170,
-      "Name": "2.4.4",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 328706,
-      "Name": "2.4.5",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 1282,
-      "Name": "2.5",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 66818,
-      "Name": "2.5.1",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 132354,
-      "Name": "2.5.2",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 197890,
-      "Name": "2.5.3",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 263426,
-      "Name": "2.5.4",
-      "Enable": true,
-      "Expand": true,
-      "Sel": false
-    },
-    {
-      "Node": 328962,
-      "Name": "2.5.5",
-      "Enable": true,
-      "Expand": true,
+      "Expand": false,
       "Sel": false
     },
     {
       "Node": 3,
-      "Name": "3",
+      "Name": "Customer APP Serial Number",
       "Enable": true,
-      "Expand": true,
+      "Expand": false,
       "Sel": false
     },
     {
-      "Node": 259,
-      "Name": "3.1",
+      "Node": 4,
+      "Name": "Speed Mode Express",
       "Enable": true,
-      "Expand": true,
+      "Expand": false,
       "Sel": false
     },
     {
-      "Node": 65795,
-      "Name": "3.1.1",
+      "Node": 5,
+      "Name": "Speed Mode",
       "Enable": true,
-      "Expand": true,
+      "Expand": false,
       "Sel": false
     },
     {
-      "Node": 16843011,
-      "Name": "3.1.1.1",
+      "Node": 6,
+      "Name": "Application Setup",
       "Enable": true,
-      "Expand": true,
+      "Expand": false,
       "Sel": false
     },
     {
-      "Node": 4311810307,
-      "Name": "3.1.1.1.1",
+      "Node": 7,
+      "Name": "Controller Setup",
       "Enable": true,
-      "Expand": true,
+      "Expand": false,
       "Sel": false
     },
     {
-      "Node": 1103823438083,
-      "Name": "3.1.1.1.1.1",
+      "Node": 8,
+      "Name": "AC Motor Setup",
       "Enable": true,
-      "Expand": true,
+      "Expand": false,
       "Sel": false
     },
     {
-      "Node": 282578800148739,
-      "Name": "3.1.1.1.1.1.1",
+      "Node": 9,
+      "Name": "Other",
       "Enable": true,
-      "Expand": true,
+      "Expand": false,
       "Sel": false
     },
     {
-      "Node": 72340172838076675,
-      "Name": "3.1.1.1.1.1.1.1",
+      "Node": 257,
+      "Name": "Inputs",
       "Enable": true,
-      "Expand": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 258,
+      "Name": "Normal Mode",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 260,
+      "Name": "Speed Controller",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 261,
+      "Name": "Speed Controller",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 262,
+      "Name": "Throttle",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 263,
+      "Name": "Inputs",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 264,
+      "Name": "Induction Motor (ACIM)",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 513,
+      "Name": "Outputs",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 514,
+      "Name": "Slow Mode",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 516,
+      "Name": "Response",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 517,
+      "Name": "Response",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 518,
+      "Name": "Brake",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 519,
+      "Name": "IO Assignments",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 520,
+      "Name": "PMAC (Permanent Magnet Motor)",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 769,
+      "Name": "Controller",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 770,
+      "Name": "Creep Mode",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 772,
+      "Name": "Restraint",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 773,
+      "Name": "Restraint",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 774,
+      "Name": "CAN Interface",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 775,
+      "Name": "Outputs",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 776,
+      "Name": "Flux Options",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1025,
+      "Name": "VCL Status",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1026,
+      "Name": "Advanced Settings",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1028,
+      "Name": "Hydraulic Features",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1029,
+      "Name": "Hydraulic Features",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1030,
+      "Name": "Battery Setup",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1031,
+      "Name": "External Supplies",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1032,
+      "Name": "Quadrature Encoder",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1281,
+      "Name": "Battery",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1286,
+      "Name": "Main Contactor",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1287,
+      "Name": "Current Limits",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1288,
+      "Name": "Sin/Cos Encoder",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1537,
+      "Name": "Motor",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1542,
+      "Name": "Pump Contactor",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1544,
+      "Name": "Speed Filters",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1793,
+      "Name": "Vehicle",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1798,
+      "Name": "EM Brake Control",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1800,
+      "Name": "Temperature Sensor",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 2049,
+      "Name": "Fault History",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 2054,
+      "Name": "Emergency Reverse (EMR)",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 2310,
+      "Name": "Interlock Braking",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 2566,
+      "Name": "Hydraulics",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 2822,
+      "Name": "Dual Drive",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 3078,
+      "Name": "Vehicle",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 3334,
+      "Name": "Max Speed Supervision",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 3590,
+      "Name": "Travel Control Supervision",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 65793,
+      "Name": "Switch Status",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 65796,
+      "Name": "Vel Feedforward",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 65797,
+      "Name": "Vel Feedforward",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 65799,
+      "Name": "Analog 1",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 65800,
+      "Name": "Field Weakening",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 66052,
+      "Name": "Fine Tuning",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 66053,
+      "Name": "Fine Tuning",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 66055,
+      "Name": "Controls",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 66056,
+      "Name": "Characterization Tests",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 66305,
+      "Name": "Currents",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 66308,
+      "Name": "Position Hold",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 66309,
+      "Name": "Position Hold",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 66310,
+      "Name": "PDO Setups",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 66311,
+      "Name": "Driver 1",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 66562,
+      "Name": "Throttle",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 66566,
+      "Name": "Undervoltage Controller",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 66568,
+      "Name": "Encoder Fault Setup",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 66822,
+      "Name": "Precharge",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 66823,
+      "Name": "Power Limits",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 67336,
+      "Name": "Sensor Map",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 67590,
+      "Name": "EMR Supervision",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 67846,
+      "Name": "Interlock Braking Supervision",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 68102,
+      "Name": "Lift Settings",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 68358,
+      "Name": "Master",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 68614,
+      "Name": "Speed/Dist/Accel",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 131329,
+      "Name": "Analog Inputs",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 131332,
+      "Name": "Acc Feedforward",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 131333,
+      "Name": "Acc Feedforward",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 131335,
+      "Name": "Potentiometer 1",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 131336,
+      "Name": "Limited Operating Strategy (LOS)",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 131591,
+      "Name": "Switch Status",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 131592,
+      "Name": "Field Weakening Control",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 131841,
+      "Name": "Cutbacks",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 131847,
+      "Name": "Driver 2",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 132098,
+      "Name": "Turtle Switch",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 132102,
+      "Name": "Overvoltage Controller",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 133638,
+      "Name": "Lower Settings",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 133894,
+      "Name": "Slave",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 196871,
+      "Name": "Potentiometer 1 (wiper) & 6 (high)",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 196872,
+      "Name": "Characterization Tests",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 197127,
+      "Name": "Coil Drivers",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 197128,
+      "Name": "MotorData Values",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 197377,
+      "Name": "Motor Tuning",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 197383,
+      "Name": "Driver 3",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 197634,
+      "Name": "Hydraulic",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 197638,
+      "Name": "BDI Setup",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 199430,
+      "Name": "Turn Feedforward",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 262407,
+      "Name": "Analog 2",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 262408,
+      "Name": "Motor Data",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 262664,
+      "Name": "FW Fine Tuning",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 262919,
+      "Name": "Driver 4",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 263170,
+      "Name": "EPS Settings",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 327943,
+      "Name": "Analog 3",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 328455,
+      "Name": "Driver 5",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 328706,
+      "Name": "Creep Mode",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 393479,
+      "Name": "Analog 4",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 394242,
+      "Name": "Hour Meter",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 459015,
+      "Name": "Analog 5",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 459778,
+      "Name": "3140 Gauge",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 524551,
+      "Name": "Analog 6",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 525314,
+      "Name": "Factory Settings",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 590087,
+      "Name": "Potentiometer 6",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 590850,
+      "Name": "Induction Motor",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 655623,
+      "Name": "Potentiometer 6 (wiper) & 1 (high)",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 721159,
+      "Name": "Analog 7",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 786695,
+      "Name": "Analog 8",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 852231,
+      "Name": "Analog 14",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 917767,
+      "Name": "Potentiometer 18",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 983303,
+      "Name": "Potentiometer 18 (wiper) & 19 (high)",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1048839,
+      "Name": "Potentiometer 19",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1114375,
+      "Name": "Potentiometer 19 (wiper) & 18 (high)",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 1179911,
+      "Name": "Analog 31",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 16843526,
+      "Name": "RPDO1",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 16843527,
+      "Name": "Current Mode Config",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 16844039,
+      "Name": "Drive Limiting Map",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 16909063,
+      "Name": "Current Mode Config",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 16974599,
+      "Name": "Current Mode Config",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 16974850,
+      "Name": "Drivers",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 17040135,
+      "Name": "Current Mode Config",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 17040386,
+      "Name": "Steer Angle Speed Control",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 17105671,
+      "Name": "Current Mode Config",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 17302530,
+      "Name": "Speed Limit",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 17368066,
+      "Name": "Motor Temperature Sensor",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 33620742,
+      "Name": "TPDO 1",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 33621255,
+      "Name": "Regen Limiting Map",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 33752066,
+      "Name": "Lift Lockout Settings",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 34079746,
+      "Name": "CAN Bus",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 50397958,
+      "Name": "RPDO 2",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 67175174,
+      "Name": "TPDO 2",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 83952390,
+      "Name": "RPDO 3",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 100729606,
+      "Name": "TPDO 3",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 117506822,
+      "Name": "RPDO 4",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 134284038,
+      "Name": "TPDO 4",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 4312007682,
+      "Name": "Steer Angle Maps",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 8606974978,
+      "Name": "Angle Speed Reduction Maps",
+      "Enable": true,
+      "Expand": false,
       "Sel": false
     }
   ]

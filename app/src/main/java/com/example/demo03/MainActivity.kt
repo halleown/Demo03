@@ -9,6 +9,7 @@ import com.example.demo03.coroutine.Activity2
 import com.example.demo03.coroutine.Activity3
 import com.example.demo03.form.CustomFormActivity
 import com.example.demo03.graph.GraphActivity
+import com.example.demo03.mytree.TreeActivity
 import com.example.demo03.scan.QRCodeScanActivity
 import com.example.demo03.tree.Activity4
 import kotlin.jvm.java
@@ -41,6 +42,9 @@ class MainActivity : Activity() {
         }
         findViewById<Button>(R.id.btn7).setOnClickListener {
             startActivity(Intent(this@MainActivity, CustomFormActivity::class.java))
+        }
+        findViewById<Button>(R.id.btn8).setOnClickListener {
+            startActivity(Intent(this@MainActivity, TreeActivity::class.java))
         }
 
     }

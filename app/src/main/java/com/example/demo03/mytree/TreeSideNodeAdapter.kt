@@ -207,15 +207,6 @@ class TreeSideNodeAdapter(
                 holder.rlvChild.visibility = if (itemData.Expand) View.VISIBLE else View.GONE
                 (holder.rlvChild.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
 
-                // 触发重新绑定，更新 view_i 可见性等
-                notifyDataSetChanged()
-                
-                // 布局更新后，立即刷新虚线相位
-                // 使用 holder.itemView.parent 获取当前 RecyclerView，避免侵入性修改 Adapter 结构
-                (holder.itemView.parent as? RecyclerView)?.post {
-                    refreshLinePhases(holder.itemView.parent as RecyclerView)
-                }
-
                 holder.itemView.postDelayed({
                     customHorizontalScrollView.scrollTo(scrollX, 0)
                     if (globalList != null) customHorizontalScrollView.viewTreeObserver.removeOnGlobalLayoutListener(globalList)
