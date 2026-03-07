@@ -96,9 +96,9 @@ class TreeSideNodeAdapter(
 
 
 
-        val layoutParams = holder.llText.layoutParams
-        layoutParams.width = (getScreenWidth(mContext) * 0.4).toInt() - dpToPx(24)
-        holder.llText.layoutParams = layoutParams
+        // val layoutParams = holder.llText.layoutParams
+        // layoutParams.width = (getScreenWidth(mContext) * 0.4).toInt() - dpToPx(24)
+        // holder.llText.layoutParams = layoutParams
         // 是否带复选框
         // holder.ivExpand.visibility = if (itemData.ShowExpand) View.VISIBLE else View.GONE
         holder.ivExpand.visibility = if (itemData.childItems?.isNotEmpty() == true) View.VISIBLE else View.INVISIBLE
