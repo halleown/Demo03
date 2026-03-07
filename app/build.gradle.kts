@@ -63,7 +63,7 @@ dependencies {
 
 
     implementation("com.google.code.gson:gson:2.8.9")
-    implementation("com.github.halleown:xtools:1.0.2")
+    implementation("com.github.halleown:xtools:1.0.0")
 
     // 使用 v3.1.x 以上版本时，要求 compileSdkVersion >= 34
     // implementation("com.github.jenly1314:zxing-lite:3.3.0")

@@ -1,4 +1,11 @@
 {
+  "MsgType": 0,
+  "Title": "参数菜单",
+  "EnableSysBack": true,
+  "FloatBtn": false,
+  "BottomBtn": false,
+  "TreeSidePosV": 0,
+  "TreeSidePosH": 0,
   "TreeSideItems": [
     {
       "Node": 1,
@@ -58,7 +65,7 @@
     },
     {
       "Node": 9,
-      "Name": "Other",
+      "Name": "其他",
       "Enable": true,
       "Expand": false,
       "Sel": false
@@ -1050,5 +1057,30 @@
       "Expand": false,
       "Sel": false
     }
-  ]
+  ],
+  "VScrollPos": 0,
+  "HeadItems": [
+    {
+      "Index": 0,
+      "Value": "名称",
+      "Width": 40
+    },
+    {
+      "Index": 1,
+      "Value": "值",
+      "Width": 40
+    },
+    {
+      "Index": 2,
+      "Value": "单位",
+      "Width": 20
+    },
+    {
+      "Index": 3,
+      "Value": "类型",
+      "Width": 0
+    }
+  ],
+  "DataItems": [],
+  "SelRow": -1
 }

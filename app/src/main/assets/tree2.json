@@ -1,0 +1,217 @@
+{
+  "MsgType": 0,
+  "Title": "标准版",
+  "CustomBtn": [
+    {
+      "Enable": 1,
+      "BtnId": -4096,
+      "BtnTxt": "AddTip"
+    },
+    {
+      "Enable": 1,
+      "BtnId": -4095,
+      "BtnTxt": "MsgBox"
+    }
+  ],
+  "EnableSysBack": false,
+  "FloatBtn": false,
+  "BottomBtn": false,
+  "TreeSidePosV": 0,
+  "TreeSidePosH": 0,
+  "TreeSideItems": [
+    {
+      "Node": 1,
+      "Name": "RootNode-1",
+      "Enable": true,
+      "Expand": true,
+      "Sel": true
+    },
+    {
+      "Node": 2,
+      "Name": "RootNode-2",
+      "Enable": false,
+      "Expand": true,
+      "Sel": false
+    },
+    {
+      "Node": 257,
+      "Name": "Root-1 Child-0",
+      "Enable": true,
+      "Expand": true,
+      "Sel": false
+    },
+    {
+      "Node": 258,
+      "Name": "Root-2 Child-0",
+      "Enable": true,
+      "Expand": true,
+      "Sel": false
+    },
+    {
+      "Node": 513,
+      "Name": "Root-1 Child-1",
+      "Enable": true,
+      "Expand": true,
+      "Sel": false
+    },
+    {
+      "Node": 514,
+      "Name": "Root-2 Child-1",
+      "Enable": true,
+      "Expand": true,
+      "Sel": false
+    },
+    {
+      "Node": 66050,
+      "Name": "Root2 Child-1-0",
+      "Enable": true,
+      "Expand": true,
+      "Sel": false
+    },
+    {
+      "Node": 131586,
+      "Name": "Root2 Child-1-1",
+      "Enable": true,
+      "Expand": true,
+      "Sel": false
+    }
+  ],
+  "VScrollPos": 0,
+  "HeadItems": [
+    {
+      "Index": 0,
+      "Value": "Name",
+      "Width": 40
+    },
+    {
+      "Index": 1,
+      "Value": "Value",
+      "Width": 40
+    },
+    {
+      "Index": 2,
+      "Value": "Unit",
+      "Width": 20
+    },
+    {
+      "Index": 3,
+      "Value": "Type",
+      "Width": 0
+    }
+  ],
+  "DataItems": [
+    {
+      "Row": 0,
+      "Col": 0,
+      "Type": 0,
+      "Txt": "Row:0-Col:0",
+      "Change": false
+    },
+    {
+      "Row": 0,
+      "Col": 1,
+      "Type": 0,
+      "Txt": "Row:0-Col:1",
+      "Change": false
+    },
+    {
+      "Row": 0,
+      "Col": 2,
+      "Type": 0,
+      "Txt": "Row:0-Col:2",
+      "Change": false
+    },
+    {
+      "Row": 0,
+      "Col": 3,
+      "Type": 0,
+      "Txt": "Row:0-Col:3",
+      "Change": false
+    },
+    {
+      "Row": 1,
+      "Col": 0,
+      "Type": 0,
+      "Txt": "Row:1-Col:0",
+      "Change": false
+    },
+    {
+      "Row": 1,
+      "Col": 1,
+      "Type": 1,
+      "Txt": "Row:1-Col:1",
+      "Change": false
+    },
+    {
+      "Row": 1,
+      "Col": 2,
+      "Type": 0,
+      "Txt": "Row:1-Col:2",
+      "Change": false
+    },
+    {
+      "Row": 1,
+      "Col": 3,
+      "Type": 0,
+      "Txt": "Row:1-Col:3",
+      "Change": false
+    },
+    {
+      "Row": 2,
+      "Col": 0,
+      "Type": 0,
+      "Txt": "Row:2-Col:0",
+      "Change": false
+    },
+    {
+      "Row": 2,
+      "Col": 1,
+      "Type": 1,
+      "Txt": "Row:2-Col:1",
+      "Change": false
+    },
+    {
+      "Row": 2,
+      "Col": 2,
+      "Type": 0,
+      "Txt": "Row:2-Col:2",
+      "Change": false
+    },
+    {
+      "Row": 2,
+      "Col": 3,
+      "Type": 0,
+      "Txt": "Row:2-Col:3",
+      "Change": false
+    },
+    {
+      "Row": 3,
+      "Col": 0,
+      "Type": 0,
+      "Txt": "Row:3-Col:0",
+      "Change": false
+    },
+    {
+      "Row": 3,
+      "Col": 1,
+      "Type": 0,
+      "Txt": "Row:3-Col:1",
+      "Change": false
+    },
+    {
+      "Row": 3,
+      "Col": 2,
+      "Type": 0,
+      "Txt": "Row:3-Col:2",
+      "Change": false
+    },
+    {
+      "Row": 3,
+      "Col": 3,
+      "Type": 2,
+      "Txt": "Row:3-Col:3",
+      "Change": false
+    }
+  ],
+  "SelRow": -1
+}

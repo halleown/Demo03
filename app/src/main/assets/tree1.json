@@ -1,0 +1,106 @@
+{
+  "MsgType": 0,
+  "Title": "参数地址",
+  "EnableSysBack": true,
+  "FloatBtn": false,
+  "BottomBtn": false,
+  "TreeSidePosV": 0,
+  "TreeSidePosH": 0,
+  "TreeSideItems": [
+    {
+      "Node": 1,
+      "Name": "Addr_0x000500 ~ Addr_0x212106",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 2,
+      "Name": "Addr_0x212108 ~ Addr_0x262101",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 3,
+      "Name": "Addr_0x262104 ~ Addr_0x283207",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 4,
+      "Name": "Addr_0x283209 ~ Addr_0x32CC00",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 5,
+      "Name": "Addr_0x32E100 ~ Addr_0x368300",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 6,
+      "Name": "Addr_0x368500 ~ Addr_0x3B6500",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 7,
+      "Name": "Addr_0x3B6800 ~ Addr_0x428C00",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 8,
+      "Name": "Addr_0x428E00 ~ Addr_0x455A00",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 9,
+      "Name": "Addr_0x455C00 ~ Addr_0x4FAB00",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    },
+    {
+      "Node": 10,
+      "Name": "Addr_0x4FAD00 ~ Addr_0x508900",
+      "Enable": true,
+      "Expand": false,
+      "Sel": false
+    }
+  ],
+  "VScrollPos": 0,
+  "HeadItems": [
+    {
+      "Index": 0,
+      "Value": "名称",
+      "Width": 40
+    },
+    {
+      "Index": 1,
+      "Value": "值",
+      "Width": 40
+    },
+    {
+      "Index": 2,
+      "Value": "单位",
+      "Width": 20
+    },
+    {
+      "Index": 3,
+      "Value": "类型",
+      "Width": 0
+    }
+  ],
+  "DataItems": [],
+  "SelRow": -1
+}

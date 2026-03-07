@@ -9,7 +9,7 @@
     <!--左侧侧拉树-->
     <LinearLayout
         android:id="@+id/llTreeSide"
-        android:layout_width="@dimen/_434dp"
+        android:layout_width="@dimen/_294dp"
         android:layout_height="0dp"
         android:background="@drawable/tree_side_bg"
         android:orientation="horizontal"
@@ -95,19 +95,16 @@
             <com.example.demo03.mytree.TShapeView
                 android:id="@+id/view_t"
                 android:layout_width="match_parent"
-                android:background="#00B0FF"
                 android:layout_height="@dimen/_94dp" />
 
             <com.example.demo03.mytree.IShapeView
                 android:id="@+id/view_i"
                 android:layout_width="match_parent"
-                android:background="#4ABCB6"
                 android:layout_height="@dimen/_92dp" />
 
             <com.example.demo03.mytree.LShapeView
                 android:id="@+id/view_l"
                 android:layout_width="match_parent"
-                android:background="#C79090"
                 android:layout_height="@dimen/_100dp" />
 
         </LinearLayout>
@@ -122,14 +119,12 @@
             <com.example.demo03.dash.DashedLineView
                 android:id="@+id/dashView1"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_62dp"
-                android:background="#B38C8C" />
+                android:layout_height="@dimen/_62dp" />
 
             <com.example.demo03.dash.DashedLineView
                 android:id="@+id/dashView2"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_200dp"
-                android:background="#03A9F4" />
+                android:layout_height="@dimen/_200dp" />
 
         </LinearLayout>
 

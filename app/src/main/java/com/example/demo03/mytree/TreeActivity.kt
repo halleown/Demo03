@@ -60,6 +60,31 @@ class TreeActivity : AppCompatActivity() {
 
         }
 
+        treeSideAdapter.listener = object : TreeSideNodeAdapter.Listener() {
+            override fun clearAllSelected(
+                selectSideitem: TreeSideItems,
+                position: Int
+            ) {
+            }
+
+            override fun clearAllSelected2(selectSideitem: TreeSideItems) {
+            }
+
+            override fun clickSendStd(
+                sideitem: TreeSideItems,
+                key: Int,
+                position: Int
+            ) {
+            }
+
+            override fun clickCheckItemClick(sideitem: TreeSideItems) {
+            }
+
+            override fun clickCheckItemsClick(sideitem: TreeSideItems) {
+            }
+
+        }
+
 
         rlv_side_menu.adapter = treeSideAdapter
 
