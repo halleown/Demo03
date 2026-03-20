@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/vehicle_list_bg2"
+    android:layoutDirection="ltr">
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_48dp"
+        android:layout_marginBottom="@dimen/module_space"
+        android:background="@drawable/tool_bar_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btn_edit_cancel"
+            android:layout_width="@dimen/_150dp"
+            android:layout_height="@dimen/_100dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="@dimen/_20dp"
+            android:background="@drawable/dialog_btn_selector"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/btn_cancel"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20sp"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_title_a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/diag_history"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_28sp" />
+
+        <!--诊断报告右上角-->
+        <Button
+            android:id="@+id/btn_edit_save"
+            android:layout_width="@dimen/_150dp"
+            android:layout_height="@dimen/_100dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/_20dp"
+            android:background="@drawable/dialog_btn_selector"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/save"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20sp"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ll_read_only_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:visibility="visible">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_edit_mode"
+                android:layout_width="@dimen/_72dp"
+                android:layout_height="match_parent"
+                android:paddingTop="@dimen/_5dp"
+                android:paddingBottom="@dimen/_5dp"
+                android:src="@drawable/edit_icon_selector" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_share"
+                android:layout_width="@dimen/_72dp"
+                android:layout_height="match_parent"
+                android:paddingTop="@dimen/_5dp"
+                android:paddingBottom="@dimen/_5dp"
+                android:src="@drawable/selector_sh_diag_report_share" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_save"
+                android:layout_width="@dimen/_72dp"
+                android:layout_height="match_parent"
+                android:paddingTop="@dimen/_5dp"
+                android:paddingBottom="@dimen/_5dp"
+                android:src="@drawable/selector_sh_diag_report_save" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_close"
+                android:layout_width="@dimen/_72dp"
+                android:layout_height="match_parent"
+                android:paddingTop="@dimen/_5dp"
+                android:paddingBottom="@dimen/_5dp"
+                android:src="@drawable/selector_sh_diag_report_close" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/ll_edit_bottom"
+        app:layout_constraintTop_toBottomOf="@id/top">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ll_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/con_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_60dp"
+                    android:layout_marginEnd="@dimen/_16dp"
+                    android:gravity="center"
+                    android:textColor="#e62129"
+                    android:textSize="@dimen/_22sp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="维修前" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_60dp"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/_16dp"
+                    android:textColor="@color/deep_gray"
+                    android:textSize="@dimen/_22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="诊断时间：2021-09-13 14:43" />
+
+                <!--编辑显示的下拉框选项-->
+                <com.obdstar.module.diag.v3.trimsupport.form.CustomSpinnerView
+                    android:id="@+id/spinner_repair_state"
+                    android:layout_width="@dimen/_182dp"
+                    android:layout_height="@dimen/_48dp"
+                    android:layout_marginStart="@dimen/_8dp"
+                    android:layout_marginEnd="@dimen/_40dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@id/tv_line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/tv_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1.5dp"
+                    android:contentDescription="TODO"
+                    android:scaleType="fitXY"
+                    android:src="#acacac"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_time" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_60dp"
+                    android:background="@drawable/diag_report_title_bg"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/_16dp"
+                    android:paddingEnd="@dimen/_16dp"
+                    android:singleLine="true"
+                    android:text="2005-12 宝马检测报告"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_28sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_line" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/con_car_information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/_256dp">
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/group_edit_mode_base_info"
+                    android:layout_width="@dimen/_0dp"
+                    android:layout_height="@dimen/_0dp"
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="et_model, et_year, et_mileage, et_hours, et_vin, et_store_name, et_store_tel_num, et_store_email, et_store_address" />
+
+                <ImageView
+                    android:id="@+id/iv_brand"
+                    style="@style/vehicle_iv_style_12"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="@dimen/_36dp"
+                    android:layout_marginTop="@dimen/_36dp"
+                    android:contentDescription="@string/Default"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.obdstar.common.ui.view.VehicleTextView
+                    android:id="@+id/tv_brand"
+                    style="@style/vehicle_tv_style2_12"
+                    android:text=""
+                    app:autoSizeMaxTextSize="@dimen/_34sp"
+                    app:autoSizeMinTextSize="@dimen/_18sp"
+                    app:autoSizeStepGranularity="4sp"
+                    app:autoSizeTextType="uniform"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_brand"
+                    app:layout_constraintEnd_toEndOf="@id/iv_brand"
+                    app:layout_constraintStart_toStartOf="@id/iv_brand"
+                    app:layout_constraintTop_toTopOf="@id/iv_brand" />
+
+                <!--品牌-->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_brand_name"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_50dp"
+                    android:layout_marginStart="@dimen/_42dp"
+                    android:layout_marginTop="@dimen/_10dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical|left"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintEnd_toStartOf="@+id/basic_line"
+                    app:layout_constraintStart_toEndOf="@id/iv_brand"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="品牌：" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_Model_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:minHeight="@dimen/_50dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_brand_name"
+                    app:layout_constraintTop_toBottomOf="@id/tv_brand_name"
+                    tools:text="车型：" />
+
+                <!--车型-->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_Model"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical|start"
+                    android:maxLines="2"
+                    android:minHeight="@dimen/_50dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintEnd_toStartOf="@+id/basic_line"
+                    app:layout_constraintStart_toEndOf="@id/tv_Model_one"
+                    app:layout_constraintTop_toTopOf="@id/tv_Model_one"
+                    tools:text="530Li" />
+
+                <!--编辑框：车型-->
+                <EditText
+                    android:id="@+id/et_model"
+                    android:layout_width="@dimen/_252dp"
+                    android:layout_height="@dimen/_46dp"
+                    android:background="@drawable/et_bg_abnormal_feedback"
+                    android:gravity="center_vertical"
+                    android:imeActionLabel="@string/next"
+                    android:imeOptions="actionNext"
+                    android:maxLength="50"
+                    android:nextFocusForward="@id/et_year"
+                    android:paddingStart="@dimen/_10dp"
+                    android:paddingEnd="@dimen/_10dp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintEnd_toEndOf="@id/line_center_ver"
+                    app:layout_constraintTop_toTopOf="@id/tv_Model" />
+
+                <!--年款-->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_year"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_50dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical|left"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintEnd_toStartOf="@+id/basic_line"
+                    app:layout_constraintStart_toStartOf="@id/tv_brand_name"
+                    app:layout_constraintTop_toBottomOf="@id/tv_Model"
+                    tools:text="年款：2021" />
+
+                <!--编辑框：年款-->
+                <EditText
+                    android:id="@+id/et_year"
+                    android:layout_width="@dimen/_252dp"
+                    android:layout_height="@dimen/_46dp"
+                    android:background="@drawable/et_bg_abnormal_feedback"
+                    android:gravity="center_vertical"
+                    android:imeActionLabel="@string/next"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal|textNoSuggestions"
+                    android:maxLength="10"
+                    android:maxLines="10"
+                    android:nextFocusForward="@id/et_mileage"
+                    android:paddingStart="@dimen/_10dp"
+                    android:paddingEnd="@dimen/_10dp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintEnd_toEndOf="@id/line_center_ver"
+                    app:layout_constraintTop_toTopOf="@id/tv_year" />
+
+                <!--里程数-->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_mileage"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_50dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical|left"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintEnd_toStartOf="@+id/basic_line"
+                    app:layout_constraintStart_toStartOf="@id/tv_brand_name"
+                    app:layout_constraintTop_toBottomOf="@id/tv_year"
+                    tools:text="里程数：72km" />
+
+                <!--编辑框：里程数-->
+                <EditText
+                    android:id="@+id/et_mileage"
+                    android:layout_width="@dimen/_252dp"
+                    android:layout_height="@dimen/_46dp"
+                    android:background="@drawable/et_bg_abnormal_feedback"
+                    android:gravity="center_vertical"
+                    android:imeActionLabel="@string/next"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal|textNoSuggestions"
+                    android:maxLength="10"
+                    android:nextFocusForward="@id/et_hours"
+                    android:paddingStart="@dimen/_10dp"
+                    android:paddingEnd="@dimen/_10dp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintEnd_toEndOf="@id/line_center_ver"
+                    app:layout_constraintTop_toTopOf="@id/tv_mileage" />
+
+                <!--小时数-->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_hours"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_50dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical|left"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintEnd_toStartOf="@+id/basic_line"
+                    app:layout_constraintStart_toStartOf="@id/tv_brand_name"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_mileage"
+                    tools:text="小时数：" />
+
+                <!--编辑框：小时数-->
+                <EditText
+                    android:id="@+id/et_hours"
+                    android:layout_width="@dimen/_252dp"
+                    android:layout_height="@dimen/_46dp"
+                    android:background="@drawable/et_bg_abnormal_feedback"
+                    android:gravity="center_vertical"
+                    android:imeActionLabel="@string/next"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal|textNoSuggestions"
+                    android:maxLength="10"
+                    android:nextFocusForward="@id/et_vin"
+                    android:paddingStart="@dimen/_10dp"
+                    android:paddingEnd="@dimen/_10dp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintEnd_toEndOf="@id/line_center_ver"
+                    app:layout_constraintTop_toTopOf="@id/tv_hours" />
+
+                <!--VIN码-->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_vin"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_50dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical|left"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintEnd_toStartOf="@+id/basic_line"
+                    app:layout_constraintStart_toStartOf="@id/tv_brand_name"
+                    app:layout_constraintTop_toBottomOf="@id/tv_hours"
+                    tools:text="VIN码：" />
+
+                <!--编辑框：VIN码-->
+                <EditText
+                    android:id="@+id/et_vin"
+                    android:layout_width="@dimen/_252dp"
+                    android:layout_height="@dimen/_46dp"
+                    android:background="@drawable/et_bg_abnormal_feedback"
+                    android:gravity="center_vertical"
+                    android:imeActionLabel="@string/next"
+                    android:imeOptions="actionNext"
+                    android:maxLength="17"
+                    android:paddingStart="@dimen/_10dp"
+                    android:paddingEnd="@dimen/_10dp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintEnd_toEndOf="@id/line_center_ver"
+                    app:layout_constraintTop_toTopOf="@id/tv_vin" />
+
+                <ImageView
+                    android:id="@+id/basic_line"
+                    android:layout_width="@dimen/_1dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.52"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/line_center_ver"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+                <!--门店名称-->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_store_name"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_50dp"
+                    android:layout_marginTop="@dimen/_10dp"
+                    android:layout_marginEnd="@dimen/_6dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical|left"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/basic_line"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="门店名称：" />
+
+                <!--编辑框：门店名称-->
+                <EditText
+                    android:id="@+id/et_store_name"
+                    android:layout_width="@dimen/_252dp"
+                    android:layout_height="@dimen/_46dp"
+                    android:layout_marginStart="@dimen/_130dp"
+                    android:background="@drawable/et_bg_abnormal_feedback"
+                    android:gravity="center_vertical"
+                    android:imeActionLabel="@string/next"
+                    android:imeOptions="actionNext"
+                    android:maxLength="20"
+                    android:nextFocusForward="@id/et_store_tel_num"
+                    android:paddingStart="@dimen/_10dp"
+                    android:paddingEnd="@dimen/_10dp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_store_name"
+                    app:layout_constraintTop_toTopOf="@id/tv_store_name" />
+
+                <!--门店电话-->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_store_tel_num"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_50dp"
+                    android:layout_marginEnd="@dimen/_6dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical|left"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/basic_line"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_store_name"
+                    tools:text="门店电话：" />
+
+                <!--编辑框：门店电话-->
+                <EditText
+                    android:id="@+id/et_store_tel_num"
+                    android:layout_width="@dimen/_252dp"
+                    android:layout_height="@dimen/_46dp"
+                    android:layout_marginStart="@dimen/_130dp"
+                    android:background="@drawable/et_bg_abnormal_feedback"
+                    android:gravity="center_vertical"
+                    android:imeActionLabel="@string/next"
+                    android:imeOptions="actionNext"
+                    android:inputType="phone"
+                    android:maxLength="20"
+                    android:nextFocusForward="@id/et_store_email"
+                    android:paddingStart="@dimen/_10dp"
+                    android:paddingEnd="@dimen/_10dp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_store_tel_num"
+                    app:layout_constraintTop_toTopOf="@id/tv_store_tel_num" />
+
+                <!--门店邮箱-->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_store_email"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_50dp"
+                    android:layout_marginEnd="@dimen/_6dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical|left"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/basic_line"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_store_tel_num"
+                    tools:text="门店邮箱" />
+
+                <!--编辑框：门店邮箱-->
+                <EditText
+                    android:id="@+id/et_store_email"
+                    android:layout_width="@dimen/_252dp"
+                    android:layout_height="@dimen/_46dp"
+                    android:layout_marginStart="@dimen/_130dp"
+                    android:background="@drawable/et_bg_abnormal_feedback"
+                    android:gravity="center_vertical"
+                    android:imeActionLabel="@string/next"
+                    android:imeOptions="actionNext"
+                    android:maxLength="50"
+                    android:nextFocusForward="@id/et_store_address"
+                    android:paddingStart="@dimen/_10dp"
+                    android:paddingEnd="@dimen/_10dp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_store_email"
+                    app:layout_constraintTop_toTopOf="@id/tv_store_email" />
+
+                <!--门店位置-->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_store_address_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left"
+                    android:minHeight="@dimen/_50dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintStart_toEndOf="@id/basic_line"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_store_email"
+                    tools:text="门店位置：" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_store_address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_6dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical|left"
+                    android:maxLines="3"
+                    android:minHeight="@dimen/_50dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_store_address_one"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_store_email"
+                    app:layout_constraintTop_toTopOf="@id/tv_store_address_one"
+                    tools:text="1112" />
+
+                <!--编辑框：门店位置-->
+                <EditText
+                    android:id="@+id/et_store_address"
+                    android:layout_width="@dimen/_252dp"
+                    android:layout_height="@dimen/_46dp"
+                    android:layout_marginStart="@dimen/_130dp"
+                    android:background="@drawable/et_bg_abnormal_feedback"
+                    android:gravity="center_vertical"
+                    android:imeActionLabel="@string/next"
+                    android:imeOptions="actionNext"
+                    android:maxLength="100"
+                    android:paddingStart="@dimen/_10dp"
+                    android:paddingEnd="@dimen/_10dp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_24sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_store_address"
+                    app:layout_constraintTop_toTopOf="@id/tv_store_address" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:id="@+id/ll_edit_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_88dp"
+        android:background="@drawable/btn_bar_bg"
+        android:paddingTop="@dimen/_2dp"
+        android:paddingBottom="@dimen/_2dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scroll_view">
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="@dimen/_160dp"
+            android:layout_height="match_parent"
+            android:layout_toStartOf="@id/btn_confirm"
+            android:background="@drawable/button2"
+            android:gravity="center"
+            android:paddingStart="@dimen/_10dp"
+            android:paddingEnd="@dimen/_10dp"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            android:textSize="@dimen/_28sp" />
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="@dimen/_160dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/button2"
+            android:gravity="center"
+            android:paddingStart="@dimen/_10dp"
+            android:paddingEnd="@dimen/_10dp"
+            android:text="@string/confirm"
+            android:textAllCaps="false"
+            android:textSize="@dimen/_28sp" />
+
+    </RelativeLayout>
+
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboard_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bk_bg"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:keyBackground="@drawable/btn_kb_key"
+        android:keyTextColor="@android:color/black"
+        android:keyTextSize="@dimen/_30sp"
+        android:labelTextSize="@dimen/_30sp"
+        android:padding="@dimen/_6dp"
+        android:shadowRadius="0"
+        android:theme="@android:style/Widget.KeyboardView"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
