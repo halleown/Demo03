@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Demo03</string>
+    <string name="history_export_json">导出 JSON</string>
 </resources>

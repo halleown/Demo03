@@ -3,6 +3,7 @@ package com.obdstar.module.diag.activity
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.CursorLoader
 import android.content.Intent
 import android.content.res.Resources
@@ -41,6 +42,8 @@ import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.FileProvider
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
@@ -87,6 +90,8 @@ import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
 import java.net.HttpURLConnection
 import java.security.MessageDigest
 import java.text.MessageFormat
@@ -95,6 +100,7 @@ import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
+import kotlin.jvm.java
 
 /**
  * 历史记录
@@ -1181,13 +1187,36 @@ class ShowDiagHistoryActivity : BaseRxActivity() {
 
         val newFile = File(oldFile.parent, newFileName)
         try {
-            val success = oldFile.renameTo(newFile)
-            if (success) {
-                Log.i(TAG, "重命名成功：$newFileName")
-                if (oldFile.exists()) {
-                    Log.i(TAG, "删除旧文件")
-                    oldFile.delete()
+            if (newFile.exists() && newFile.absolutePath != oldFile.absolutePath) {
+                if (!newFile.delete()) {
+                    Log.w(TAG, "renameFile: 目标文件已存在且无法删除: $newFileName")
+                    return
                 }
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Files.move(
+                    oldFile.toPath(),
+                    newFile.toPath(),
+                    StandardCopyOption.REPLACE_EXISTING
+                )
+            } else {
+                @Suppress("DEPRECATION")
+                if (!oldFile.renameTo(newFile)) {
+                    oldFile.copyTo(newFile, overwrite = true)
+                    if (!oldFile.delete()) {
+                        Log.e(TAG, "renameFile: 复制后无法删除原文件: $oldPath")
+                    }
+                }
+            }
+            // 部分设备上 renameTo 返回 true 后旧路径仍可能残留，或存在双文件
+            if (oldFile.exists() && newFile.exists() && oldFile.absolutePath != newFile.absolutePath) {
+                if (!oldFile.delete()) {
+                    Log.w(TAG, "renameFile: 仍无法删除原路径: $oldPath")
+                }
+            }
+            Log.i(TAG, "重命名完成：$newFileName")
+            if (oldPath == filePath && newFile.exists()) {
+                filePath = newFile.absolutePath
             }
         } catch (e: Exception) {
             Log.e(TAG, "重命名失败: $oldPath", e)

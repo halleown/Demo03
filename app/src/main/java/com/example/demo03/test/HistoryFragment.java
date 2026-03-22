@@ -114,6 +114,8 @@ public class HistoryFragment extends IconBaseFragment implements View.OnClickLis
     private int mLastSelectedP = 0;
 
     private static final String FILE_PTAH = Constants.APP_ROOT + "/DATA/" + Constants.DIAG_HISTORY;
+    /** 文件保存数量上限 */
+    public static int DIAG_HISTORY_EXPORT_MAX_FILES = 10;
     //    final SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);//todo  到月份
 //    private SimpleDateFormat sdf;
     RecyclerView mRv;
@@ -124,6 +126,11 @@ public class HistoryFragment extends IconBaseFragment implements View.OnClickLis
     private Map<String, Integer> faultNumberMap = new HashMap<>();
 
     private boolean searchMode = false;
+    /** 程序设置搜索框文本时不触发 Rx 搜索，避免与 resetSearch / initView 冲突 */
+    private boolean suppressSearchPublish = false;
+    /** 与 Fragment 视图同生命周期；勿用 Activity 的 bindToLifecycle，否则 onPause 后订阅被释放，onNext 仍进但 switchMap 不再执行 */
+    private Disposable searchDisposable;
+    private TextWatcher mSearchTextWatcher;
 
     public static HistoryFragment newInstance(EditText mSearchEdt, ImageView clear) {
         HistoryFragment historyFragment = new HistoryFragment();
@@ -206,7 +213,9 @@ public class HistoryFragment extends IconBaseFragment implements View.OnClickLis
         ivEditBack.setOnClickListener(this);
 
         mSearchEdt.setCursorVisible(false);
+        suppressSearchPublish = true;
         mSearchEdt.setText("");
+        suppressSearchPublish = false;
         ll_empty.setVisibility(View.GONE);
         setSearchTouchListener();
     }
@@ -350,7 +359,7 @@ public class HistoryFragment extends IconBaseFragment implements View.OnClickLis
         });
 
         setSearchTouchListener();
-        mSearchEdt.addTextChangedListener(new TextWatcher() {
+        mSearchTextWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -358,7 +367,7 @@ public class HistoryFragment extends IconBaseFragment implements View.OnClickLis
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mPublishSubject != null && mSearchEdt.isCursorVisible()) {
+                if (mPublishSubject != null && !suppressSearchPublish) {
                     Log.d("HistoryFragment", "xialj___onTextChanged: 搜索文本：" + s.toString().trim());
                     mPublishSubject.onNext(s.toString().trim());
                 }
@@ -372,14 +381,18 @@ public class HistoryFragment extends IconBaseFragment implements View.OnClickLis
                     ivClear.setImageResource(com.obdstar.common.ui.R.drawable.ic_search2);
                 }
             }
-        });
+        };
+        mSearchEdt.addTextChangedListener(mSearchTextWatcher);
         ivClear.setOnClickListener(v -> {
             if (mSearchEdt.getText().length() != 0) {
                 resetSearch();
             }
         });
 
-        mPublishSubject.debounce(400, TimeUnit.MILLISECONDS).filter(s -> {
+        if (searchDisposable != null && !searchDisposable.isDisposed()) {
+            searchDisposable.dispose();
+        }
+        searchDisposable = mPublishSubject.debounce(400, TimeUnit.MILLISECONDS).filter(s -> {
             if (s.length() > 0 && progressBar != null) {
                 mActivity.runOnUiThread(() -> progressBar.setVisibility(View.VISIBLE));
             } else if (TextUtils.isEmpty(s)) {
@@ -391,44 +404,73 @@ public class HistoryFragment extends IconBaseFragment implements View.OnClickLis
             public ObservableSource<List<DiagHistoryBean>> apply(String query) throws Exception {
                 return getSearchObservable(query);
             }
-        }).observeOn(AndroidSchedulers.mainThread()).compose(mActivity.bindToLifecycle()).subscribe(new Observer<List<DiagHistoryBean>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(List<DiagHistoryBean> data) {
-                Log.d("HistoryFragment", "xialj___onNext: 搜索到结果：" + data.size());
-                searchMode = true;
-                resetCheckStatusUI(null);
-                if (!data.isEmpty()) {
-                    showSubEmpty(false);
-                    showQueryData(data);
-                } else {
-                    querySubDatas.clear();
-                    queryYearMonthDatas.clear();
-                    showSubEmpty(true);
+        }).observeOn(AndroidSchedulers.mainThread()).subscribe(
+                data -> {
+                    Log.d("HistoryFragment", "xialj___onNext: 搜索到结果：" + data.size());
+                    String q = mSearchEdt.getText() != null ? mSearchEdt.getText().toString().trim() : "";
+                    if (TextUtils.isEmpty(q)) {
+                        searchMode = false;
+                        querySubDatas.clear();
+                        queryYearMonthDatas.clear();
+                        resetCheckStatusUI(null);
+                        if (!yearMonthDatas.isEmpty()) {
+                            if (mLastSelectedP >= yearMonthDatas.size()) {
+                                mLastSelectedP = 0;
+                            }
+                            showSubEmpty(false);
+                            nothing(yearMonthDatas, mLastSelectedP);
+                        } else {
+                            showSubEmpty(true);
+                        }
+                        if (progressBar != null) {
+                            progressBar.setVisibility(View.GONE);
+                        }
+                        return;
+                    }
+                    searchMode = true;
+                    resetCheckStatusUI(null);
+                    if (!data.isEmpty()) {
+                        showSubEmpty(false);
+                        showQueryData(data);
+                    } else {
+                        querySubDatas.clear();
+                        queryYearMonthDatas.clear();
+                        showSubEmpty(true);
+                    }
+                    if (progressBar != null) {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                },
+                e -> {
+                    if (progressBar != null) {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                },
+                () -> {
+                    if (progressBar != null) {
+                        progressBar.setVisibility(View.GONE);
+                    }
                 }
-                if (progressBar != null) {
-                    progressBar.setVisibility(View.GONE);
-                }
-            }
+        );
+    }
 
-            @Override
-            public void onError(Throwable e) {
-                if (progressBar != null) {
-                    progressBar.setVisibility(View.GONE);
-                }
+    @Override
+    public void onDestroyView() {
+        if (searchDisposable != null && !searchDisposable.isDisposed()) {
+            searchDisposable.dispose();
+            searchDisposable = null;
+        }
+        if (mSearchEdt != null) {
+            if (mSearchTextWatcher != null) {
+                mSearchEdt.removeTextChangedListener(mSearchTextWatcher);
+                mSearchTextWatcher = null;
             }
-
-            @Override
-            public void onComplete() {
-                if (progressBar != null) {
-                    progressBar.setVisibility(View.GONE);
-                }
-            }
-        });
+            mSearchEdt.setOnTouchListener(null);
+        }
+        if (mActivity != null) {
+            mActivity.initSearchListener();
+        }
+        super.onDestroyView();
     }
 
     /**
@@ -449,11 +491,23 @@ public class HistoryFragment extends IconBaseFragment implements View.OnClickLis
 
     private void resetSearch() {
         obdstarKeyboard.hideKeyboard();
+        suppressSearchPublish = true;
         mSearchEdt.setText("");
+        suppressSearchPublish = false;
         searchMode = false;
         queryYearMonthDatas.clear();
         querySubDatas.clear();
-        mPublishSubject.onNext("");
+        if (!yearMonthDatas.isEmpty()) {
+            if (mLastSelectedP >= yearMonthDatas.size()) {
+                mLastSelectedP = 0;
+            }
+            nothing(yearMonthDatas, mLastSelectedP);
+        } else {
+            mAdapter.setData(yearMonthDatas);
+            mSubAdapter.setData(subDatas);
+            mAdapter.notifyDataSetChanged();
+            mSubAdapter.notifyDataSetChanged();
+        }
     }
 
     private void setSearchTouchListener() {
@@ -481,9 +535,11 @@ public class HistoryFragment extends IconBaseFragment implements View.OnClickLis
         File cacheDir = new File(FILE_PTAH);
         baseDir = new File(cacheDir.getAbsolutePath());
         if (!baseDir.exists() || baseDir.isFile()) {
+            setLoadingVisible(false);
             noData();
             return;
         }
+        setLoadingVisible(true);
         Observable.create((ObservableOnSubscribe<File>) emitter -> {
 
             scanFile(baseDir);
@@ -509,12 +565,14 @@ public class HistoryFragment extends IconBaseFragment implements View.OnClickLis
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onError(Throwable e) {
+                setLoadingVisible(false);
                 ToastUtil.showToast(mActivity, e.getMessage(), Toast.LENGTH_SHORT);
                 mAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onComplete() {
+                setLoadingVisible(false);
                 if (allFileList.isEmpty()) {
                     noData();
                     return;
@@ -528,6 +586,12 @@ public class HistoryFragment extends IconBaseFragment implements View.OnClickLis
                 disposeData(yearMonthDatas, subDatas);
             }
         });
+    }
+
+    private void setLoadingVisible(boolean visible) {
+        if (progressBar != null) {
+            progressBar.setVisibility(visible ? View.VISIBLE : View.GONE);
+        }
     }
 
     private void handleBack() {
@@ -579,14 +643,15 @@ public class HistoryFragment extends IconBaseFragment implements View.OnClickLis
         } else if (i == R.id.iv_edit_back) { //返回按钮
             handleBack();
         } else if (i == R.id.iv_check_all) { //全选
-            if (selectedSubList.size() == subDatas.size()) {
-                for (DiagReportListBean sub : subDatas) {
+            List<DiagReportListBean> visibleSubs = getSubDatas();
+            if (selectedSubList.size() == visibleSubs.size() && !visibleSubs.isEmpty()) {
+                for (DiagReportListBean sub : visibleSubs) {
                     sub.setCheck(false);
                 }
                 selectedSubList.clear();
             } else {
                 selectedSubList.clear();
-                for (DiagReportListBean sub : subDatas) {
+                for (DiagReportListBean sub : visibleSubs) {
                     sub.setCheck(true);
                     selectedSubList.add(sub);
                 }
@@ -688,7 +753,9 @@ public class HistoryFragment extends IconBaseFragment implements View.OnClickLis
                     }
                 }
             }
-            searchResult.get(0).setSelected(true);
+            if (!searchResult.isEmpty()) {
+                searchResult.get(0).setSelected(true);
+            }
             emitter.onNext(searchResult);
             emitter.onComplete();
         }).subscribeOn(Schedulers.computation());
@@ -789,14 +856,18 @@ public class HistoryFragment extends IconBaseFragment implements View.OnClickLis
             if (mDeleteDialog != null) {
                 mDeleteDialog.dismiss();
             }
-            resetSearch();
             progressBar.setVisibility(View.GONE);
             enterDeleteMode(false);
             allFileList.removeAll(deletedFileList);
-            // initData();
-            disposeData(getYearMonthDatas(), getSubDatas());
+            searchMode = false;
+            queryYearMonthDatas.clear();
+            querySubDatas.clear();
+            disposeData(yearMonthDatas, subDatas);
             deletedFileList.clear();
             deletedSubList.clear();
+            suppressSearchPublish = true;
+            mSearchEdt.setText("");
+            suppressSearchPublish = false;
             ivEditBack.setVisibility(View.GONE);
             ivEditData.setVisibility(View.VISIBLE);
             ivDelete.setVisibility(View.GONE);
@@ -841,7 +912,7 @@ public class HistoryFragment extends IconBaseFragment implements View.OnClickLis
         //默认时间排序
 //        Collections.sort(subDate);
 
-        if (!subDate.isEmpty() && !querySubDatas.isEmpty()) {
+        if (searchMode && !subDate.isEmpty() && !querySubDatas.isEmpty()) {
             querySubDatas.removeAll(deletedSubList);
             // todo xialj 如果是搜索模式，那么queryData里的数据也需要被删除
             //当删除完一个menu下所有数据后
@@ -886,6 +957,7 @@ public class HistoryFragment extends IconBaseFragment implements View.OnClickLis
     }
 
     private void noData() {
+        setLoadingVisible(false);
         haveData = false;
         mRv.setVisibility(View.INVISIBLE);
         content_bg.setVisibility(View.INVISIBLE);
@@ -1020,7 +1092,7 @@ public class HistoryFragment extends IconBaseFragment implements View.OnClickLis
     private void enterDeleteMode(boolean b) {
         mSubAdapter.setDeleteMode(b);
         selectedSubList.clear();
-        for (DiagReportListBean sub : subDatas) {
+        for (DiagReportListBean sub : getSubDatas()) {
             sub.setCheck(false);
         }
         mSubAdapter.notifyDataSetChanged();
@@ -1036,7 +1108,7 @@ public class HistoryFragment extends IconBaseFragment implements View.OnClickLis
                 ivEditData.setVisibility(View.GONE);
                 ivDelete.setVisibility(View.VISIBLE);
                 ivCheckAll.setVisibility(View.VISIBLE);
-                if (selectedSubList.size() == subDatas.size()) {
+                if (!getSubDatas().isEmpty() && selectedSubList.size() == getSubDatas().size()) {
                     ivCheckAll.setImageResource(com.obdstar.common.ui.R.drawable.checkbox_sel_svg);
                 } else {
                     ivCheckAll.setImageResource(com.obdstar.common.ui.R.drawable.checkbox_sel_some_svg);
