@@ -242,9 +242,9 @@
                     android:minHeight="@dimen/_50dp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_24sp"
+                    android:text="车型："
                     app:layout_constraintStart_toStartOf="@id/tv_brand_name"
-                    app:layout_constraintTop_toBottomOf="@id/tv_brand_name"
-                    tools:text="车型：" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_brand_name"/>
 
                 <!--车型-->
                 <androidx.appcompat.widget.AppCompatTextView
